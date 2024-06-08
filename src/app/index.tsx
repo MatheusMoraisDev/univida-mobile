@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { Container } from "../components"; // Assuming the correct file path is "../components"
+import { Logo } from "../components/atoms/logo";
 
 export default function Index() {
   return (
-    <View>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <Container align="center">
+      <Logo />
+    </Container>
   );
 }
