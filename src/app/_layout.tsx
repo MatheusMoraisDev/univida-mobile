@@ -11,6 +11,10 @@ import {
   Inter_800ExtraBold,
 } from '@expo-google-fonts/inter';
 import { theme } from '../styles'
+import * as SplashScreen from "expo-splash-screen"
+import { useEffect } from 'react';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -23,15 +27,19 @@ export default function RootLayout() {
     Inter_800ExtraBold
   });
 
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
   if (!loaded) {
-    return ;
+    return null;
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <Stack>
-        <Slot />
-      </Stack>
+      <Slot />
     </ThemeProvider>
   );
 }
