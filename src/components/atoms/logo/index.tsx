@@ -6,19 +6,18 @@ export interface ISize {
   width: string;
 }
 
-
 const sizes: { [key: string]: ISize } = {
   small: {
-    height: "75px",
-    width: "70px",
+    height: "75",
+    width: "70",
   },
   medium: {
-    height: "100px",
-    width: "93px",
+    height: "100",
+    width: "93",
   },
   large: {
-    height: "150px",
-    width: "140px",
+    height: "150",
+    width: "140",
   },
 };
 

@@ -6,6 +6,6 @@ interface ILogoProps {
 }
 
 export const LogoImage = styled.Image<ILogoProps>`
-  width: ${props => props.size.width};
-  height: ${props => props.size.height};
+  width: ${({ size, theme }) => theme.metrics.px(size.width)}px;
+  height: ${({ size, theme }) => theme.metrics.px(size.height)}px;
 `;
