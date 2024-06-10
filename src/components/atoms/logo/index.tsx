@@ -8,12 +8,12 @@ export interface ISize {
 
 const sizes: { [key: string]: ISize } = {
   small: {
-    height: "75",
-    width: "70",
-  },
-  medium: {
     height: "100",
     width: "93",
+  },
+  medium: {
+    height: "122",
+    width: "112",
   },
   large: {
     height: "150",

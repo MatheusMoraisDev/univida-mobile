@@ -1,10 +1,7 @@
-import { Container } from "../components"; // Assuming the correct file path is "../components"
-import { Logo } from "../components/atoms/logo";
+import { LoginForm } from "../components/organisms/loginForm";
 
 export default function Index() {
   return (
-    <Container align="center">
-      <Logo />
-    </Container>
+    <LoginForm />
   );
 }
