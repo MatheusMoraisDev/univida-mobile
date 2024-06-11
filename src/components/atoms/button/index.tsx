@@ -6,12 +6,13 @@ import { theme } from '@/src/styles';
 interface IButton {
   title: string;
   mt?: number;
+  onPress: () => void;
 }
 
-export const Button = ({ title, mt }: IButton) => {
+export const Button = ({ title, mt, onPress }: IButton) => {
   return (
     <TouchableRipple
-      onPress={() => console.log('Botão pressionado')}
+      onPress={onPress}
       rippleColor="rgba(0, 0, 0, .32)"
       style={{
         borderRadius: 30,

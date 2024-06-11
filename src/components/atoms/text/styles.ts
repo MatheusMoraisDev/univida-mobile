@@ -5,6 +5,7 @@ interface TextProps {
   size?: number;
   font?: 'regular' | 'medium' | 'semiBold' | 'bold';
   color?: 'primary' | 'black' | 'white';
+  mt?: number;
 }
 
 const getFont = (font: string) => {
@@ -39,4 +40,5 @@ export const CustomTextStyle = styled.Text<TextProps>`
   color: ${({ color }) => getColor(color || 'black')};
   font-size: ${({ size, theme }) => theme.metrics.px(size) || theme.metrics.px(18)}px;
   font-family: ${({ font }) => getFont(font || 'regular')};
+  margin-top: ${({ mt, theme }) => theme.metrics.px(mt)}px;
 `;
