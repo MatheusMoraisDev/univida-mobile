@@ -1,29 +1,28 @@
-import { useState } from "react";
-import { Container } from "../components/atoms";
+import { useEffect, useState } from "react";
+import { Container } from "../components/atoms/container";
 import { Logo } from "../components/atoms/logo";
 import { CustomTextInput } from "../components/atoms/textInput";
 import { Button } from "../components/atoms/button";
 import { FirstAccessStyles } from "../styles/screens/loginStyles";
 import CustomText from "../components/atoms/text";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { authService } from "../services/authService";
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [messageError, setMessageError] = useState('');
+  const router = useRouter();
 
   const signIn = async () => {
     try {
-      const response = await authService.signIn({ email, password });
-      console.log(response)
-    } catch (error) {
-      console.log(error);
-    } finally {
+      await authService.signIn({ email, password });
       setMessageError('');
+      return router.push('donator/home')
+    } catch (error) {
+      setMessageError('E-mail ou senha inválidos.');
     }
   }
-
 
   const validateEmail = (email: string) => {
     const re = /\S+@\S+\.\S+/;
@@ -52,6 +51,13 @@ export default function Index() {
 
     signIn();
   };
+  // useEffect(() => {
+  //   const delay = 1000;
+  //   const timeoutId = setTimeout(() => {
+  //     router.push('/signUp');
+  //   }, delay);
+  //   return () => clearTimeout(timeoutId);
+  // }, [router]);
 
 
   return (
@@ -63,7 +69,7 @@ export default function Index() {
     <Button title="Entrar" mt={60} onPress={handleSignIn}/>
     <FirstAccessStyles>
       <CustomText size={14}>Primeiro acesso?</CustomText>
-      <CustomText size={14} color="primary"><Link href={"/register"}> Acesse aqui</Link></CustomText>
+      <CustomText size={14} color={"primary"}><Link href={"signUp"}> Acesse aqui</Link></CustomText>
     </FirstAccessStyles>
   </Container>
   );

@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native'
 import React, { Component } from 'react'
 
-export default class teste extends Component {
+export default class home extends Component {
   render() {
     return (
       <View style={{'flex': 1, 'display':'flex', 'alignItems':'center', 'justifyContent':'center'}}>
-        <Text>Cadastro</Text>
+        <Text>Home hospital</Text>
       </View>
     )
   }

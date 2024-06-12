@@ -6,7 +6,7 @@ import { theme } from '@/src/styles';
 interface IButton {
   title: string;
   mt?: number;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export const Button = ({ title, mt, onPress }: IButton) => {

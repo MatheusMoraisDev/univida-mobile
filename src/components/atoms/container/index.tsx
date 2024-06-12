@@ -4,6 +4,8 @@ interface IContainer {
   dir?: string;
   justify?: string;
   align?: string;
+  width?: string;
+  height?: string;
 }
 
 export const Container = styled.View<IContainer>`
@@ -12,6 +14,6 @@ export const Container = styled.View<IContainer>`
   justify-content: ${({ justify }) => justify || "center"};
   align-items: ${({ align }) => align || "flex-start"};
   background-color: white;
-  width: 100%;
-  height: 100%;
+  width: ${({ width }) => width || '100%'};
+  height: ${({ height }) => height || '100%'};
 `;
