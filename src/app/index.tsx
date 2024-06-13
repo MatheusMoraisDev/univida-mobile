@@ -69,7 +69,7 @@ export default function Index() {
     <Button title="Entrar" mt={60} onPress={handleSignIn}/>
     <FirstAccessStyles>
       <CustomText size={14}>Primeiro acesso?</CustomText>
-      <CustomText size={14} color={"primary"}><Link href={"signUp"}> Acesse aqui</Link></CustomText>
+      <CustomText size={14} color={"primary"}><Link href={"signUpDonator"}> Acesse aqui</Link></CustomText>
     </FirstAccessStyles>
   </Container>
   );

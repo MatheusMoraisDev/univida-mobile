@@ -14,11 +14,11 @@ const SignUp = () => {
   };
 
   const handleSignUpHospital = () => {
-    router.push('hospital/signUpHospitalData');
+    router.push('signUpHospital');
   }
 
   const handleSignUpDonator = () => {
-    router.push('donator/signUpDonatorData');
+    router.push('signUpDonator');
   }
 
   return (
