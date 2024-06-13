@@ -39,7 +39,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Slot />
+    <Stack>
+      <Stack.Screen name="index" options={{headerShown: false}} />
+      <Stack.Screen name="signUp" options={{headerShown: false}} />
+      <Stack.Screen name="(donator)" options={{headerShown: false}} />
+      <Stack.Screen name="(hospital)" options={{headerShown: false}} />
+    </Stack>
     </ThemeProvider>
   );
 }

@@ -5,6 +5,7 @@ interface TextProps {
   size?: number;
   font?: 'regular' | 'medium' | 'semiBold' | 'bold';
   color?: 'primary' | 'black' | 'white';
+  align?: 'center' | 'left' | 'right';
   mt?: number;
 }
 
@@ -37,6 +38,9 @@ const getColor = (color: string) => {
 }
 
 export const CustomTextStyle = styled.Text<TextProps>`
+  position: relative;
+  left: ${({ align }) => align === 'left' && '-25%'};
+  right: ${({ align }) => align === 'right' && '-25%'};
   color: ${({ color }) => getColor(color || 'black')};
   font-size: ${({ size, theme }) => theme.metrics.px(size) || theme.metrics.px(18)}px;
   font-family: ${({ font }) => getFont(font || 'regular')};

@@ -1,3 +1,4 @@
+import { theme } from "@/src/styles";
 import styled from "styled-components/native";
 
 interface IContainer {
@@ -6,6 +7,8 @@ interface IContainer {
   align?: string;
   width?: string;
   height?: string;
+  ml?: number;
+  mt?: number;
 }
 
 export const Container = styled.View<IContainer>`
@@ -16,4 +19,6 @@ export const Container = styled.View<IContainer>`
   background-color: white;
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '100%'};
+  margin-left: ${({ ml, theme }) => theme.metrics.px(ml) || '0'}px;
+  margin-top: ${({ mt, theme }) => theme.metrics.px(mt) || '0'}px;
 `;
