@@ -18,7 +18,7 @@ export default function Index() {
     try {
       await authService.signIn({ email, password });
       setMessageError('');
-      return router.push('donator/home')
+      return router.push('donatorPanel/index')
     } catch (error) {
       setMessageError('E-mail ou senha inválidos.');
     }
@@ -48,13 +48,13 @@ export default function Index() {
     if (message) {
       return setMessageError(message);
     }
-
     signIn();
   };
+
   // useEffect(() => {
   //   const delay = 1000;
   //   const timeoutId = setTimeout(() => {
-  //     router.push('/signUp');
+  //     router.push('signUpDonator/signUpHealth');
   //   }, delay);
   //   return () => clearTimeout(timeoutId);
   // }, [router]);
@@ -69,7 +69,7 @@ export default function Index() {
     <Button title="Entrar" mt={60} onPress={handleSignIn}/>
     <FirstAccessStyles>
       <CustomText size={14}>Primeiro acesso?</CustomText>
-      <CustomText size={14} color={"primary"}><Link href={"signUpDonator"}> Acesse aqui</Link></CustomText>
+      <CustomText size={14} color={"primary"}><Link href={"signUp"}> Acesse aqui</Link></CustomText>
     </FirstAccessStyles>
   </Container>
   );

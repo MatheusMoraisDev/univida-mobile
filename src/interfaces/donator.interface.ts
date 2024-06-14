@@ -19,7 +19,6 @@ export interface IDonator {
   birthDate: string;
   cpf: string;
   rg: string;
-  address: string;
   contacts: IContact[];
   user: IUser;
   addresses: IAddress[];
