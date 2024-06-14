@@ -6,9 +6,10 @@ interface ICustomTextInput {
   secure?: boolean;
   onChange?: (text: any) => void;
   value?: any;
+  onBlur?: (value: any) => void;
 }
 
-export const CustomTextInput = ({ placeholder, mt, secure=false, onChange, value }: ICustomTextInput) => {
+export const CustomTextInput = ({ placeholder, mt, secure=false, onChange, onBlur, value }: ICustomTextInput) => {
   return (
     <InputContainer mt={mt}>
       <TextInput
@@ -16,6 +17,7 @@ export const CustomTextInput = ({ placeholder, mt, secure=false, onChange, value
         secureTextEntry={secure}
         onChangeText={onChange}
         value={value}
+        onBlur={onBlur}
       />
     </InputContainer>
   )

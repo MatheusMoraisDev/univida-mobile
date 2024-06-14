@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'styled-components'
-import { Slot, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import {
   useFonts,
   Inter_100Thin,
@@ -39,12 +39,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider theme={theme}>
-    <Stack>
-      <Stack.Screen name="index" options={{headerShown: false}} />
-      <Stack.Screen name="signUp" options={{headerShown: false}} />
-      <Stack.Screen name="(donator)" options={{headerShown: false}} />
-      <Stack.Screen name="(hospital)" options={{headerShown: false}} />
-    </Stack>
+      <Stack>
+        <Stack.Screen name="index" options={{headerShown: false}} />
+        <Stack.Screen name="signUp" options={{headerShown: false}} />
+        <Stack.Screen name="validationEmail" options={{headerShown: false}} />
+        <Stack.Screen name="(donator)" options={{headerShown: false}} />
+        <Stack.Screen name="(hospital)" options={{headerShown: false}} />
+      </Stack>
     </ThemeProvider>
   );
 }

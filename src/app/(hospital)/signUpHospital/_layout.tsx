@@ -9,7 +9,6 @@ export default function DonatorFormLayout() {
     birthDate: '',
     cpf: '',
     rg: '',
-    address: '',
     contacts: [
       {
         contact: '',
@@ -22,9 +21,6 @@ export default function DonatorFormLayout() {
       type: '',
       password: '',
       confirmPassword: '',
-      created_at: '',
-      updated_at: '',
-      deleted_at: null,
     },
     addresses: [
       {

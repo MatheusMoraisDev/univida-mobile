@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { config } from 'dotenv';
+config(); 
 export class ApiService {
   private isAuthError = false;
 
@@ -15,7 +16,7 @@ export class ApiService {
   }
 
   public instance = axios.create({
-    baseURL: 'http://172.28.80.1:3000/api',
+    baseURL: process.env.BASE_URL,
   });
 
   public async initializeInterceptor() {
