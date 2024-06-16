@@ -40,7 +40,6 @@ const signUpHealthDonator = () => {
   };
 
   const onSubmitForm = async () => {
-      console.log('Form values', values);
       try {
         const user = await userService.createUser({
           ...values.user,
@@ -52,7 +51,7 @@ const signUpHealthDonator = () => {
           user: user,
         });
 
-        router.push('donatorDashboard');
+        router.push({ pathname: 'validationEmail', params: { user } });
       } catch (error) {
         console.error('Error creating donator', error);
       }

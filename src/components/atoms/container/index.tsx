@@ -21,4 +21,5 @@ export const Container = styled.View<IContainer>`
   height: ${({ height }) => height || '100%'};
   margin-left: ${({ ml, theme }) => theme.metrics.px(ml) || '0'}px;
   margin-top: ${({ mt, theme }) => theme.metrics.px(mt) || '0'}px;
+  padding: ${({ theme }) => theme.metrics.px(20)}px;
 `;
