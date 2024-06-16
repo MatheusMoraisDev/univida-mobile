@@ -1,9 +1,7 @@
 import { IDonator } from '../interfaces/donator.interface';
 import { api as apiService, ApiService } from './api'
-import { config } from 'dotenv';
-config(); 
 
-const baseURL = process.env.BASE_URL || 'http://localhost:3000/api'
+const baseURL= process.env.EXPO_PUBLIC_BASE_URL || 'http://localhost:3000/api'
 
 class DonatorService {
   constructor(private readonly api: ApiService, private readonly baseURL: string) { }

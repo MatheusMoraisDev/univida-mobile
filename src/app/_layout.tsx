@@ -13,6 +13,7 @@ import {
 import { theme } from '../styles'
 import * as SplashScreen from "expo-splash-screen"
 import { useEffect } from 'react';
+import { KeyboardAvoidingView } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,13 +40,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Stack>
-        <Stack.Screen name="index" options={{headerShown: false}} />
-        <Stack.Screen name="signUp" options={{headerShown: false}} />
-        <Stack.Screen name="validationEmail" options={{headerShown: false}} />
-        <Stack.Screen name="(donator)" options={{headerShown: false}} />
-        <Stack.Screen name="(hospital)" options={{headerShown: false}} />
-      </Stack>
+        <Stack>
+          <Stack.Screen name="index" options={{headerShown: false}} />
+          <Stack.Screen name="signUp" options={{headerShown: false}} />
+          <Stack.Screen name="validationEmail" options={{headerShown: false}} />
+          <Stack.Screen name="(donator)" options={{headerShown: false}} />
+          <Stack.Screen name="(hospital)" options={{headerShown: false}} />
+        </Stack>
     </ThemeProvider>
   );
 }

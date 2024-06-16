@@ -18,7 +18,7 @@ export default function Index() {
     try {
       await authService.signIn({ email, password });
       setMessageError('');
-      return router.push('donatorPanel/index')
+      return router.push('donatorPanel')
     } catch (error) {
       setMessageError('E-mail ou senha inválidos.');
     }
@@ -54,7 +54,7 @@ export default function Index() {
   // useEffect(() => {
   //   const delay = 1000;
   //   const timeoutId = setTimeout(() => {
-  //     router.push('signUpDonator/signUpHealth');
+  //     router.push('validationEmail');
   //   }, delay);
   //   return () => clearTimeout(timeoutId);
   // }, [router]);

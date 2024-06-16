@@ -1,14 +1,11 @@
 import { api as apiService, ApiService } from './api'
-import { config } from 'dotenv';
-config(); 
-
-const baseURL = process.env.BASE_URL || 'http://localhost:3000/api'
 
 interface ILoginData {
   email: string;
   password: string;
 }
 
+const baseURL= process.env.EXPO_PUBLIC_BASE_URL || 'http://localhost:3000/api'
 class AuthService {
   constructor(private readonly api: ApiService, private readonly baseURL: string) { }
 

@@ -1,6 +1,7 @@
 import { IDonator } from "@/src/interfaces/donator.interface";
 import { Stack } from "expo-router";
 import { Formik } from "formik";
+import { KeyboardAvoidingView } from "react-native";
 import * as Yup from 'yup';
 
 export default function DonatorFormLayout() {
@@ -51,11 +52,19 @@ export default function DonatorFormLayout() {
     lastName: Yup.string()
       .required('Sobrenome é obrigatório'),
     birthDate: Yup.string()
+      .transform((value, originalValue) => {
+        if (originalValue && originalValue.length === 10) {
+          const [day, month, year] = originalValue.split('/');
+          return `${year}-${month}-${day}`;
+        }
+        return value;
+      })
       .required('Data de nascimento é obrigatória'),
     cpf: Yup.string()
-      .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
+      .matches(/^\d{9}$/, 'CPF inválido')
       .required('CPF é obrigatório'),
     rg: Yup.string()
+      .matches(/^\d{9}$/, 'RG inválido')
       .required('RG é obrigatório'),
     address: Yup.string()
       .required('Endereço é obrigatório'),
@@ -74,7 +83,7 @@ export default function DonatorFormLayout() {
       Yup.object().shape({
         street: Yup.string().required('Rua é obrigatória'),
         zip: Yup.string()
-          .matches(/^\d{5}-\d{3}$/, 'CEP inválido')
+          .matches(/^\d{8}$/, 'CEP inválido')
           .required('CEP é obrigatório'),
         number: Yup.number().required('Número é obrigatório'),
         neighborhood: Yup.string().required('Bairro é obrigatório'),
@@ -85,10 +94,10 @@ export default function DonatorFormLayout() {
     contacts: Yup.array().of(
       Yup.object().shape({
         contact: Yup.string()
-          .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Telefone inválido')
+          .matches(/^\d{11}$/, 'Telefone inválido')
           .required('Contato é obrigatório'),
         emergency_contact: Yup.string()
-          .matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Telefone de emergência inválido')
+          .matches(/^\d{11}$/, 'Telefone de emergência inválido')
           .notRequired(),
         emergency_contact_name: Yup.string()
           .notRequired(),
@@ -122,7 +131,7 @@ export default function DonatorFormLayout() {
       validationSchema={validationSchema}
     >
       {() => (
-        <Stack screenOptions={{ headerTransparent: true, headerTitle: ""}}>
+        <Stack screenOptions={{ headerTitle: ""}}>
           <Stack.Screen name="index" options={{ title: "Dados Pessoais" }} />
           <Stack.Screen name="signUpAddress" options={{ title: "Endereço" }} />
           <Stack.Screen name="signUpHealth" options={{ title: "Saúde" }} />

@@ -1,12 +1,15 @@
+import { IUser } from '../interfaces/user.interface';
 import { api as apiService, ApiService } from './api'
-import { config } from 'dotenv';
-config(); 
 
-const baseURL = process.env.BASE_URL || 'http://localhost:3000/api'
+const baseURL= process.env.EXPO_PUBLIC_BASE_URL || 'http://localhost:3000/api'
 
 interface IValidateEmail {
-  email: string;
+  user: IUser;
   validationCode: string;
+}
+
+interface ISendEmail {
+  email: string;
 }
 
 class NotificationService {
@@ -16,7 +19,7 @@ class NotificationService {
     return await this.api.post(`${this.baseURL}/v1/notification/validate-email`, data);
   }
 
-  public sendEmail = async (email: string) => {
+  public sendEmail = async (email: ISendEmail) => {
     return await this.api.post(`${this.baseURL}/v1/notification/send-email`, email);
   }
 }

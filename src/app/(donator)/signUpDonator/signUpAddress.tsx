@@ -6,6 +6,7 @@ import { CustomTextInput } from "@/src/components/atoms/textInput";
 import { IDonator } from "@/src/interfaces/donator.interface";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
+import { KeyboardAvoidingView } from 'react-native';
 
 const signUpAddressDonator = () => {
   const { values, touched, errors, handleBlur, handleChange } = useFormikContext<IDonator>();
@@ -60,6 +61,7 @@ const signUpAddressDonator = () => {
   };
 
   return (
+    <KeyboardAvoidingView enabled={true}>
     <Container justify='center' align='center'>
       <CustomText align={"left"} font='regular' size={20}>Endereço</CustomText>
       <CustomTextInput
@@ -165,6 +167,7 @@ const signUpAddressDonator = () => {
 
       <Button title="Prosseguir" onPress={handleNavigate} disabled={!isCurrentStepValid()} />
     </Container>
+    </KeyboardAvoidingView>
   );
 };
 

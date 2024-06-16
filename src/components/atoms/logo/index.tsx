@@ -1,26 +1,36 @@
-import logoImage from '../../../../assets/images/logo.png'
+import React from 'react';
+import logoImage from '../../../../assets/images/logo.png';
 import { LogoImage } from './styles';
 
 export interface ISize {
-  height: string;
-  width: string;
+  height: number;
+  width: number;
 }
 
 const sizes: { [key: string]: ISize } = {
   small: {
-    height: "100",
-    width: "93",
+    height: 100,
+    width: 93,
   },
   medium: {
-    height: "122",
-    width: "112",
+    height: 122,
+    width: 112,
   },
   large: {
-    height: "150",
-    width: "140",
+    height: 150,
+    width: 140,
   },
 };
 
-export const Logo = ({ size }: { size?: string }) => {
-  return <LogoImage source={logoImage} size={sizes[size || 'large']}/>;
+interface LogoProps {
+  size?: 'small' | 'medium' | 'large';
+  mt?: number;
 }
+
+export const Logo = ({ size = 'large', mt = 0 }: LogoProps) => {
+  const selectedSize = sizes[size];
+
+  return (
+    <LogoImage source={logoImage} size={selectedSize} mt={mt} />
+  );
+};

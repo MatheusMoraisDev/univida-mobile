@@ -1,5 +1,5 @@
+import styled from 'styled-components/native';
 import { theme } from "@/src/styles";
-import styled from "styled-components/native";
 
 interface TextProps {
   size?: number;
@@ -9,40 +9,23 @@ interface TextProps {
   mt?: number;
 }
 
-const getFont = (font: string) => {
-  switch (font) {
-    case 'regular':
-      return 'Inter_400Regular';
-    case 'medium':
-      return 'Inter_500Medium';
-    case 'semiBold':
-      return 'Inter_600SemiBold';
-    case 'bold':
-      return 'Inter_700Bold';
-    default:
-      return 'Inter_400Regular';
-  }
-}
+const getFont = (font: string) => ({
+  regular: 'Inter_400Regular',
+  medium: 'Inter_500Medium',
+  semiBold: 'Inter_600SemiBold',
+  bold: 'Inter_700Bold',
+}[font] || 'Inter_400Regular');
 
-const getColor = (color: string) => {
-  switch (color) {
-    case 'primary':
-      return theme.colors.primary;
-    case 'black':
-      return theme.colors.black;
-    case 'white':
-      return theme.colors.white;
-    default:
-      return theme.colors.black;
-  }
-}
+const getColor = (color: string) => ({
+  primary: theme.colors.primary,
+  black: theme.colors.black,
+  white: theme.colors.white,
+}[color] || theme.colors.black);
 
 export const CustomTextStyle = styled.Text<TextProps>`
-  position: relative;
-  left: ${({ align }) => align === 'left' && '-25%'};
-  right: ${({ align }) => align === 'right' && '-25%'};
   color: ${({ color }) => getColor(color || 'black')};
-  font-size: ${({ size, theme }) => theme.metrics.px(size) || theme.metrics.px(18)}px;
+  font-size: ${({ size }) => theme.metrics.px(size || 18)}px;
   font-family: ${({ font }) => getFont(font || 'regular')};
-  margin-top: ${({ mt, theme }) => theme.metrics.px(mt)}px;
+  text-align: ${({ align }) => align || 'left'};
+  margin-top: ${({ mt }) => theme.metrics.px(mt || 0)}px;
 `;
