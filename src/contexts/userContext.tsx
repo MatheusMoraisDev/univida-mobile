@@ -1,5 +1,5 @@
 import { initialState, userReducer, IUserState } from "../reducers/userReducer";
-import { createContext, useContext, Dispatch, useReducer } from "react";
+import { createContext, Dispatch, useReducer } from "react";
 
 interface IUserContext {
   state: IUserState;
@@ -10,14 +10,14 @@ type UserContextProps = {
   children: React.ReactNode;
 }; 
 
-const UserContext = createContext<IUserContext>({
+export const UserContext = createContext<IUserContext>({
   state: initialState,
   dispatch: () => null,
 });
 
 export const UserProvider = ({ children }: UserContextProps) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
-
+  
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       {children}

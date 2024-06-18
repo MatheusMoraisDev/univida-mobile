@@ -4,7 +4,7 @@ import { api as apiService, ApiService } from './api'
 const baseURL= process.env.EXPO_PUBLIC_BASE_URL || 'http://localhost:3000/api'
 
 interface IValidateEmail {
-  user: IUser;
+  user_id: number;
   validationCode: string;
 }
 
@@ -16,6 +16,7 @@ class NotificationService {
   constructor(private readonly api: ApiService, private readonly baseURL: string) { }
 
   public validateEmail = async (data: IValidateEmail) => {
+    console.log('Validating email', data)
     return await this.api.post(`${this.baseURL}/v1/notification/validate-email`, data);
   }
 

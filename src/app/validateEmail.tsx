@@ -1,6 +1,6 @@
 // validationEmail.tsx
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Alert, KeyboardAvoidingView, TextInput, View } from 'react-native';
 import { Container } from '../components/atoms/container';
 import { Logo } from '../components/atoms/logo';
@@ -9,28 +9,32 @@ import CustomText from '../components/atoms/text';
 import OtpInput from '../components/molecules/otpInput';
 import { notificationService } from '../services/notificationService';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { UserContext } from '../contexts/userContext';
 
 const ValidationEmail = () => {
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(20);
   const [sendAgain, setSendAgain] = useState(false);
+  const { state } = useContext(UserContext);
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const user = params.user;
+  
 
   useEffect(() => {
     const countdown = setInterval(() => {
       setTimer(prevTimer => (prevTimer > 0 ? prevTimer - 1 : 0));
     }, 1000);
 
-    notificationService.sendEmail({ email: user.email });
+    const email = state.user.email;
+
+    notificationService.sendEmail({ email: email });
 
     return () => clearInterval(countdown);
   }, [sendAgain]);
 
   const handleValidation = async () => {
     try {
-      await notificationService.validateEmail({ validationCode: code, user: user });
+      console.log('Validating code', code, state.user?.id)
+      await notificationService.validateEmail({ validationCode: code, user_id: state.user?.id });
       router.push('donatorPanel');
     } catch (error) {
       console.error('Error validating code', error);

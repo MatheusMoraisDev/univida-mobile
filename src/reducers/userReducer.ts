@@ -6,16 +6,21 @@ interface IUserInfo {
 }
 
 export interface IUserState {
-  user: IUserInfo | null;
+  user: IUserInfo;
   isAuthenticated: boolean;
 }
 
 type Action =
   | { type: "SET_IS_AUTHENTICATED"; payload: boolean }
-  | { type: "SET_CURRENT_USER"; payload: IUserInfo | null };
+  | { type: "SET_CURRENT_USER"; payload: IUserInfo };
 
 export const initialState: IUserState = {
-  user: null,
+  user: {
+    id: 0,
+    email: "",
+    firstName: "",
+    lastName: "",
+  },
   isAuthenticated: false,
 };
 

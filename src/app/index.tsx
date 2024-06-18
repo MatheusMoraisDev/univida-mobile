@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Container } from "../components/atoms/container";
 import { Logo } from "../components/atoms/logo";
 import { CustomTextInput } from "../components/atoms/textInput";
@@ -7,17 +7,27 @@ import { FirstAccessStyles } from "../styles/screens/loginStyles";
 import CustomText from "../components/atoms/text";
 import { Link, useRouter } from "expo-router";
 import { authService } from "../services/authService";
+import { UserContext } from "../contexts/userContext";
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [messageError, setMessageError] = useState('');
+  const { state, dispatch } = useContext(UserContext);
   const router = useRouter();
 
   const signIn = async () => {
     try {
-      await authService.signIn({ email, password });
+      const user = await authService.signIn({ email, password });
       setMessageError('');
+      console.log(user)
+      dispatch({ type: 'SET_CURRENT_USER', payload: { 
+        id: user.user.id,
+        email: email, 
+        firstName: user.user.firstName,
+        lastName: user.user.lastName,
+       } });
+       dispatch({ type: 'SET_IS_AUTHENTICATED', payload: true });
       return router.push('donatorPanel')
     } catch (error) {
       setMessageError('E-mail ou senha inválidos.');
