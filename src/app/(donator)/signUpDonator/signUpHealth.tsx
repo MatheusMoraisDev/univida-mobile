@@ -3,14 +3,17 @@ import { Container } from "@/src/components/atoms/container";
 import CustomRadioButton from "@/src/components/atoms/radioButton";
 import CustomText from "@/src/components/atoms/text";
 import { CustomTextInput } from "@/src/components/atoms/textInput";
+import { UserContext } from "@/src/contexts/userContext";
 import { IDonator } from "@/src/interfaces/donator.interface";
 import { donatorService } from "@/src/services/donatorService";
 import { userService } from "@/src/services/userService";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
+import { useContext } from "react";
 
 const signUpHealthDonator = () => {
   const { values, setFieldValue, touched, errors, handleBlur } = useFormikContext<IDonator>();
+  const { dispatch } = useContext(UserContext);
   
   const router = useRouter();
 
@@ -50,8 +53,17 @@ const signUpHealthDonator = () => {
           ...values,
           user: user,
         });
+        
+        dispatch({ type: 'SET_CURRENT_USER', payload: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        } });
 
-        router.push({ pathname: 'validationEmail', params: { user } });
+        dispatch({ type: 'SET_IS_AUTHENTICATED', payload: true });
+
+        router.push({ pathname: 'validateEmail', params: { user } });
       } catch (error) {
         console.error('Error creating donator', error);
       }
