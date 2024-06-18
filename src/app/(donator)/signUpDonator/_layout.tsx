@@ -1,4 +1,5 @@
 import { IDonator } from "@/src/interfaces/donator.interface";
+import { theme } from "@/src/styles";
 import { Stack } from "expo-router";
 import { Formik } from "formik";
 import { KeyboardAvoidingView } from "react-native";
@@ -61,7 +62,7 @@ export default function DonatorFormLayout() {
       })
       .required('Data de nascimento é obrigatória'),
     cpf: Yup.string()
-      .matches(/^\d{9}$/, 'CPF inválido')
+      .matches(/^\d{11}$/, 'CPF inválido')
       .required('CPF é obrigatório'),
     rg: Yup.string()
       .matches(/^\d{9}$/, 'RG inválido')
@@ -73,7 +74,8 @@ export default function DonatorFormLayout() {
         .email('Email inválido')
         .required('Email é obrigatório'),
       password: Yup.string()
-        .min(6, 'Senha deve ter no mínimo 6 caracteres')
+        .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/, 'Senha deve ter no mínimo 8 caracteres, um caractere especial, uma letra maiúscula e um número.')
+        .min(8, 'Senha deve ter no mínimo 8 caracteres')
         .required('Senha é obrigatória'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password')], 'Senhas não coincidem')
@@ -131,8 +133,15 @@ export default function DonatorFormLayout() {
       validationSchema={validationSchema}
     >
       {() => (
-        <Stack screenOptions={{ headerTitle: ""}}>
-          <Stack.Screen name="index" options={{ title: "Dados Pessoais" }} />
+        <Stack screenOptions={{
+          headerTitleStyle: {
+            fontFamily: theme.fonts.Inter_600SemiBold,
+            fontSize: theme.metrics.px(16),
+          },
+          headerTitleAlign: 'center'
+        }}>
+          <Stack.Screen name="index" options={{ title: "Dados Pessoais", headerBackVisible: false  }} />
+          <Stack.Screen name="signUpPassword" options={{ title: "Crie sua Senha" }} />
           <Stack.Screen name="signUpAddress" options={{ title: "Endereço" }} />
           <Stack.Screen name="signUpHealth" options={{ title: "Saúde" }} />
         </Stack>

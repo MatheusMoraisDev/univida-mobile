@@ -44,7 +44,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{headerShown: false}} />
           <Stack.Screen name="signUp" options={{headerShown: false}} />
-          <Stack.Screen name="validationEmail" options={{headerShown: false}} />
+          <Stack.Screen name="validateEmail" options={{headerShown: false}} />
           <Stack.Screen name="(donator)" options={{headerShown: false}} />
           <Stack.Screen name="(hospital)" options={{headerShown: false}} />
         </Stack>

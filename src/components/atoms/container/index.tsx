@@ -9,6 +9,7 @@ interface IContainer {
   height?: string;
   ml?: number;
   mt?: number;
+  pd?: number;
 }
 
 export const Container = styled.View<IContainer>`
@@ -21,5 +22,4 @@ export const Container = styled.View<IContainer>`
   height: ${({ height }) => height || '100%'};
   margin-left: ${({ ml, theme }) => theme.metrics.px(ml) || '0'}px;
   margin-top: ${({ mt, theme }) => theme.metrics.px(mt) || '0'}px;
-  padding: ${({ theme }) => theme.metrics.px(20)}px;
-`;
+  padding: ${({ pd, theme }) => pd !== undefined ? theme.metrics.px(pd) : theme.metrics.px(20)}px;`

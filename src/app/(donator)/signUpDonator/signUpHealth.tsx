@@ -1,8 +1,8 @@
 import { Button } from "@/src/components/atoms/button";
 import { Container } from "@/src/components/atoms/container";
+import PaperInput from "@/src/components/atoms/paperInput";
 import CustomRadioButton from "@/src/components/atoms/radioButton";
 import CustomText from "@/src/components/atoms/text";
-import { CustomTextInput } from "@/src/components/atoms/textInput";
 import { UserContext } from "@/src/contexts/userContext";
 import { IDonator } from "@/src/interfaces/donator.interface";
 import { donatorService } from "@/src/services/donatorService";
@@ -75,9 +75,9 @@ const signUpHealthDonator = () => {
   };
 
   return (
-    <Container justify='center' align='center'>
-      <CustomText align={"left"} font='regular' size={20}>Saúde</CustomText>
-      <CustomTextInput
+    <Container justify='center' align='center' pd={0}>
+      <PaperInput
+        label="Tipo sanguíneo"
         placeholder='Qual é o seu tipo sanguíneo?'
         value={values.donatorDetails.bloodType}
         onChange={(value: string) => setFieldValue('donatorDetails.bloodType', value)}
@@ -99,7 +99,8 @@ const signUpHealthDonator = () => {
       ) : null}
 
       {values.donatorDetails.hasAllergy && (
-        <CustomTextInput
+        <PaperInput
+          label="Alergia"
           placeholder='Qual alergia você possui?'
           value={values.donatorDetails.allergyDescription || ''}
           onChange={(value: string) => setFieldValue('donatorDetails.allergyDescription', value)}
@@ -113,9 +114,10 @@ const signUpHealthDonator = () => {
           <CustomText size={10} color="primary">{errors.donatorDetails.allergyDescription}</CustomText>
         ) : null}
 
-      <CustomTextInput
+      <PaperInput
+        label='Peso'
         placeholder='Qual é o seu peso em kg?'
-        value={values.donatorDetails.weightKilo}
+        value={values.donatorDetails.weightKilo || ''}
         onChange={(value: number) => setFieldValue('donatorDetails.weightKilo', value)}
         onBlur={handleBlur('donatorDetails.weightKilo')}
         mt={5}
@@ -144,7 +146,7 @@ const signUpHealthDonator = () => {
         <CustomText size={10} color="primary">{errors.donatorDetails.orientation}</CustomText>
       ) : null}
 
-      <Button title="Finalizar" onPress={onSubmitForm} disabled={!isCurrentStepValid()}/>
+      <Button title="Finalizar" onPress={onSubmitForm} disabled={!isCurrentStepValid()} bottomButton/>
     </Container>
   );
 };
