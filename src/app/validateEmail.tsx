@@ -33,7 +33,6 @@ const ValidationEmail = () => {
 
   const handleValidation = async () => {
     try {
-      console.log('Validating code', code, state.user?.id)
       await notificationService.validateEmail({ validationCode: code, user_id: state.user?.id });
       router.push('donatorPanel');
     } catch (error) {
@@ -49,7 +48,6 @@ const ValidationEmail = () => {
 
   const handleChangeOtp = (value: string) => {
     setCode(value);
-    console.log(code);
   };
 
   return (

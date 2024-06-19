@@ -15,33 +15,44 @@ interface IPaperInputProps {
   mt?: number;
 }
 
-const PaperInput = (props: IPaperInputProps) => {
+const PaperInput = ({
+  label,
+  value = '',
+  onChange,
+  onBlur,
+  mode = 'outlined',
+  placeholder = '',
+  keyboardType = 'default',
+  style = {},
+  secure = false,
+  mt = 20,
+}: IPaperInputProps) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
     <TextInput
-      label={props.label}
-      value={props.value}
-      onChangeText={props.onChange}
-      onBlur={props.onBlur}
-      mode={props.mode || 'outlined'}
-      placeholder={props.placeholder || ''}
-      keyboardType={props.keyboardType || 'default'}
-      secureTextEntry={props.secure && !passwordVisible}
+      label={label}
+      value={value}
+      onChangeText={onChange}
+      onBlur={onBlur}
+      mode={mode}
+      placeholder={placeholder}
+      keyboardType={keyboardType}
+      secureTextEntry={secure && !passwordVisible}
       selectionColor={theme.colors.gray}
       activeOutlineColor={theme.colors.primary}
       cursorColor={theme.colors.black}
       style={[
         {
-          marginTop: theme.metrics.px(props.mt !== undefined ? props.mt : 20),
-          width: theme.metrics.px(280)
+          marginTop: theme.metrics.px(mt),
+          width: theme.metrics.px(280),
         },
-        props.style
+        style,
       ]}
       right={
-        props.secure && (
+        secure && (
           <TextInput.Icon
-            icon={passwordVisible ? "eye" : "eye-off"}
+            icon={passwordVisible ? 'eye' : 'eye-off'}
             onPress={() => setPasswordVisible(!passwordVisible)}
           />
         )

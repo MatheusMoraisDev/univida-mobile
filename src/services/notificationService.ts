@@ -16,7 +16,6 @@ class NotificationService {
   constructor(private readonly api: ApiService, private readonly baseURL: string) { }
 
   public validateEmail = async (data: IValidateEmail) => {
-    console.log('Validating email', data)
     return await this.api.post(`${this.baseURL}/v1/notification/validate-email`, data);
   }
 

@@ -21,7 +21,6 @@ export default function Index() {
     try {
       const user = await authService.signIn({ email, password });
       setMessageError('');
-      console.log(user)
       dispatch({ type: 'SET_CURRENT_USER', payload: { 
         id: user.user.id,
         email: email, 

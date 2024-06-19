@@ -9,7 +9,7 @@ import { KeyboardAvoidingView, View } from 'react-native';
 import PaperInput from '@/src/components/atoms/paperInput';
 
 const signUpDonatorData = () => {
-  const { values, touched, errors, handleBlur, handleChange } = useFormikContext<IDonator>();
+  const { values, touched, errors, handleChange, validateForm, setErrors, setTouched, handleSubmit } = useFormikContext<IDonator>();
   const router = useRouter();
 
   const isCurrentStepValid = (): boolean => {
@@ -31,9 +31,20 @@ const signUpDonatorData = () => {
   };
 
   const handleNavigate = () => {
-    if (isCurrentStepValid()) {
-      router.push('signUpDonator/signUpPassword');
-    }
+    validateForm().then(errors => {
+      if (isCurrentStepValid()){
+        router.push('signUpDonator/signUpPassword');
+      } else {
+        setTouched({
+          firstName: true,
+          lastName: true,
+          cpf: true,
+          rg: true,
+          birthDate: true,
+        });
+        setErrors(errors);
+      }
+    });
   };
 
   return (
@@ -42,7 +53,6 @@ const signUpDonatorData = () => {
         <PaperInput
           label='Nome'
           placeholder='Digite o seu primeiro nome'
-          onBlur={handleBlur('firstName')}
           value={values.firstName}
           onChange={handleChange('firstName')}
         />
@@ -54,7 +64,6 @@ const signUpDonatorData = () => {
           placeholder='Digite o seu último nome'
           value={values.lastName}
           onChange={handleChange('lastName')}
-          onBlur={handleBlur('lastName')}
           mt={10}
         />
         {touched.lastName && errors.lastName ? (
@@ -64,7 +73,6 @@ const signUpDonatorData = () => {
           label='CPF'
           placeholder='Digite o seu CPF'
           value={values.cpf}
-          onBlur={handleBlur('cpf')}
           onChange={handleChange('cpf')}
           mt={10}
         />
@@ -75,7 +83,6 @@ const signUpDonatorData = () => {
           label='RG'
           placeholder='Digite o seu RG'
           value={values.rg}
-          onBlur={handleBlur('rg')}
           onChange={handleChange('rg')}
           mt={10}
         />
@@ -86,14 +93,13 @@ const signUpDonatorData = () => {
           label='Data de nascimento'
           placeholder='Digite a sua data de nascimento'
           value={values.birthDate}
-          onBlur={handleBlur('birthDate')}
           onChange={handleChange('birthDate')}
           mt={10}
         />
         {touched.birthDate && errors.birthDate ? (
           <CustomText size={10} color="primary">{errors.birthDate}</CustomText>
         ) : null}
-        <Button title="Prosseguir" onPress={handleNavigate} disabled={!isCurrentStepValid()} bottomButton/>
+        <Button title="Prosseguir" onPress={handleNavigate} bottomButton />
       </Container>
     </KeyboardAvoidingView>
   );
