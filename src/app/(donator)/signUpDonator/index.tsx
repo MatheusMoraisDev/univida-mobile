@@ -71,9 +71,12 @@ const signUpDonatorData = () => {
         ) : null}
         <PaperInput
           label='CPF'
+          maxLenght={14}
+          mask='cpf'
           placeholder='Digite o seu CPF'
           value={values.cpf}
           onChange={handleChange('cpf')}
+          keyboardType='numeric'
           mt={10}
         />
         {touched.cpf && errors.cpf ? (
@@ -81,9 +84,12 @@ const signUpDonatorData = () => {
         ) : null}
         <PaperInput
           label='RG'
+          maxLenght={12}
+          mask='rg'
           placeholder='Digite o seu RG'
           value={values.rg}
           onChange={handleChange('rg')}
+          keyboardType='numeric'
           mt={10}
         />
         {touched.rg && errors.rg ? (
@@ -91,10 +97,13 @@ const signUpDonatorData = () => {
         ) : null}
         <PaperInput
           label='Data de nascimento'
+          maxLenght={10}
+          mask='date'
           placeholder='Digite a sua data de nascimento'
           value={values.birthDate}
           onChange={handleChange('birthDate')}
           mt={10}
+          keyboardType='numeric'
         />
         {touched.birthDate && errors.birthDate ? (
           <CustomText size={10} color="primary">{errors.birthDate}</CustomText>

@@ -62,10 +62,8 @@ export default function DonatorFormLayout() {
       })
       .required('Data de nascimento é obrigatória'),
     cpf: Yup.string()
-      .matches(/^\d{11}$/, 'CPF inválido')
       .required('CPF é obrigatório'),
     rg: Yup.string()
-      .matches(/^\d{9}$/, 'RG inválido')
       .required('RG é obrigatório'),
     address: Yup.string()
       .required('Endereço é obrigatório'),
@@ -85,7 +83,6 @@ export default function DonatorFormLayout() {
       Yup.object().shape({
         street: Yup.string().required('Rua é obrigatória'),
         zip: Yup.string()
-          .matches(/^\d{8}$/, 'CEP inválido')
           .required('CEP é obrigatório'),
         number: Yup.number().required('Número é obrigatório'),
         neighborhood: Yup.string().required('Bairro é obrigatório'),
@@ -96,10 +93,8 @@ export default function DonatorFormLayout() {
     contacts: Yup.array().of(
       Yup.object().shape({
         contact: Yup.string()
-          .matches(/^\d{11}$/, 'Telefone inválido')
           .required('Contato é obrigatório'),
         emergency_contact: Yup.string()
-          .matches(/^\d{11}$/, 'Telefone de emergência inválido')
           .notRequired(),
         emergency_contact_name: Yup.string()
           .notRequired(),
@@ -143,6 +138,7 @@ export default function DonatorFormLayout() {
           <Stack.Screen name="index" options={{ title: "Dados Pessoais", headerBackVisible: false  }} />
           <Stack.Screen name="signUpPassword" options={{ title: "Crie sua Senha" }} />
           <Stack.Screen name="signUpAddress" options={{ title: "Endereço" }} />
+          <Stack.Screen name="signUpContact" options={{ title: "Contato" }} />
           <Stack.Screen name="signUpHealth" options={{ title: "Saúde" }} />
         </Stack>
       )}

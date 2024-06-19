@@ -13,8 +13,6 @@ const signUpAddressDonator = () => {
   const { values, touched, errors, handleBlur, handleChange } = useFormikContext<IDonator>();
   const router = useRouter();
 
-  const errorsAny = errors as any;
-
   const isFieldValid = (fieldPath: string): boolean => {
     const [arrayName, indexStr, fieldName] = fieldPath.split(/[\[\].]+/).filter(Boolean);
     const index = parseInt(indexStr, 10);
@@ -45,7 +43,7 @@ const signUpAddressDonator = () => {
 
   const handleNavigate = () => {
     if (isCurrentStepValid()) {
-      router.push('signUpDonator/signUpHealth');
+      router.push('signUpDonator/signUpAddress');
     } else {
       console.log('Formulário não está válido');
     }

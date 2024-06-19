@@ -12,7 +12,7 @@ import { useFormikContext } from "formik";
 import { useContext } from "react";
 
 const signUpHealthDonator = () => {
-  const { values, setFieldValue, touched, errors, handleBlur } = useFormikContext<IDonator>();
+  const { values, setFieldValue, touched, errors, handleBlur, handleChange} = useFormikContext<IDonator>();
   const { dispatch } = useContext(UserContext);
   
   const router = useRouter();
@@ -80,7 +80,7 @@ const signUpHealthDonator = () => {
         label="Tipo sanguíneo"
         placeholder='Qual é o seu tipo sanguíneo?'
         value={values.donatorDetails.bloodType}
-        onChange={(value: string) => setFieldValue('donatorDetails.bloodType', value)}
+        onChange={handleChange('donatorDetails.bloodType')}
         onBlur={handleBlur('donatorDetails.bloodType')}
         mt={20}
       />
@@ -100,10 +100,10 @@ const signUpHealthDonator = () => {
 
       {values.donatorDetails.hasAllergy && (
         <PaperInput
-          label="Alergia"
-          placeholder='Qual alergia você possui?'
+          label="Qual alergia você possui?"
+          placeholder='Antinflamatórios, penicilina, etc.'
           value={values.donatorDetails.allergyDescription || ''}
-          onChange={(value: string) => setFieldValue('donatorDetails.allergyDescription', value)}
+          onChange={handleChange('donatorDetails.allergyDescription')}
           onBlur={handleBlur('donatorDetails.allergyDescription')}
           mt={5}
         />
@@ -115,12 +115,13 @@ const signUpHealthDonator = () => {
         ) : null}
 
       <PaperInput
-        label='Peso'
-        placeholder='Qual é o seu peso em kg?'
-        value={values.donatorDetails.weightKilo || ''}
-        onChange={(value: number) => setFieldValue('donatorDetails.weightKilo', value)}
+        label='Peso em kg'
+        placeholder='70'
+        value={values.donatorDetails.weightKilo?.toString() ?? ''}
+        onChange={handleChange('donatorDetails.weightKilo')}
         onBlur={handleBlur('donatorDetails.weightKilo')}
         mt={5}
+        keyboardType="numeric"
       />
       {touched.donatorDetails?.weightKilo && errors.donatorDetails?.weightKilo ? (
         <CustomText size={10} color="primary">{errors.donatorDetails.weightKilo}</CustomText>
@@ -129,7 +130,7 @@ const signUpHealthDonator = () => {
       <CustomRadioButton 
         initialValue="Não" 
         options={["Masculino", "Feminino"]} 
-        onValueChange={(value: string) => setFieldValue('donatorDetails.gender', value)}
+        onValueChange={handleChange('donatorDetails.gender')}
         title="Qual o seu gênero?"
       />
       {touched.donatorDetails?.gender && errors.donatorDetails?.gender ? (
@@ -139,7 +140,7 @@ const signUpHealthDonator = () => {
       <CustomRadioButton 
         initialValue="Não" 
         options={["Heterossexual", "Homossexual"]} 
-        onValueChange={(value: string) => setFieldValue('donatorDetails.orientation', value)}
+        onValueChange={handleChange('donatorDetails.orientation')}
         title="Qual a sua orientação sexual?"
       />
       {touched.donatorDetails?.orientation && errors.donatorDetails?.orientation ? (
