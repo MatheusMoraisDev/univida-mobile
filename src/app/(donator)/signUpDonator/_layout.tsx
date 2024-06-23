@@ -1,4 +1,5 @@
 import { IDonator } from "@/src/interfaces/donator.interface";
+import { theme } from "@/src/styles";
 import { Stack } from "expo-router";
 import { Formik } from "formik";
 import { KeyboardAvoidingView } from "react-native";
@@ -61,10 +62,8 @@ export default function DonatorFormLayout() {
       })
       .required('Data de nascimento é obrigatória'),
     cpf: Yup.string()
-      .matches(/^\d{9}$/, 'CPF inválido')
       .required('CPF é obrigatório'),
     rg: Yup.string()
-      .matches(/^\d{9}$/, 'RG inválido')
       .required('RG é obrigatório'),
     address: Yup.string()
       .required('Endereço é obrigatório'),
@@ -73,8 +72,12 @@ export default function DonatorFormLayout() {
         .email('Email inválido')
         .required('Email é obrigatório'),
       password: Yup.string()
-        .min(6, 'Senha deve ter no mínimo 6 caracteres')
-        .required('Senha é obrigatória'),
+        .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula.')
+        .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula.')
+        .matches(/[0-9]/, 'A senha deve conter pelo menos um número.')
+        .matches(/[#?!@$ %^&*-]/, 'A senha deve conter pelo menos um caractere especial.')
+        .min(8, 'A senha deve ter no mínimo 8 caracteres.')
+        .required('A senha é obrigatória'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password')], 'Senhas não coincidem')
         .required('Confirmação de senha é obrigatória'),
@@ -83,7 +86,6 @@ export default function DonatorFormLayout() {
       Yup.object().shape({
         street: Yup.string().required('Rua é obrigatória'),
         zip: Yup.string()
-          .matches(/^\d{8}$/, 'CEP inválido')
           .required('CEP é obrigatório'),
         number: Yup.number().required('Número é obrigatório'),
         neighborhood: Yup.string().required('Bairro é obrigatório'),
@@ -94,10 +96,8 @@ export default function DonatorFormLayout() {
     contacts: Yup.array().of(
       Yup.object().shape({
         contact: Yup.string()
-          .matches(/^\d{11}$/, 'Telefone inválido')
           .required('Contato é obrigatório'),
         emergency_contact: Yup.string()
-          .matches(/^\d{11}$/, 'Telefone de emergência inválido')
           .notRequired(),
         emergency_contact_name: Yup.string()
           .notRequired(),
@@ -131,9 +131,17 @@ export default function DonatorFormLayout() {
       validationSchema={validationSchema}
     >
       {() => (
-        <Stack screenOptions={{ headerTitle: ""}}>
-          <Stack.Screen name="index" options={{ title: "Dados Pessoais" }} />
+        <Stack screenOptions={{
+          headerTitleStyle: {
+            fontFamily: theme.fonts.Inter_600SemiBold,
+            fontSize: theme.metrics.px(16),
+          },
+          headerTitleAlign: 'center'
+        }}>
+          <Stack.Screen name="index" options={{ title: "Dados Pessoais", headerBackVisible: false  }} />
+          <Stack.Screen name="signUpPassword" options={{ title: "Crie sua Senha" }} />
           <Stack.Screen name="signUpAddress" options={{ title: "Endereço" }} />
+          <Stack.Screen name="signUpContact" options={{ title: "Contato" }} />
           <Stack.Screen name="signUpHealth" options={{ title: "Saúde" }} />
         </Stack>
       )}
