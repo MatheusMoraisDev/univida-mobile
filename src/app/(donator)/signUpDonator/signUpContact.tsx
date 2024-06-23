@@ -7,9 +7,10 @@ import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from 'react-native';
 import PaperInput from '@/src/components/atoms/paperInput';
+import Steps from '@/src/components/molecules/steps';
 
 const signUpAddressDonator = () => {
-  const { values, touched, errors, handleBlur, handleChange } = useFormikContext<IDonator>();
+  const { values, touched, errors, handleChange, validateForm, setErrors, setTouched } = useFormikContext<IDonator>();
   const router = useRouter();
 
   const errorsAny = errors as any;
@@ -36,11 +37,11 @@ const signUpAddressDonator = () => {
   const isCurrentStepValid = (): boolean => {
     const requiredFields = [
       'contacts[0].contact',
-      'contacts[0].emergency_contact_name',
       'user.email',
     ];
 
     if (values.contacts?.[0]?.emergency_contact) {
+      requiredFields.push('contacts[0].emergency_contact_name');
       requiredFields.push('contacts[0].emergency_contact');
     }
 
@@ -48,73 +49,82 @@ const signUpAddressDonator = () => {
   };
 
   const handleNavigate = () => {
-    if (isCurrentStepValid()) {
-      router.push('signUpDonator/signUpHealth');
-    } else {
-      console.log('Formulário não está válido');
-    }
+    validateForm().then(errors => {
+      if (isCurrentStepValid()){
+        router.push('signUpDonator/signUpHealth');
+      } else {
+        setTouched({
+          contacts: [{
+            contact: true,
+            emergency_contact: true,
+            emergency_contact_name: true,
+          }],
+          user: {
+            email: true,
+          }
+        });
+        setErrors(errors);
+      }
+    });
   };
 
   return (
     <KeyboardAvoidingView enabled={true}>
-    <Container justify='center' align='center' pd={0}>
-    <PaperInput
-        keyboardType='phone-pad'
-        mask='phone'
-        maxLenght={15}
-        label='Telefone'
-        placeholder='(11)99999-9999'
-        value={values.contacts?.[0]?.contact ?? ''}
-        onChange={handleChange('contacts[0].contact')}
-        onBlur={handleBlur('contacts[0].contact')}
-        mt={10}
-      />
-      {touched.contacts?.[0]?.contact && errorsAny.contacts?.[0]?.contact ? (
-        <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).contact}</CustomText>
-      ) : null}
+      <Container justify='flex-start' align='center' pd={0}>
+        <Steps currentStep={4} totalSteps={5}/>
+        <PaperInput
+            keyboardType='phone-pad'
+            mask='phone'
+            maxLenght={15}
+            label='Telefone *'
+            placeholder='(11)99999-9999'
+            value={values.contacts?.[0]?.contact ?? ''}
+            onChange={handleChange('contacts[0].contact')}
+            mt={10}
+        />
+        {touched.contacts?.[0]?.contact && errorsAny.contacts?.[0]?.contact ? (
+          <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).contact}</CustomText>
+        ) : null}
 
-      <PaperInput
-        keyboardType='phone-pad'
-        mask='phone'
-        maxLenght={15}
-        label='Contato de emergência'
-        placeholder='(11)99999-9999'
-        value={values.contacts?.[0]?.emergency_contact ?? ''}
-        onChange={handleChange('contacts[0].emergency_contact')}
-        onBlur={handleBlur('contacts[0].emergency_contact')}
-        mt={5}
-      />
-      {touched.contacts?.[0]?.emergency_contact && errorsAny.contacts?.[0]?.emergency_contact ? (
-        <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).emergency_contact}</CustomText>
-      ) : null}
+        <PaperInput
+          keyboardType='phone-pad'
+          mask='phone'
+          maxLenght={15}
+          label='Contato de emergência'
+          placeholder='(11)99999-9999'
+          value={values.contacts?.[0]?.emergency_contact ?? ''}
+          onChange={handleChange('contacts[0].emergency_contact')}
+          mt={5}
+        />
+        {touched.contacts?.[0]?.emergency_contact && errorsAny.contacts?.[0]?.emergency_contact ? (
+          <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).emergency_contact}</CustomText>
+        ) : null}
 
-      <PaperInput
-        label='Nome do contato de emergência'
-        placeholder='Nome do Contato para emergência'
-        value={values.contacts?.[0]?.emergency_contact_name ?? ''}
-        onChange={handleChange('contacts[0].emergency_contact_name')}
-        onBlur={handleBlur('contacts[0].emergency_contact_name')}
-        mt={5}
-      />
-      {touched.contacts?.[0]?.emergency_contact_name && errorsAny.contacts?.[0]?.emergency_contact_name ? (
-        <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).emergency_contact_name}</CustomText>
-      ) : null}
+        <PaperInput
+          label='Nome do contato de emergência'
+          placeholder='Nome do Contato para emergência'
+          value={values.contacts?.[0]?.emergency_contact_name ?? ''}
+          onChange={handleChange('contacts[0].emergency_contact_name')}
+          mt={5}
+        />
+        {touched.contacts?.[0]?.emergency_contact_name && errorsAny.contacts?.[0]?.emergency_contact_name ? (
+          <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).emergency_contact_name}</CustomText>
+        ) : null}
 
-      <PaperInput
-        label='E-mail'
-        keyboardType='email-address'
-        placeholder='email@email.com'
-        value={values.user?.email ?? ''}
-        onChange={handleChange('user.email')}
-        onBlur={handleBlur('user.email')}
-        mt={5}
-      />
-      {touched.user?.email && errors.user?.email ? (
-        <CustomText size={10} color="primary">{errors.user.email}</CustomText>
-      ) : null}
+        <PaperInput
+          label='E-mail *'
+          keyboardType='email-address'
+          placeholder='email@email.com'
+          value={values.user?.email ?? ''}
+          onChange={handleChange('user.email')}
+          mt={5}
+        />
+        {touched.user?.email && errors.user?.email ? (
+          <CustomText size={10} color="primary">{errors.user.email}</CustomText>
+        ) : null}
 
-      <Button title="Prosseguir" onPress={handleNavigate} disabled={!isCurrentStepValid()} bottomButton/>
-    </Container>
+        <Button title="Prosseguir" onPress={handleNavigate} bottomButton/>
+      </Container>
     </KeyboardAvoidingView>
   );
 };

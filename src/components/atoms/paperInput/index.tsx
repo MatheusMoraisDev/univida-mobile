@@ -16,6 +16,7 @@ interface IPaperInputProps {
   mt?: number;
   mask?: 'cpf' | 'phone' | 'cep' | 'cnpj' | 'date' | 'rg' | 'number';
   maxLenght?: number;
+  hasError?: boolean;
 }
 
 const PaperInput = ({
@@ -31,6 +32,7 @@ const PaperInput = ({
   mt = 20,
   mask,
   maxLenght,
+  hasError,
 }: IPaperInputProps) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -93,6 +95,7 @@ const PaperInput = ({
       keyboardType={keyboardType}
       secureTextEntry={secure && !passwordVisible}
       selectionColor={theme.colors.gray}
+      outlineColor={hasError ? theme.colors.primary : undefined}
       activeOutlineColor={theme.colors.primary}
       cursorColor={theme.colors.black}
       maxLength={maxLenght || 1000}

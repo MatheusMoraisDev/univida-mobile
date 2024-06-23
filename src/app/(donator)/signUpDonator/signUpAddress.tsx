@@ -7,9 +7,10 @@ import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from 'react-native';
 import PaperInput from '@/src/components/atoms/paperInput';
+import Steps from '@/src/components/molecules/steps';
 
 const signUpAddressDonator = () => {
-  const { values, touched, errors, handleBlur, handleChange } = useFormikContext<IDonator>();
+  const { values, touched, errors, handleChange, validateForm, setErrors, setTouched } = useFormikContext<IDonator>();
   const router = useRouter();
 
   const errorsAny = errors as any;
@@ -46,81 +47,88 @@ const signUpAddressDonator = () => {
   };
 
   const handleNavigate = () => {
-    if (isCurrentStepValid()) {
-      router.push('signUpDonator/signUpContact');
-    } else {
-      console.log('Formulário não está válido');
-    }
+    validateForm().then(errors => {
+      if (isCurrentStepValid()){
+        router.push('signUpDonator/signUpContact');
+      } else {
+        setTouched({
+          addresses: [{
+            state: true,
+            city: true,
+            neighborhood: true,
+            street: true,
+            zip: true,
+          }]
+        });
+        setErrors(errors);
+      }
+    });
   };
 
   return (
     <KeyboardAvoidingView enabled={true}>
-    <Container justify='center' align='center' pd={0}>
-      <PaperInput
-        label='Estado'
-        placeholder='Digite o estado'
-        value={values.addresses?.[0]?.state ?? ''}
-        onChange={handleChange('addresses[0].state')}
-        onBlur={handleBlur('addresses[0].state')}
-        mt={20}
-      />
-      {touched.addresses?.[0]?.state && errorsAny.addresses?.[0]?.state ? (
-        <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).state}</CustomText>
-      ) : null}
+      <Container justify='flex-start' align='center' pd={0}>
+      <Steps currentStep={3} totalSteps={5}/>
+        <PaperInput
+          label='Estado *'
+          placeholder='Digite o estado'
+          value={values.addresses?.[0]?.state ?? ''}
+          onChange={handleChange('addresses[0].state')}
+          mt={20}
+        />
+        {touched.addresses?.[0]?.state && errorsAny.addresses?.[0]?.state ? (
+          <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).state}</CustomText>
+        ) : null}
 
-      <PaperInput
-        label='Cidade'
-        placeholder='São Paulo'
-        value={values.addresses?.[0]?.city ?? ''}
-        onChange={handleChange('addresses[0].city')}
-        onBlur={handleBlur('addresses[0].city')}
-        mt={5}
-      />
-      {touched.addresses?.[0]?.city && errorsAny.addresses?.[0]?.city ? (
-        <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).city}</CustomText>
-      ) : null}
+        <PaperInput
+          label='Cidade *'
+          placeholder='São Paulo'
+          value={values.addresses?.[0]?.city ?? ''}
+          onChange={handleChange('addresses[0].city')}
+          mt={5}
+        />
+        {touched.addresses?.[0]?.city && errorsAny.addresses?.[0]?.city ? (
+          <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).city}</CustomText>
+        ) : null}
 
-      <PaperInput
-        label='Bairro'
-        placeholder='Digite o bairro'
-        value={values.addresses?.[0]?.neighborhood ?? ''}
-        onChange={handleChange('addresses[0].neighborhood')}
-        onBlur={handleBlur('addresses[0].neighborhood')}
-        mt={5}
-      />
-      {touched.addresses?.[0]?.neighborhood && errorsAny.addresses?.[0]?.neighborhood ? (
-        <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).neighborhood}</CustomText>
-      ) : null}
+        <PaperInput
+          label='Bairro *'
+          placeholder='Digite o bairro'
+          value={values.addresses?.[0]?.neighborhood ?? ''}
+          onChange={handleChange('addresses[0].neighborhood')}
+          mt={5}
+        />
+        {touched.addresses?.[0]?.neighborhood && errorsAny.addresses?.[0]?.neighborhood ? (
+          <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).neighborhood}</CustomText>
+        ) : null}
 
-      <PaperInput
-        label='Rua'
-        placeholder='Digite o endereço'
-        value={values.addresses?.[0]?.street ?? ''}
-        onChange={handleChange('addresses[0].street')}
-        onBlur={handleBlur('addresses[0].street')}
-        mt={5}
-      />
-      {touched.addresses?.[0]?.street && errorsAny.addresses?.[0]?.street ? (
-        <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).street}</CustomText>
-      ) : null}
+        <PaperInput
+          label='Endereço *'
+          placeholder='Digite o endereço'
+          value={values.addresses?.[0]?.street ?? ''}
+          onChange={handleChange('addresses[0].street')}
+          mt={5}
+        />
+        {touched.addresses?.[0]?.street && errorsAny.addresses?.[0]?.street ? (
+          <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).street}</CustomText>
+        ) : null}
 
-      <PaperInput
-        label='CEP'
-        keyboardType='numeric'
-        placeholder='12345-678'
-        value={values.addresses?.[0]?.zip ?? ''}
-        onChange={handleChange('addresses[0].zip')}
-        onBlur={handleBlur('addresses[0].zip')}
-        mt={5}
-        mask='cep'
-        maxLenght={9}
-      />
-      {touched.addresses?.[0]?.zip && errorsAny.addresses?.[0]?.zip ? (
-        <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).zip}</CustomText>
-      ) : null}
+        <PaperInput
+          label='CEP *'
+          keyboardType='numeric'
+          placeholder='12345-678'
+          value={values.addresses?.[0]?.zip ?? ''}
+          onChange={handleChange('addresses[0].zip')}
+          mt={5}
+          mask='cep'
+          maxLenght={9}
+        />
+        {touched.addresses?.[0]?.zip && errorsAny.addresses?.[0]?.zip ? (
+          <CustomText size={10} color="primary">{(errorsAny.addresses[0] as any).zip}</CustomText>
+        ) : null}
 
-      <Button title="Prosseguir" onPress={handleNavigate} disabled={!isCurrentStepValid()} bottomButton/>
-    </Container>
+        <Button title="Prosseguir" onPress={handleNavigate} bottomButton/>
+      </Container>
     </KeyboardAvoidingView>
   );
 };

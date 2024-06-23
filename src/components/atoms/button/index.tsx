@@ -36,6 +36,7 @@ export const Button = ({ title, mt, onPress, disabled, bottomButton }: IButton) 
 const styles = StyleSheet.create({
   button: {
     borderRadius: 30,
+    zIndex: 100,
     overflow: 'hidden',
     width: theme.metrics.px(280),
     height: theme.metrics.px(40),

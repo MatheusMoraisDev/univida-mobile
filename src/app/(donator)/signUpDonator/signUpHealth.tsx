@@ -3,6 +3,7 @@ import { Container } from "@/src/components/atoms/container";
 import PaperInput from "@/src/components/atoms/paperInput";
 import CustomRadioButton from "@/src/components/atoms/radioButton";
 import CustomText from "@/src/components/atoms/text";
+import Steps from "@/src/components/molecules/steps";
 import { UserContext } from "@/src/contexts/userContext";
 import { IDonator } from "@/src/interfaces/donator.interface";
 import { donatorService } from "@/src/services/donatorService";
@@ -10,9 +11,10 @@ import { userService } from "@/src/services/userService";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { useContext } from "react";
+import { KeyboardAvoidingView } from "react-native";
 
 const signUpHealthDonator = () => {
-  const { values, setFieldValue, touched, errors, handleBlur, handleChange} = useFormikContext<IDonator>();
+  const { values, setFieldValue, touched, errors, validateForm, setTouched, handleChange, setErrors} = useFormikContext<IDonator>();
   const { dispatch } = useContext(UserContext);
   
   const router = useRouter();
@@ -40,6 +42,23 @@ const signUpHealthDonator = () => {
       }
       return values[field as keyof IDonator] && !errors[field as keyof IDonator];
     });
+  };
+
+  const handleFinish = () => {
+    validateForm().then(errors => {
+      if (isCurrentStepValid()){
+        onSubmitForm();
+      } else {
+        setTouched({
+          donatorDetails: {
+            bloodType: true,
+            hasAllergy: true,
+            weightKilo: true,
+          }
+        })
+        setErrors(errors);
+      } 
+    })
   };
 
   const onSubmitForm = async () => {
@@ -75,80 +94,80 @@ const signUpHealthDonator = () => {
   };
 
   return (
-    <Container justify='center' align='center' pd={0}>
-      <PaperInput
-        label="Tipo sanguíneo"
-        placeholder='Qual é o seu tipo sanguíneo?'
-        value={values.donatorDetails.bloodType}
-        onChange={handleChange('donatorDetails.bloodType')}
-        onBlur={handleBlur('donatorDetails.bloodType')}
-        mt={20}
-      />
-      {touched.donatorDetails?.bloodType && errors.donatorDetails?.bloodType ? (
-        <CustomText size={10} color="primary">{errors.donatorDetails.bloodType}</CustomText>
-      ) : null}
-
-      <CustomRadioButton 
-        initialValue="Não" 
-        options={["Sim", "Não"]} 
-        onValueChange={handleBooleanConvert}
-        title="Possui alergia?"
-      />
-      {touched.donatorDetails?.hasAllergy && errors.donatorDetails?.hasAllergy ? (
-        <CustomText size={10} color="primary">{errors.donatorDetails.hasAllergy}</CustomText>
-      ) : null}
-
-      {values.donatorDetails.hasAllergy && (
+    <KeyboardAvoidingView enabled={true}>
+      <Container justify='flex-start' align='center' pd={0}>
+        <Steps currentStep={5} totalSteps={5}/>
         <PaperInput
-          label="Qual alergia você possui?"
-          placeholder='Antinflamatórios, penicilina, etc.'
-          value={values.donatorDetails.allergyDescription || ''}
-          onChange={handleChange('donatorDetails.allergyDescription')}
-          onBlur={handleBlur('donatorDetails.allergyDescription')}
-          mt={5}
+          label="Tipo sanguíneo *"
+          placeholder='Qual é o seu tipo sanguíneo?'
+          value={values.donatorDetails.bloodType}
+          onChange={handleChange('donatorDetails.bloodType')}
+          mt={20}
         />
-      )}
-      {values.donatorDetails.hasAllergy &&
-        touched.donatorDetails?.allergyDescription &&
-        errors.donatorDetails?.allergyDescription ? (
-          <CustomText size={10} color="primary">{errors.donatorDetails.allergyDescription}</CustomText>
+        {touched.donatorDetails?.bloodType && errors.donatorDetails?.bloodType ? (
+          <CustomText size={10} color="primary">{errors.donatorDetails.bloodType}</CustomText>
         ) : null}
 
-      <PaperInput
-        label='Peso em kg'
-        placeholder='70'
-        value={values.donatorDetails.weightKilo?.toString() ?? ''}
-        onChange={handleChange('donatorDetails.weightKilo')}
-        onBlur={handleBlur('donatorDetails.weightKilo')}
-        mt={5}
-        keyboardType="numeric"
-      />
-      {touched.donatorDetails?.weightKilo && errors.donatorDetails?.weightKilo ? (
-        <CustomText size={10} color="primary">{errors.donatorDetails.weightKilo}</CustomText>
-      ) : null}
+        <CustomRadioButton 
+          initialValue="Não" 
+          options={["Sim", "Não"]} 
+          onValueChange={handleBooleanConvert}
+          title="Possui alergia?"
+        />
+        {touched.donatorDetails?.hasAllergy && errors.donatorDetails?.hasAllergy ? (
+          <CustomText size={10} color="primary">{errors.donatorDetails.hasAllergy}</CustomText>
+        ) : null}
 
-      <CustomRadioButton 
-        initialValue="Não" 
-        options={["Masculino", "Feminino"]} 
-        onValueChange={handleChange('donatorDetails.gender')}
-        title="Qual o seu gênero?"
-      />
-      {touched.donatorDetails?.gender && errors.donatorDetails?.gender ? (
-        <CustomText size={10} color="primary">{errors.donatorDetails.gender}</CustomText>
-      ) : null}
+        {values.donatorDetails.hasAllergy && (
+          <PaperInput
+            label="Qual alergia você possui?"
+            placeholder='Antinflamatórios, penicilina, etc.'
+            value={values.donatorDetails.allergyDescription || ''}
+            onChange={handleChange('donatorDetails.allergyDescription')}
+            mt={5}
+          />
+        )}
+        {values.donatorDetails.hasAllergy &&
+          touched.donatorDetails?.allergyDescription &&
+          errors.donatorDetails?.allergyDescription ? (
+            <CustomText size={10} color="primary">{errors.donatorDetails.allergyDescription}</CustomText>
+          ) : null}
 
-      <CustomRadioButton 
-        initialValue="Não" 
-        options={["Heterossexual", "Homossexual"]} 
-        onValueChange={handleChange('donatorDetails.orientation')}
-        title="Qual a sua orientação sexual?"
-      />
-      {touched.donatorDetails?.orientation && errors.donatorDetails?.orientation ? (
-        <CustomText size={10} color="primary">{errors.donatorDetails.orientation}</CustomText>
-      ) : null}
+        <PaperInput
+          label='Peso em kg *' 
+          placeholder='70'
+          value={values.donatorDetails.weightKilo?.toString() ?? ''}
+          onChange={handleChange('donatorDetails.weightKilo')}
+          mt={5}
+          keyboardType="numeric"
+        />
+        {touched.donatorDetails?.weightKilo && errors.donatorDetails?.weightKilo ? (
+          <CustomText size={10} color="primary">{errors.donatorDetails.weightKilo}</CustomText>
+        ) : null}
 
-      <Button title="Finalizar" onPress={onSubmitForm} disabled={!isCurrentStepValid()} bottomButton/>
-    </Container>
+        <CustomRadioButton 
+          initialValue="Não" 
+          options={["Masculino", "Feminino"]} 
+          onValueChange={handleChange('donatorDetails.gender')}
+          title="Qual o seu gênero? *"
+        />
+        {touched.donatorDetails?.gender && errors.donatorDetails?.gender ? (
+          <CustomText size={10} color="primary">{errors.donatorDetails.gender}</CustomText>
+        ) : null}
+
+        <CustomRadioButton 
+          initialValue="Não" 
+          options={["Heterossexual", "Homossexual"]} 
+          onValueChange={handleChange('donatorDetails.orientation')}
+          title="Qual a sua orientação sexual? *"
+        />
+        {touched.donatorDetails?.orientation && errors.donatorDetails?.orientation ? (
+          <CustomText size={10} color="primary">{errors.donatorDetails.orientation}</CustomText>
+        ) : null}
+
+        <Button title="Finalizar" onPress={handleFinish} bottomButton/>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 

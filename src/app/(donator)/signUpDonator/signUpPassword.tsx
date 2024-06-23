@@ -2,15 +2,15 @@ import React from 'react';
 import { Button } from "@/src/components/atoms/button";
 import { Container } from "@/src/components/atoms/container";
 import CustomText from "@/src/components/atoms/text";
-import { CustomTextInput } from "@/src/components/atoms/textInput";
 import { IDonator } from "@/src/interfaces/donator.interface";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from 'react-native';
 import PaperInput from '@/src/components/atoms/paperInput';
+import Steps from '@/src/components/molecules/steps';
 
 const signUpAddressDonator = () => {
-  const { values, touched, errors, handleBlur, handleChange } = useFormikContext<IDonator>();
+  const { values, touched, errors, handleBlur, handleChange, validateForm, setTouched, setErrors } = useFormikContext<IDonator>();
   const router = useRouter();
 
   const isFieldValid = (fieldPath: string): boolean => {
@@ -42,42 +42,51 @@ const signUpAddressDonator = () => {
   };
 
   const handleNavigate = () => {
-    if (isCurrentStepValid()) {
-      router.push('signUpDonator/signUpAddress');
-    } else {
-      console.log('Formulário não está válido');
-    }
+    validateForm().then(errors => {
+      if (isCurrentStepValid()){
+        router.push('signUpDonator/signUpAddress');
+      } else {
+        setTouched({
+          user: {
+            password: true,
+            confirmPassword: true
+          }
+        });
+        setErrors(errors);
+      }
+    });
   };
 
   return (
     <KeyboardAvoidingView enabled={true}>
-    <Container justify='center' align='center' pd={0}>
-      <PaperInput
-          label='Senha'
-          placeholder='Crie uma senha'
-          value={values.user?.password || ''}
-          onChange={handleChange('user.password')}
-          onBlur={handleBlur('user.password')}
+      <Container justify='flex-start' align='center' pd={0}>
+        <Steps currentStep={2} totalSteps={5}/>
+        <PaperInput
+            label='Senha *'
+            placeholder='Crie uma senha'
+            value={values.user?.password || ''}
+            onChange={handleChange('user.password')}
+            hasError={!!errors.user?.password && touched.user?.password}
+            mt={20}
+            secure
+          />
+        {touched.user?.password && errors.user?.password ? (
+          <CustomText size={10} color="primary">{errors.user.password}</CustomText>
+        ) : null}
+        <PaperInput
+          label='Confirme a sua senha *'
+          placeholder='Confirme a sua senha'
+          value={values.user?.confirmPassword || ''}
+          onChange={handleChange('user.confirmPassword')}
+          hasError={!!errors.user?.confirmPassword && touched.user?.confirmPassword}
           mt={20}
           secure
         />
-      {touched.user?.password && errors.user?.password ? (
-        <CustomText size={10} color="primary">{errors.user.password}</CustomText>
-      ) : null}
-      <PaperInput
-        label='Confirme a sua senha'
-        placeholder='Confirme a sua senha'
-        value={values.user?.confirmPassword || ''}
-        onChange={handleChange('user.confirmPassword')}
-        onBlur={handleBlur('user.confirmPassword')}
-        mt={20}
-        secure
-      />
-      {touched.user?.confirmPassword && errors.user?.confirmPassword ? (
-        <CustomText size={10} color="primary">{errors.user.confirmPassword}</CustomText>
-      ) : null}
+        {touched.user?.confirmPassword && errors.user?.confirmPassword ? (
+          <CustomText size={10} color="primary">{errors.user.confirmPassword}</CustomText>
+        ) : null}
 
-      <Button title="Prosseguir" onPress={handleNavigate} disabled={!isCurrentStepValid()} bottomButton/>
+        <Button title="Prosseguir" onPress={handleNavigate} bottomButton/>
     </Container>
     </KeyboardAvoidingView>
   );

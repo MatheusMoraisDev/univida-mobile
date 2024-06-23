@@ -72,9 +72,12 @@ export default function DonatorFormLayout() {
         .email('Email inválido')
         .required('Email é obrigatório'),
       password: Yup.string()
-        .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/, 'Senha deve ter no mínimo 8 caracteres, um caractere especial, uma letra maiúscula e um número.')
-        .min(8, 'Senha deve ter no mínimo 8 caracteres')
-        .required('Senha é obrigatória'),
+        .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula.')
+        .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula.')
+        .matches(/[0-9]/, 'A senha deve conter pelo menos um número.')
+        .matches(/[#?!@$ %^&*-]/, 'A senha deve conter pelo menos um caractere especial.')
+        .min(8, 'A senha deve ter no mínimo 8 caracteres.')
+        .required('A senha é obrigatória'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password')], 'Senhas não coincidem')
         .required('Confirmação de senha é obrigatória'),
