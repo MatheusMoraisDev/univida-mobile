@@ -6,17 +6,19 @@ import CustomText from "@/src/components/atoms/text";
 import Steps from "@/src/components/molecules/steps";
 import { UserContext } from "@/src/contexts/userContext";
 import { IDonator } from "@/src/interfaces/donator.interface";
+import { IUser } from "@/src/interfaces/user.interface";
 import { donatorService } from "@/src/services/donatorService";
 import { userService } from "@/src/services/userService";
+import showToastError from "@/src/utils/toast";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { useContext } from "react";
 import { KeyboardAvoidingView } from "react-native";
 
 const signUpHealthDonator = () => {
-  const { values, setFieldValue, touched, errors, validateForm, setTouched, handleChange, setErrors} = useFormikContext<IDonator>();
+  const { values, setFieldValue, touched, errors, validateForm, setTouched, handleChange, setErrors } = useFormikContext<IDonator>();
   const { dispatch } = useContext(UserContext);
-  
+
   const router = useRouter();
 
   const isCurrentStepValid = (): boolean => {
@@ -46,7 +48,7 @@ const signUpHealthDonator = () => {
 
   const handleFinish = () => {
     validateForm().then(errors => {
-      if (isCurrentStepValid()){
+      if (isCurrentStepValid()) {
         onSubmitForm();
       } else {
         setTouched({
@@ -57,36 +59,59 @@ const signUpHealthDonator = () => {
           }
         })
         setErrors(errors);
-      } 
+      }
     })
   };
 
-  const onSubmitForm = async () => {
-      try {
-        const user = await userService.createUser({
-          ...values.user,
-          type: 'pf',
-          confirmPassword: undefined,
-        });
-        await donatorService.createDonator({
-          ...values,
-          user: user,
-        });
-        
-        dispatch({ type: 'SET_CURRENT_USER', payload: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        } });
-
-        dispatch({ type: 'SET_IS_AUTHENTICATED', payload: true });
-
-        router.push({ pathname: 'validateEmail', params: { user } });
-      } catch (error) {
-        console.error('Error creating donator', error);
+  const createUser = async () => {
+    try {
+      let user: IUser = {
+        ...values.user,
+        type: 'pf',
       }
+
+      delete user.confirmPassword
+      
+      return await userService.createUser(user);
+
+    } catch(error) {
+      showToastError('Error creating user ' + error);
     }
+  }
+
+  const createDonator = async (user: IUser) => {
+    try {
+      let [day, month, year] = values.birthDate.split('/');
+      const birthDate = new Date(`${year}-${month}-${day}`).toISOString();
+
+      return await donatorService.createDonator({
+        ...values,
+        birthDate: birthDate,
+        user: user,
+      });
+    } catch (error) {
+      showToastError('Error creating donator ' + error);
+    }
+  }
+
+  const onSubmitForm = async () => {
+    const user = await createUser();
+    const donator = await createDonator(user);
+
+    dispatch({
+      type: 'SET_CURRENT_USER',
+      payload: {
+        id: user.id,
+        email: user.email,
+        firstName: donator.firstName,
+        lastName: donator.lastName,
+      }
+    });
+
+    dispatch({ type: 'SET_IS_AUTHENTICATED', payload: true });
+
+    router.push('validateEmail');
+  }
 
   const handleBooleanConvert = (value: string) => {
     const hasAllergy = value === 'Sim';
@@ -96,7 +121,7 @@ const signUpHealthDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify='flex-start' align='center' pd={0}>
-        <Steps currentStep={5} totalSteps={5}/>
+        <Steps currentStep={5} totalSteps={5} />
         <PaperInput
           label="Tipo sanguíneo *"
           placeholder='Qual é o seu tipo sanguíneo?'
@@ -108,9 +133,9 @@ const signUpHealthDonator = () => {
           <CustomText size={10} color="primary">{errors.donatorDetails.bloodType}</CustomText>
         ) : null}
 
-        <CustomRadioButton 
-          initialValue="Não" 
-          options={["Sim", "Não"]} 
+        <CustomRadioButton
+          initialValue="Não"
+          options={["Sim", "Não"]}
           onValueChange={handleBooleanConvert}
           title="Possui alergia?"
         />
@@ -130,11 +155,11 @@ const signUpHealthDonator = () => {
         {values.donatorDetails.hasAllergy &&
           touched.donatorDetails?.allergyDescription &&
           errors.donatorDetails?.allergyDescription ? (
-            <CustomText size={10} color="primary">{errors.donatorDetails.allergyDescription}</CustomText>
-          ) : null}
+          <CustomText size={10} color="primary">{errors.donatorDetails.allergyDescription}</CustomText>
+        ) : null}
 
         <PaperInput
-          label='Peso em kg *' 
+          label='Peso em kg *'
           placeholder='70'
           value={values.donatorDetails.weightKilo?.toString() ?? ''}
           onChange={handleChange('donatorDetails.weightKilo')}
@@ -145,9 +170,9 @@ const signUpHealthDonator = () => {
           <CustomText size={10} color="primary">{errors.donatorDetails.weightKilo}</CustomText>
         ) : null}
 
-        <CustomRadioButton 
-          initialValue="Não" 
-          options={["Masculino", "Feminino"]} 
+        <CustomRadioButton
+          initialValue="Não"
+          options={["Masculino", "Feminino"]}
           onValueChange={handleChange('donatorDetails.gender')}
           title="Qual o seu gênero? *"
         />
@@ -155,9 +180,9 @@ const signUpHealthDonator = () => {
           <CustomText size={10} color="primary">{errors.donatorDetails.gender}</CustomText>
         ) : null}
 
-        <CustomRadioButton 
-          initialValue="Não" 
-          options={["Heterossexual", "Homossexual"]} 
+        <CustomRadioButton
+          initialValue="Não"
+          options={["Heterossexual", "Homossexual"]}
           onValueChange={handleChange('donatorDetails.orientation')}
           title="Qual a sua orientação sexual? *"
         />
@@ -165,7 +190,7 @@ const signUpHealthDonator = () => {
           <CustomText size={10} color="primary">{errors.donatorDetails.orientation}</CustomText>
         ) : null}
 
-        <Button title="Finalizar" onPress={handleFinish} bottomButton/>
+        <Button title="Finalizar" onPress={handleFinish} bottomButton />
       </Container>
     </KeyboardAvoidingView>
   );
