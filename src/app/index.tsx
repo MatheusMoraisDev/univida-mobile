@@ -73,8 +73,8 @@ export default function Index() {
   return (
     <Container align="center">
     <Logo size="medium" />
-    <PaperInput  label="E-mail" mt={50} onChange={setEmail} placeholder="email@email.com" keyboardType="email-address" />
-    <PaperInput label="Senha" onChange={setPassword} placeholder="Insira a sua senha" keyboardType="default" secure />
+    <PaperInput  label="E-mail" mt={50} onChange={setEmail} value={email} placeholder="email@email.com" keyboardType="email-address" />
+    <PaperInput label="Senha" onChange={setPassword} value={password} placeholder="Insira a sua senha" keyboardType="default" secure />
     <CustomText size={12} color={'primary'} mt={12}>{ !!messageError && messageError }</CustomText>
     <Button title="Entrar" mt={60} onPress={handleSignIn}/>
     <FirstAccessStyles>

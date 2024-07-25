@@ -10,7 +10,7 @@ import PaperInput from '@/src/components/atoms/paperInput';
 import Steps from '@/src/components/molecules/steps';
 
 const signUpAddressDonator = () => {
-  const { values, touched, errors, handleBlur, handleChange, validateForm, setTouched, setErrors } = useFormikContext<IDonator>();
+  const { values, touched, errors, handleChange, validateForm, setTouched, setErrors } = useFormikContext<IDonator>();
   const router = useRouter();
 
   const isFieldValid = (fieldPath: string): boolean => {
