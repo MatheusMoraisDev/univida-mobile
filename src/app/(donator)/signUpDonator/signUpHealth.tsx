@@ -71,11 +71,11 @@ const signUpHealthDonator = () => {
       }
 
       delete user.confirmPassword
-      
-      return await userService.createUser(user);
 
-    } catch(error) {
-      showToastError('Error creating user ' + error);
+      return await userService.createUser(user);
+    } catch (error) {
+      showToastError('Erro ao criar usuário. Por favor, entre em contato com a administração.');
+      return null;
     }
   }
 
@@ -90,13 +90,17 @@ const signUpHealthDonator = () => {
         user: user,
       });
     } catch (error) {
-      showToastError('Error creating donator ' + error);
+      showToastError('Erro ao criar doador. Por favor, entre em contato com a administração.');
+      return null;
     }
   }
 
   const onSubmitForm = async () => {
     const user = await createUser();
+    if (!user) return;
+
     const donator = await createDonator(user);
+    if (!donator) return;
 
     dispatch({
       type: 'SET_CURRENT_USER',
