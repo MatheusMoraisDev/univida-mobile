@@ -24,6 +24,7 @@ interface IPaperInputProps {
   mask?: "cpf" | "phone" | "cep" | "cnpj" | "date" | "rg" | "number";
   maxLenght?: number;
   hasError?: boolean;
+  right?: any;
 }
 
 const PaperInput = ({
@@ -40,6 +41,7 @@ const PaperInput = ({
   mask,
   maxLenght,
   hasError,
+  right,
 }: IPaperInputProps) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -113,11 +115,13 @@ const PaperInput = ({
         style,
       ]}
       right={
-        secure && (
+        secure ? (
           <TextInput.Icon
             icon={passwordVisible ? "eye" : "eye-off"}
             onPress={() => setPasswordVisible(!passwordVisible)}
           />
+        ) : (
+          right
         )
       }
     />
