@@ -10,7 +10,11 @@ const SignUp = () => {
   const router = useRouter();
 
   const handleReturn = () => {
-    router.canGoBack() ? router.back() : router.push("/");
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
 
   const handleSignUpHospital = () => {
