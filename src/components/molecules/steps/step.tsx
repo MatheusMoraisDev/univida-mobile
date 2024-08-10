@@ -12,6 +12,6 @@ const Step = ({ step, currentStep }: IStepProps) => {
       <StepText isActive={step === currentStep}>{step}</StepText>
     </StepStyles>
   );
-}
+};
 
 export default Step;

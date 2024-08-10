@@ -1,8 +1,8 @@
-import React from 'react';
-import { TouchableRipple } from 'react-native-paper';
-import { ButtonText } from './styles';
-import { StyleSheet } from 'react-native';
-import { theme } from '@/src/styles';
+import React from "react";
+import { TouchableRipple } from "react-native-paper";
+import { ButtonText } from "./styles";
+import { StyleSheet } from "react-native";
+import { theme } from "@/src/styles";
 
 interface IButton {
   title: string;
@@ -12,7 +12,13 @@ interface IButton {
   bottomButton?: boolean;
 }
 
-export const Button = ({ title, mt, onPress, disabled, bottomButton }: IButton) => {
+export const Button = ({
+  title,
+  mt,
+  onPress,
+  disabled,
+  bottomButton,
+}: IButton) => {
   return (
     <TouchableRipple
       onPress={onPress}
@@ -21,9 +27,9 @@ export const Button = ({ title, mt, onPress, disabled, bottomButton }: IButton) 
         styles.button,
         {
           backgroundColor: disabled ? theme.colors.gray : theme.colors.primary,
-          marginTop: bottomButton ? 0 : (mt || 40),
+          marginTop: bottomButton ? 0 : mt || 40,
         },
-        bottomButton ? styles.bottomButton : null
+        bottomButton ? styles.bottomButton : null,
       ]}
       borderless={true}
       disabled={disabled}
@@ -37,12 +43,12 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 30,
     zIndex: 100,
-    overflow: 'hidden',
+    overflow: "hidden",
     width: theme.metrics.px(280),
     height: theme.metrics.px(40),
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 4,
@@ -52,9 +58,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   bottomButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%',
+    width: "100%",
     height: theme.metrics.px(45),
     borderRadius: 0,
   },

@@ -6,42 +6,42 @@ import { Formik } from "formik";
 
 export default function DonatorFormLayout() {
   const initialValues: IDonator = {
-    firstName: '',
-    lastName: '',
-    birthDate: '',
-    cpf: '',
-    rg: '',
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    cpf: "",
+    rg: "",
     contacts: [
       {
-        contact: '',
-        emergency_contact: '',
-        emergency_contact_name: '',
+        contact: "",
+        emergency_contact: "",
+        emergency_contact_name: "",
       },
     ],
     user: {
-      email: '',
-      type: '',
-      password: '',
-      confirmPassword: '',
+      email: "",
+      type: "",
+      password: "",
+      confirmPassword: "",
     },
     addresses: [
       {
-        street: '',
-        zip: '',
+        street: "",
+        zip: "",
         number: 0,
-        neighborhood: '',
-        state: '',
-        city: '',
+        neighborhood: "",
+        state: "",
+        city: "",
       },
     ],
     donatorDetails: {
-      orientation: '',
-      gender: '',
+      orientation: "",
+      gender: "",
       weightKilo: 0,
       hasAllergy: false,
       hasActiveSexLive: false,
       hasTattoo: false,
-      bloodType: '',
+      bloodType: "",
       allergyDescription: null,
     },
   };
@@ -50,7 +50,9 @@ export default function DonatorFormLayout() {
     <Formik
       initialValues={initialValues}
       onSubmit={async () => {
-        console.log('Voltar aqui depois para implementar a submissão do formulário')
+        console.log(
+          "Voltar aqui depois para implementar a submissão do formulário",
+        );
       }}
       validationSchema={validationDonatorSchema}
     >
@@ -61,11 +63,17 @@ export default function DonatorFormLayout() {
               fontFamily: theme.fonts.Inter_600SemiBold,
               fontSize: theme.metrics.px(16),
             },
-            headerTitleAlign: 'center'
+            headerTitleAlign: "center",
           }}
         >
-          <Stack.Screen name="firstStep" options={{ title: "Dados Pessoais", headerBackVisible: false }} />
-          <Stack.Screen name="secondStep" options={{ title: "Crie sua Senha" }} />
+          <Stack.Screen
+            name="firstStep"
+            options={{ title: "Dados Pessoais", headerBackVisible: false }}
+          />
+          <Stack.Screen
+            name="secondStep"
+            options={{ title: "Crie sua Senha" }}
+          />
           <Stack.Screen name="thirdStep" options={{ title: "Endereço" }} />
           <Stack.Screen name="fourthStep" options={{ title: "Contato" }} />
           <Stack.Screen name="fifthStep" options={{ title: "Saúde" }} />

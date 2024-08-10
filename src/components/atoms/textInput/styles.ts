@@ -12,7 +12,8 @@ export const InputContainer = styled.View<InputContainerProps>`
   border-bottom-width: ${({ theme }) => theme.metrics.px(2)}px;
   border-bottom-color: ${({ theme }) => theme.colors.primary};
   padding: 0;
-  margin-top: ${({ theme, mt }) => theme.metrics.px(mt) || theme.metrics.px(20)}px;
+  margin-top: ${({ theme, mt }) =>
+    theme.metrics.px(mt) || theme.metrics.px(20)}px;
 `;
 
 export const TextInput = styled.TextInput.attrs(({ theme }) => ({

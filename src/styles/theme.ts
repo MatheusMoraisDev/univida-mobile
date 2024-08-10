@@ -9,12 +9,12 @@ interface ITheme {
   metrics: typeof metrics;
 }
 
-declare module 'styled-components' {
+declare module "styled-components" {
   interface DefaultTheme extends ITheme {}
 }
 
 export const theme: DefaultTheme = {
   colors,
   fonts,
-  metrics
+  metrics,
 };

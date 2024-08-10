@@ -19,6 +19,6 @@ const Steps = ({ currentStep, totalSteps }: IStepsProps) => {
       ))}
     </StepsContainer>
   );
-}
+};
 
 export default Steps;
