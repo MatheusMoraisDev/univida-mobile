@@ -1,7 +1,7 @@
 import React from "react";
 import { StepsContainer } from "./styles";
 import Step from "./step";
-import { StepLine } from "./styles"; // Importar a linha
+import { StepLine } from "./styles";
 
 interface IStepsProps {
   currentStep: number;

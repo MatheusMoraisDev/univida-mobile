@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableRipple } from 'react-native-paper';
 import { ButtonText } from './styles';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { theme } from '@/src/styles';
 
 interface IButton {
