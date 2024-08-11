@@ -33,19 +33,19 @@ const signUpHealthDonatorSecondPart = () => {
   const isCurrentStepValid = (): boolean => {
     const requiredFields: Array<string> = [
       "donatorDetails.hasActiveSexLife",
-      "donatorDetails.hasTatoos",
-      "donatorDetails.hadUseDrugs",
+      "donatorDetails.hasTattoo",
+      "donatorDetails.usedDrugs",
     ];
 
     if (values.donatorDetails.hasActiveSexLife) {
-      requiredFields.push("donatorDetails.casualActiveSexLife");
+      requiredFields.push("donatorDetails.hasCasualActiveSexLife");
     }
 
-    if (values.donatorDetails.hasTatoos) {
-      requiredFields.push("donatorDetails.tatooDescription");
+    if (values.donatorDetails.hasTattoo) {
+      requiredFields.push("donatorDetails.tattooQuantity");
     }
 
-    if (values.donatorDetails.hadUseDrugs) {
+    if (values.donatorDetails.usedDrugs) {
       requiredFields.push("donatorDetails.drugDescription");
     }
 
@@ -58,10 +58,10 @@ const signUpHealthDonatorSecondPart = () => {
         if (field === "donatorDetails.hasActiveSexLife") {
           return !(errors[parent] as any)?.[child];
         }
-        if (field === "donatorDetails.hasTatoos") {
+        if (field === "donatorDetails.hasTattoo") {
           return !(errors[parent] as any)?.[child];
         }
-        if (field === "donatorDetails.hadUseDrugs") {
+        if (field === "donatorDetails.usedDrugs") {
           return !(errors[parent] as any)?.[child];
         }
         return (
@@ -79,13 +79,14 @@ const signUpHealthDonatorSecondPart = () => {
       if (isCurrentStepValid()) {
         onSubmitForm();
       } else {
+        console.log(values);
         setTouched({
           donatorDetails: {
             hasActiveSexLife: true,
             hasCasualActiveSexLife: true,
-            hasTatoos: true,
-            tatooQuantity: true,
-            hadUseDrugs: true,
+            hasTattoo: true,
+            tattooQuantity: true,
+            usedDrugs: true,
             drugDescription: true,
           },
         });
@@ -104,10 +105,11 @@ const signUpHealthDonatorSecondPart = () => {
       delete user.confirmPassword;
 
       return await userService.createUser(user);
-    } catch {
+    } catch (err: any) {
       showToastError(
         "Erro ao criar usuário. Entre em contato com a administração.",
       );
+      console.log("Erro ao criar usuário", err);
       return null;
     }
   };
@@ -196,33 +198,33 @@ const signUpHealthDonatorSecondPart = () => {
           initialValue="Não"
           options={["Sim", "Não"]}
           onValueChange={(value: any) => {
-            setFieldValue("donatorDetails.hasTatoos", value === "Sim");
+            setFieldValue("donatorDetails.hasTattoo", value === "Sim");
           }}
           title="Possui tatuagem? *"
         />
-        {touched.donatorDetails?.hasTatoos &&
-        errors.donatorDetails?.hasTatoos ? (
+        {touched.donatorDetails?.hasTattoo &&
+        errors.donatorDetails?.hasTattoo ? (
           <CustomText size={10} color="primary">
-            {errors.donatorDetails.hasTatoos}
+            {errors.donatorDetails.hasTattoo}
           </CustomText>
         ) : null}
 
-        {values.donatorDetails.hasTatoos && (
+        {values.donatorDetails.hasTattoo && (
           <PaperInput
             label="Quantas tatuagens possui? *"
             placeholder="Quantidade de tatuagens"
-            value={values.donatorDetails.tatooQuantity.toString() ?? ""}
-            onChange={handleChange("donatorDetails.tatooQuantity")}
+            value={values.donatorDetails.tattooQuantity.toString() ?? ""}
+            onChange={handleChange("donatorDetails.tattooQuantity")}
             mask="number"
             keyboardType="numeric"
             mt={5}
           />
         )}
-        {values.donatorDetails.hasTatoos &&
-        touched.donatorDetails?.tatooQuantity &&
-        errors.donatorDetails?.tatooQuantity ? (
+        {values.donatorDetails.hasTattoo &&
+        touched.donatorDetails?.tattooQuantity &&
+        errors.donatorDetails?.tattooQuantity ? (
           <CustomText size={10} color="primary">
-            {errors.donatorDetails.tatooQuantity}
+            {errors.donatorDetails.tattooQuantity}
           </CustomText>
         ) : null}
 
@@ -230,18 +232,18 @@ const signUpHealthDonatorSecondPart = () => {
           initialValue="Não"
           options={["Sim", "Não"]}
           onValueChange={(value: any) => {
-            setFieldValue("donatorDetails.hadUseDrugs", value === "Sim");
+            setFieldValue("donatorDetails.usedDrugs", value === "Sim");
           }}
           title="Já usou drogas? *"
         />
-        {touched.donatorDetails?.hadUseDrugs &&
-        errors.donatorDetails?.hadUseDrugs ? (
+        {touched.donatorDetails?.usedDrugs &&
+        errors.donatorDetails?.usedDrugs ? (
           <CustomText size={10} color="primary">
-            {errors.donatorDetails.hadUseDrugs}
+            {errors.donatorDetails.usedDrugs}
           </CustomText>
         ) : null}
 
-        {values.donatorDetails.hadUseDrugs && (
+        {values.donatorDetails.usedDrugs && (
           <PaperInput
             label="Qual(is) droga(s) você já usou? *"
             placeholder="Descreva as drogas que utilizou."
@@ -251,11 +253,11 @@ const signUpHealthDonatorSecondPart = () => {
             mt={5}
           />
         )}
-        {values.donatorDetails.hasTatoos &&
-        touched.donatorDetails?.tatooQuantity &&
-        errors.donatorDetails?.tatooQuantity ? (
+        {values.donatorDetails.hasTattoo &&
+        touched.donatorDetails?.tattooQuantity &&
+        errors.donatorDetails?.tattooQuantity ? (
           <CustomText size={10} color="primary">
-            {errors.donatorDetails.tatooQuantity}
+            {errors.donatorDetails.tattooQuantity}
           </CustomText>
         ) : null}
 

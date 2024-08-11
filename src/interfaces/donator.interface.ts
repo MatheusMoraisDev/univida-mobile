@@ -11,9 +11,9 @@ export interface IDonatorDetails {
   bloodType: string;
   hasActiveSexLife: boolean;
   hasCasualActiveSexLife: boolean;
-  hasTatoos: boolean;
-  tatooQuantity: number;
-  hadUseDrugs: boolean;
+  hasTattoo: boolean;
+  tattooQuantity: number;
+  usedDrugs: boolean;
   drugDescription: string;
 }
 

@@ -43,9 +43,9 @@ export default function DonatorFormLayout() {
       allergyDescription: null,
       hasActiveSexLife: false,
       hasCasualActiveSexLife: false,
-      hasTatoos: false,
-      tatooQuantity: 0,
-      hadUseDrugs: false,
+      hasTattoo: false,
+      tattooQuantity: 0,
+      usedDrugs: false,
       drugDescription: "",
     },
   };

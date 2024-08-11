@@ -60,13 +60,13 @@ const validationDonatorSchema = Yup.object({
     hasCasualActiveSexLife: Yup.boolean().required(
       'Campo "Possui vida sexual ativa?" é obrigatório.',
     ),
-    hasTatoos: Yup.boolean().required(
+    hasTattoo: Yup.boolean().required(
       'Campo "Possui tatuagens?" é obrigatório.',
     ),
-    tatooQuantity: Yup.number().required(
+    tattooQuantity: Yup.number().required(
       "Quantidade de tatuagens é obrigatória.",
     ),
-    hadUseDrugs: Yup.boolean(),
+    usedDrugs: Yup.boolean(),
     drugDescription: Yup.string().required(
       "Descrição do uso de drogas é obrigatória.",
     ),
