@@ -51,7 +51,7 @@ const signUpAddressDonator = () => {
   const handleNavigate = () => {
     validateForm().then(errors => {
       if (isCurrentStepValid()){
-        router.push('signUpDonator/signUpHealth');
+        router.push('signUpDonator/fifthStep');
       } else {
         setTouched({
           contacts: [{
@@ -87,17 +87,15 @@ const signUpAddressDonator = () => {
         ) : null}
 
         <PaperInput
-          keyboardType='phone-pad'
-          mask='phone'
-          maxLenght={15}
-          label='Contato de emergência'
-          placeholder='(11)99999-9999'
-          value={values.contacts?.[0]?.emergency_contact ?? ''}
-          onChange={handleChange('contacts[0].emergency_contact')}
+          label='E-mail *'
+          keyboardType='email-address'
+          placeholder='email@email.com'
+          value={values.user?.email ?? ''}
+          onChange={handleChange('user.email')}
           mt={5}
         />
-        {touched.contacts?.[0]?.emergency_contact && errorsAny.contacts?.[0]?.emergency_contact ? (
-          <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).emergency_contact}</CustomText>
+        {touched.user?.email && errors.user?.email ? (
+          <CustomText size={10} color="primary">{errors.user.email}</CustomText>
         ) : null}
 
         <PaperInput
@@ -112,15 +110,17 @@ const signUpAddressDonator = () => {
         ) : null}
 
         <PaperInput
-          label='E-mail *'
-          keyboardType='email-address'
-          placeholder='email@email.com'
-          value={values.user?.email ?? ''}
-          onChange={handleChange('user.email')}
+          keyboardType='phone-pad'
+          mask='phone'
+          maxLenght={15}
+          label='Contato de emergência'
+          placeholder='(11)99999-9999'
+          value={values.contacts?.[0]?.emergency_contact ?? ''}
+          onChange={handleChange('contacts[0].emergency_contact')}
           mt={5}
         />
-        {touched.user?.email && errors.user?.email ? (
-          <CustomText size={10} color="primary">{errors.user.email}</CustomText>
+        {touched.contacts?.[0]?.emergency_contact && errorsAny.contacts?.[0]?.emergency_contact ? (
+          <CustomText size={10} color="primary">{(errorsAny.contacts[0] as any).emergency_contact}</CustomText>
         ) : null}
 
         <Button title="Prosseguir" onPress={handleNavigate} bottomButton/>

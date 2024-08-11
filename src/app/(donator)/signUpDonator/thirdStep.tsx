@@ -49,7 +49,7 @@ const signUpAddressDonator = () => {
   const handleNavigate = () => {
     validateForm().then(errors => {
       if (isCurrentStepValid()){
-        router.push('signUpDonator/signUpContact');
+        router.push('signUpDonator/fourthStep');
       } else {
         setTouched({
           addresses: [{

@@ -64,11 +64,11 @@ export default function DonatorFormLayout() {
             headerTitleAlign: 'center'
           }}
         >
-          <Stack.Screen name="index" options={{ title: "Dados Pessoais", headerBackVisible: false }} />
-          <Stack.Screen name="signUpPassword" options={{ title: "Crie sua Senha" }} />
-          <Stack.Screen name="signUpAddress" options={{ title: "Endereço" }} />
-          <Stack.Screen name="signUpContact" options={{ title: "Contato" }} />
-          <Stack.Screen name="signUpHealth" options={{ title: "Saúde" }} />
+          <Stack.Screen name="firstStep" options={{ title: "Dados Pessoais", headerBackVisible: false }} />
+          <Stack.Screen name="secondStep" options={{ title: "Crie sua Senha" }} />
+          <Stack.Screen name="thirdStep" options={{ title: "Endereço" }} />
+          <Stack.Screen name="fourthStep" options={{ title: "Contato" }} />
+          <Stack.Screen name="fifthStep" options={{ title: "Saúde" }} />
         </Stack>
       )}
     </Formik>

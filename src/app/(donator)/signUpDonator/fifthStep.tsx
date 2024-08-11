@@ -74,7 +74,7 @@ const signUpHealthDonator = () => {
 
       return await userService.createUser(user);
     } catch (error) {
-      showToastError('Erro ao criar usuário. Por favor, entre em contato com a administração.');
+      showToastError('Erro ao criar usuário. Entre em contato com a administração.');
       return null;
     }
   }
@@ -90,7 +90,7 @@ const signUpHealthDonator = () => {
         user: user,
       });
     } catch (error) {
-      showToastError('Erro ao criar doador. Por favor, entre em contato com a administração.');
+      showToastError('Erro ao criar doador. Entre em contato com a administração.');
       return null;
     }
   }

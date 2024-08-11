@@ -1,4 +1,3 @@
-import { theme } from "@/src/styles";
 import styled from "styled-components/native";
 
 interface IContainer {

@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Container } from "../components/atoms/container";
 import { Logo } from "../components/atoms/logo";
-import { CustomTextInput } from "../components/atoms/textInput";
 import { Button } from "../components/atoms/button";
 import { FirstAccessStyles } from "../styles/screens/loginStyles";
 import CustomText from "../components/atoms/text";

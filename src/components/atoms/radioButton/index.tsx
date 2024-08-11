@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
 import { RadioButton, Text } from 'react-native-paper';
 import CustomText from '../text';
 import { theme } from '@/src/styles';
