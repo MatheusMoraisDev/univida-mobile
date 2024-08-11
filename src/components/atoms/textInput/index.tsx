@@ -1,4 +1,4 @@
-import { InputContainer, TextInput } from './styles';
+import { InputContainer, TextInput } from "./styles";
 
 interface ICustomTextInput {
   placeholder: string;
@@ -9,7 +9,14 @@ interface ICustomTextInput {
   onBlur?: (value: any) => void;
 }
 
-export const CustomTextInput = ({ placeholder, mt, secure=false, onChange, onBlur, value }: ICustomTextInput) => {
+export const CustomTextInput = ({
+  placeholder,
+  mt,
+  secure = false,
+  onChange,
+  onBlur,
+  value,
+}: ICustomTextInput) => {
   return (
     <InputContainer mt={mt}>
       <TextInput
@@ -20,5 +27,5 @@ export const CustomTextInput = ({ placeholder, mt, secure=false, onChange, onBlu
         onBlur={onBlur}
       />
     </InputContainer>
-  )
-}
+  );
+};

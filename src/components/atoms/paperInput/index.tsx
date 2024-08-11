@@ -1,88 +1,96 @@
-import React, { useState } from 'react';
-import { TextInput } from 'react-native-paper';
+import React, { useState } from "react";
+import { TextInput } from "react-native-paper";
 import { theme } from "@/src/styles";
-import { applyCepMask, applyCnpjMask, applyCpfMask, applyDateMask, applyPhoneMask, applyRgMask } from '@/src/utils/masks';
+import {
+  applyCepMask,
+  applyCnpjMask,
+  applyCpfMask,
+  applyDateMask,
+  applyPhoneMask,
+  applyRgMask,
+} from "@/src/utils/masks";
 
 interface IPaperInputProps {
   label: string;
   value?: string;
   onChange: (text: string) => void;
   onBlur?: (value: any) => void;
-  mode?: 'outlined' | 'flat';
+  mode?: "outlined" | "flat";
   placeholder?: string;
-  keyboardType?: 'default' | 'numeric' | 'email-address' | 'phone-pad';
+  keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
   style?: object;
   secure?: boolean;
   mt?: number;
-  mask?: 'cpf' | 'phone' | 'cep' | 'cnpj' | 'date' | 'rg' | 'number';
+  mask?: "cpf" | "phone" | "cep" | "cnpj" | "date" | "rg" | "number";
   maxLenght?: number;
   hasError?: boolean;
+  right?: any;
 }
 
 const PaperInput = ({
   label,
-  value = '',
+  value = "",
   onChange,
   onBlur,
-  mode = 'outlined',
-  placeholder = '',
-  keyboardType = 'default',
+  mode = "outlined",
+  placeholder = "",
+  keyboardType = "default",
   style = {},
   secure = false,
   mt = 20,
   mask,
   maxLenght,
   hasError,
+  right,
 }: IPaperInputProps) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleChange = (text: string) => {
-    let formattedText = text.replace(/\D/g, '');
-  
-    if (mask === 'cpf') {
+    let formattedText = text.replace(/\D/g, "");
+
+    if (mask === "cpf") {
       formattedText = applyCpfMask(formattedText);
       onChange(formattedText);
       return;
     }
-  
-    if (mask === 'phone') {
+
+    if (mask === "phone") {
       formattedText = applyPhoneMask(formattedText);
       onChange(formattedText);
       return;
     }
-  
-    if (mask === 'cep') {
+
+    if (mask === "cep") {
       formattedText = applyCepMask(formattedText);
       onChange(formattedText);
       return;
     }
-  
-    if (mask === 'cnpj') {
+
+    if (mask === "cnpj") {
       formattedText = applyCnpjMask(formattedText);
       onChange(formattedText);
       return;
     }
-  
-    if (mask === 'date') {
+
+    if (mask === "date") {
       formattedText = applyDateMask(formattedText);
       onChange(formattedText);
       return;
     }
-  
-    if (mask === 'rg') {
+
+    if (mask === "rg") {
       formattedText = applyRgMask(formattedText);
       onChange(formattedText);
       return;
     }
-  
-    if (mask === 'number') {
+
+    if (mask === "number") {
       onChange(formattedText);
       return;
     }
-  
+
     onChange(text);
   };
-  
 
   return (
     <TextInput
@@ -107,11 +115,13 @@ const PaperInput = ({
         style,
       ]}
       right={
-        secure && (
+        secure ? (
           <TextInput.Icon
-            icon={passwordVisible ? 'eye' : 'eye-off'}
+            icon={passwordVisible ? "eye" : "eye-off"}
             onPress={() => setPasswordVisible(!passwordVisible)}
           />
+        ) : (
+          right
         )
       }
     />
@@ -119,4 +129,3 @@ const PaperInput = ({
 };
 
 export default PaperInput;
-

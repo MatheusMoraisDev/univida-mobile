@@ -8,7 +8,7 @@ interface IUserContext {
 
 type UserContextProps = {
   children: React.ReactNode;
-}; 
+};
 
 export const UserContext = createContext<IUserContext>({
   state: initialState,
@@ -17,10 +17,10 @@ export const UserContext = createContext<IUserContext>({
 
 export const UserProvider = ({ children }: UserContextProps) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
-  
+
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       {children}
     </UserContext.Provider>
   );
-}
+};

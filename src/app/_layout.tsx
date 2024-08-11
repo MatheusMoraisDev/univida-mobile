@@ -1,4 +1,4 @@
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from "styled-components";
 import { Stack } from "expo-router";
 import {
   useFonts,
@@ -9,12 +9,12 @@ import {
   Inter_500Medium,
   Inter_600SemiBold,
   Inter_800ExtraBold,
-} from '@expo-google-fonts/inter';
-import { theme } from '../styles'
-import * as SplashScreen from "expo-splash-screen"
-import { useEffect } from 'react';
-import { UserProvider } from '../contexts/userContext';
-import Toast from 'react-native-toast-message';
+} from "@expo-google-fonts/inter";
+import { theme } from "../styles";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import { UserProvider } from "../contexts/userContext";
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,7 +26,7 @@ export default function RootLayout() {
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
-    Inter_800ExtraBold
+    Inter_800ExtraBold,
   });
 
   useEffect(() => {
@@ -44,11 +44,14 @@ export default function RootLayout() {
       <ThemeProvider theme={theme}>
         <UserProvider>
           <Stack>
-            <Stack.Screen name="index" options={{headerShown: false}} />
-            <Stack.Screen name="signUp" options={{headerShown: false}} />
-            <Stack.Screen name="validateEmail" options={{headerShown: false}} />
-            <Stack.Screen name="(donator)" options={{headerShown: false}} />
-            <Stack.Screen name="(hospital)" options={{headerShown: false}} />
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="signUp" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="validateEmail"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="(donator)" options={{ headerShown: false }} />
+            <Stack.Screen name="(hospital)" options={{ headerShown: false }} />
           </Stack>
         </UserProvider>
       </ThemeProvider>

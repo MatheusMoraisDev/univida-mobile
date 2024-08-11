@@ -17,8 +17,10 @@ export const Container = styled.View<IContainer>`
   justify-content: ${({ justify }) => justify || "center"};
   align-items: ${({ align }) => align || "flex-start"};
   background-color: white;
-  width: ${({ width }) => width || '100%'};
-  height: ${({ height }) => height || '100%'};
-  margin-left: ${({ ml, theme }) => theme.metrics.px(ml) || '0'}px;
-  margin-top: ${({ mt, theme }) => theme.metrics.px(mt) || '0'}px;
-  padding: ${({ pd, theme }) => pd !== undefined ? theme.metrics.px(pd) : theme.metrics.px(20)}px;`
+  width: ${({ width }) => width || "100%"};
+  height: ${({ height }) => height || "100%"};
+  margin-left: ${({ ml, theme }) => theme.metrics.px(ml) || "0"}px;
+  margin-top: ${({ mt, theme }) => theme.metrics.px(mt) || "0"}px;
+  padding: ${({ pd, theme }) =>
+    pd !== undefined ? theme.metrics.px(pd) : theme.metrics.px(20)}px;
+`;

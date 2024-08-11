@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Checkbox as PaperCheckbox } from 'react-native-paper';
+import React, { useState } from "react";
+import { Checkbox as PaperCheckbox } from "react-native-paper";
 
 interface CheckboxProps {
   label: string;
@@ -19,7 +19,7 @@ const Checkbox = ({ label, checked, onChange }: CheckboxProps) => {
   return (
     <PaperCheckbox.Item
       label={label}
-      status={isChecked ? 'checked' : 'unchecked'}
+      status={isChecked ? "checked" : "unchecked"}
       onPress={handleToggle}
     />
   );

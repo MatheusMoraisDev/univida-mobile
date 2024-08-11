@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { TextInput } from 'react-native';
-import { OtpInputContainer, OtpInputStyle } from './styles';
-import { theme } from '@/src/styles';
+import React, { useRef, useEffect, useState } from "react";
+import { TextInput } from "react-native";
+import { OtpInputContainer, OtpInputStyle } from "./styles";
+import { theme } from "@/src/styles";
 
 interface OtpInputProps {
   length: number;
@@ -10,7 +10,7 @@ interface OtpInputProps {
 }
 
 const OtpInput = ({ length, onChangeOtp, mt }: OtpInputProps) => {
-  const [otp, setOtp] = useState<string[]>(Array(length).fill(''));
+  const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
   const inputRefs = useRef<TextInput[]>([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const OtpInput = ({ length, onChangeOtp, mt }: OtpInputProps) => {
     const newOtp = [...otp];
     newOtp[index] = text;
     setOtp(newOtp);
-    onChangeOtp(newOtp.join(''));
+    onChangeOtp(newOtp.join(""));
 
     if (text && text.length === 1) {
       focusNextInput(index);
@@ -39,8 +39,8 @@ const OtpInput = ({ length, onChangeOtp, mt }: OtpInputProps) => {
       {otp.map((digit, index) => (
         <OtpInputStyle key={index}>
           <TextInput
-            ref={ref => (inputRefs.current[index] = ref as TextInput)}
-            onChangeText={text => handleTextChange(text, index)}
+            ref={(ref) => (inputRefs.current[index] = ref as TextInput)}
+            onChangeText={(text) => handleTextChange(text, index)}
             keyboardType="numeric"
             maxLength={1}
             autoFocus={index === 0}
