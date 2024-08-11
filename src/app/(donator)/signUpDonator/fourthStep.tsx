@@ -85,7 +85,7 @@ const signUpAddressDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={4} totalSteps={5} />
+        <Steps currentStep={4} totalSteps={6} />
         <PaperInput
           keyboardType="phone-pad"
           mask="phone"

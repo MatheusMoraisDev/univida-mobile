@@ -72,7 +72,7 @@ const signUpAddressDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={2} totalSteps={5} />
+        <Steps currentStep={2} totalSteps={6} />
         <PaperInput
           label="Senha *"
           placeholder="Crie uma senha"

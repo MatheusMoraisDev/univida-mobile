@@ -39,10 +39,14 @@ export default function DonatorFormLayout() {
       gender: "",
       weightKilo: 0,
       hasAllergy: false,
-      hasActiveSexLive: false,
-      hasTattoo: false,
       bloodType: "",
       allergyDescription: null,
+      hasActiveSexLife: false,
+      hasCasualActiveSexLife: false,
+      hasTatoos: false,
+      tatooQuantity: 0,
+      hadUseDrugs: false,
+      drugDescription: "",
     },
   };
 

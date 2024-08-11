@@ -38,7 +38,7 @@ export default function DonatorFormLayout() {
       bloodType: "",
       weightKilo: 0,
       hasAllergy: false,
-      hasActiveSexLive: false,
+      hasActiveSexLife: false,
       hasTattoo: false,
       allergyDescription: null,
     },

@@ -3,16 +3,11 @@ import { Container } from "@/src/components/atoms/container";
 import PaperInput from "@/src/components/atoms/paperInput";
 import CustomRadioButton from "@/src/components/atoms/radioButton";
 import CustomText from "@/src/components/atoms/text";
+import SelectInput from "@/src/components/molecules/selectInput";
 import Steps from "@/src/components/molecules/steps";
-import { UserContext } from "@/src/contexts/userContext";
 import { IDonator } from "@/src/interfaces/donator.interface";
-import { IUser } from "@/src/interfaces/user.interface";
-import { donatorService } from "@/src/services/donatorService";
-import { userService } from "@/src/services/userService";
-import showToastError from "@/src/utils/toast";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
-import { useContext } from "react";
 import { KeyboardAvoidingView } from "react-native";
 
 const signUpHealthDonator = () => {
@@ -26,8 +21,6 @@ const signUpHealthDonator = () => {
     handleChange,
     setErrors,
   } = useFormikContext<IDonator>();
-  const { dispatch } = useContext(UserContext);
-
   const router = useRouter();
 
   const isCurrentStepValid = (): boolean => {
@@ -62,79 +55,31 @@ const signUpHealthDonator = () => {
     });
   };
 
-  const handleFinish = () => {
+  const handleNavigate = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        onSubmitForm();
+        router.push("signUpDonator/sixthStep");
       } else {
         setTouched({
           donatorDetails: {
             bloodType: true,
             hasAllergy: true,
             weightKilo: true,
+            gender: true,
+            orientation: true,
           },
         });
+
+        if (values.donatorDetails.hasAllergy) {
+          setTouched({
+            donatorDetails: {
+              allergyDescription: true,
+            },
+          });
+        }
         setErrors(errors);
       }
     });
-  };
-
-  const createUser = async () => {
-    try {
-      let user: IUser = {
-        ...values.user,
-        type: "pf",
-      };
-
-      delete user.confirmPassword;
-
-      return await userService.createUser(user);
-    } catch (error) {
-      showToastError(
-        "Erro ao criar usuário. Entre em contato com a administração.",
-      );
-      return null;
-    }
-  };
-
-  const createDonator = async (user: IUser) => {
-    try {
-      let [day, month, year] = values.birthDate.split("/");
-      const birthDate = new Date(`${year}-${month}-${day}`).toISOString();
-
-      return await donatorService.createDonator({
-        ...values,
-        birthDate: birthDate,
-        user: user,
-      });
-    } catch (error) {
-      showToastError(
-        "Erro ao criar doador. Entre em contato com a administração.",
-      );
-      return null;
-    }
-  };
-
-  const onSubmitForm = async () => {
-    const user = await createUser();
-    if (!user) return;
-
-    const donator = await createDonator(user);
-    if (!donator) return;
-
-    dispatch({
-      type: "SET_CURRENT_USER",
-      payload: {
-        id: user.id,
-        email: user.email,
-        firstName: donator.firstName,
-        lastName: donator.lastName,
-      },
-    });
-
-    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-
-    router.push("validateEmail");
   };
 
   const handleBooleanConvert = (value: string) => {
@@ -145,13 +90,13 @@ const signUpHealthDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={5} totalSteps={5} />
-        <PaperInput
+        <Steps currentStep={5} totalSteps={6} />
+        <SelectInput
+          handleChange={handleChange("donatorDetails.bloodType")}
           label="Tipo sanguíneo *"
-          placeholder="Qual é o seu tipo sanguíneo?"
-          value={values.donatorDetails.bloodType}
-          onChange={handleChange("donatorDetails.bloodType")}
-          mt={20}
+          options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
+          placeholder="Selecione o tipo sanguíneo"
+          value={values.donatorDetails.bloodType ?? ""}
         />
         {touched.donatorDetails?.bloodType &&
         errors.donatorDetails?.bloodType ? (
@@ -230,7 +175,7 @@ const signUpHealthDonator = () => {
           </CustomText>
         ) : null}
 
-        <Button title="Finalizar" onPress={handleFinish} bottomButton />
+        <Button title="Prosseguir" onPress={handleNavigate} bottomButton />
       </Container>
     </KeyboardAvoidingView>
   );

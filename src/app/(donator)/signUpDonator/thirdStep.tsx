@@ -8,6 +8,8 @@ import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from "react-native";
 import PaperInput from "@/src/components/atoms/paperInput";
 import Steps from "@/src/components/molecules/steps";
+import SelectInput from "@/src/components/molecules/selectInput";
+import stateList from "@/src/utils/stateList";
 
 const signUpAddressDonator = () => {
   const {
@@ -85,13 +87,13 @@ const signUpAddressDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={3} totalSteps={5} />
-        <PaperInput
+        <Steps currentStep={3} totalSteps={6} />
+        <SelectInput
+          handleChange={handleChange("addresses[0].state")}
           label="Estado *"
-          placeholder="Digite o estado"
+          options={stateList}
+          placeholder="Selecione o estado"
           value={values.addresses?.[0]?.state ?? ""}
-          onChange={handleChange("addresses[0].state")}
-          mt={20}
         />
         {touched.addresses?.[0]?.state && errorsAny.addresses?.[0]?.state ? (
           <CustomText size={10} color="primary">

@@ -50,10 +50,26 @@ const validationDonatorSchema = Yup.object({
     hasAllergy: Yup.boolean().required(
       'Campo "Possui alergia?" é obrigatório.',
     ),
-    hasActiveSexLive: Yup.boolean(),
-    hasTattoo: Yup.boolean(),
+    hasActiveSexLife: Yup.boolean().required(
+      'Campo "Possui vida sexual ativa?" é obrigatório.',
+    ),
     bloodType: Yup.string().required("Tipo sanguíneo é obrigatório."),
-    allergyDescription: Yup.string(),
+    allergyDescription: Yup.string().required(
+      "Descrição da alergia é obrigatória.",
+    ),
+    hasCasualActiveSexLife: Yup.boolean().required(
+      'Campo "Possui vida sexual ativa?" é obrigatório.',
+    ),
+    hasTatoos: Yup.boolean().required(
+      'Campo "Possui tatuagens?" é obrigatório.',
+    ),
+    tatooQuantity: Yup.number().required(
+      "Quantidade de tatuagens é obrigatória.",
+    ),
+    hadUseDrugs: Yup.boolean(),
+    drugDescription: Yup.string().required(
+      "Descrição do uso de drogas é obrigatória.",
+    ),
   }),
 });
 

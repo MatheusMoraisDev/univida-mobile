@@ -62,7 +62,7 @@ const signUpDonatorData = () => {
   return (
     <KeyboardAvoidingView>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={1} totalSteps={5} />
+        <Steps currentStep={1} totalSteps={6} />
         <PaperInput
           label="Nome *"
           placeholder="Digite o seu primeiro nome"

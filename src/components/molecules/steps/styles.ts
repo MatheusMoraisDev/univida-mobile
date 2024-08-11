@@ -26,7 +26,7 @@ export const StepText = styled.Text<{ isActive: boolean }>`
 `;
 
 export const StepLine = styled.View`
-  width: ${({ theme }) => theme.metrics.px(30)}px;
+  width: ${({ theme }) => theme.metrics.px(20)}px;
   height: ${({ theme }) => theme.metrics.px(2)}px;
   background-color: ${({ theme }) => theme.colors.gray};
   align-self: center;

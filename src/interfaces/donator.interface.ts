@@ -7,10 +7,14 @@ export interface IDonatorDetails {
   gender: string;
   weightKilo: number;
   hasAllergy: boolean;
-  hasActiveSexLive: boolean;
-  hasTattoo: boolean;
   allergyDescription: string | null;
   bloodType: string;
+  hasActiveSexLife: boolean;
+  hasCasualActiveSexLife: boolean;
+  hasTatoos: boolean;
+  tatooQuantity: number;
+  hadUseDrugs: boolean;
+  drugDescription: string;
 }
 
 export interface IDonator {
