@@ -1,13 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Container } from "../components/atoms/container";
 import { Logo } from "../components/atoms/logo";
 import { Button } from "../components/atoms/button";
 import { FirstAccessStyles } from "../styles/screens/loginStyles";
 import CustomText from "../components/atoms/text";
 import { Link, useRouter } from "expo-router";
-import { authService } from "../services/authService";
+import { authService, ILoginResponse } from "../services/authService";
 import { UserContext } from "../contexts/userContext";
 import PaperInput from "../components/atoms/paperInput";
+import { donatorService } from "../services/donatorService";
+import { hospitalService } from "../services/hospitalService";
+import showToastError from "../utils/toast";
 
 export default function Index() {
   const [email, setEmail] = useState("");
@@ -16,21 +19,74 @@ export default function Index() {
   const { dispatch } = useContext(UserContext);
   const router = useRouter();
 
+  const handleDonatorSignIn = async (token: ILoginResponse) => {
+    const donatorResponse = await donatorService.getDonator({
+      userId: token.user.id,
+    });
+
+    if (donatorResponse.items.length > 1) {
+      showToastError(
+        "Ocorreu um problema ao iniciar sessão. Por favor, entre em contato com o suporte.",
+      );
+      return;
+    }
+
+    const donator = donatorResponse.items[0];
+
+    dispatch({
+      type: "SET_CURRENT_USER",
+      payload: {
+        id: token.user.id,
+        email: token.user.email,
+        firstName: donator.firstName,
+        lastName: donator.lastName,
+      },
+    });
+
+    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
+    return router.push("donatorPanel");
+  };
+
+  const handleHospitalSignIn = async (token: ILoginResponse) => {
+    const hospitalResponse = await hospitalService.getHospital({
+      userId: token.user.id,
+    });
+
+    if (hospitalResponse.items.length > 1) {
+      showToastError(
+        "Ocorreu um problema ao iniciar sessão. Por favor, entre em contato com o suporte.",
+      );
+      return;
+    }
+
+    const hospital = hospitalResponse.items[0];
+
+    dispatch({
+      type: "SET_CURRENT_USER",
+      payload: {
+        id: token.user.id,
+        email: token.user.email,
+        firstName: hospital.name,
+        lastName: "",
+      },
+    });
+
+    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
+    return router.push("hospitalPanel");
+  };
+
   const signIn = async () => {
     try {
-      const user = await authService.signIn({ email, password });
+      const token = await authService.signIn({ email, password });
       setMessageError("");
-      dispatch({
-        type: "SET_CURRENT_USER",
-        payload: {
-          id: user.user.id,
-          email: email,
-          firstName: user.user.firstName,
-          lastName: user.user.lastName,
-        },
-      });
-      dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-      return router.push("donatorPanel");
+
+      if (token.user.type === "pf") {
+        return await handleDonatorSignIn(token);
+      }
+
+      if (token.user.type === "pj") {
+        return await handleHospitalSignIn(token);
+      }
     } catch {
       setMessageError("E-mail ou senha inválidos.");
     }
@@ -62,13 +118,13 @@ export default function Index() {
     signIn();
   };
 
-  useEffect(() => {
-    const delay = 1000;
-    const timeoutId = setTimeout(() => {
-      router.push("signUpDonator/sixthStep");
-    }, delay);
-    return () => clearTimeout(timeoutId);
-  }, [router]);
+  // useEffect(() => {
+  //   const delay = 1000;
+  //   const timeoutId = setTimeout(() => {
+  //     router.push("signUpDonator/sixthStep");
+  //   }, delay);
+  //   return () => clearTimeout(timeoutId);
+  // }, [router]);
 
   return (
     <Container align="center">
