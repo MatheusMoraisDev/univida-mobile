@@ -28,3 +28,12 @@ export interface IDonator {
   addresses: IAddress[];
   donatorDetails: IDonatorDetails;
 }
+
+export interface IDonatorParams {
+  userId?: number;
+  birthDate?: string;
+  cpf?: string;
+  rg?: string;
+  firstName?: string;
+  lastName?: string;
+}

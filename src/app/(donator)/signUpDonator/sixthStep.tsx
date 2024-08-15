@@ -79,7 +79,6 @@ const signUpHealthDonatorSecondPart = () => {
       if (isCurrentStepValid()) {
         onSubmitForm();
       } else {
-        console.log(values);
         setTouched({
           donatorDetails: {
             hasActiveSexLife: true,
