@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "@/src/components/atoms/button";
 import { Container } from "@/src/components/atoms/container";
 import CustomText from "@/src/components/atoms/text";
-import { IDonator } from "@/src/interfaces/donator.interface";
+import { IHospital } from "@/src/interfaces/hospital.interface";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from "react-native";
 import PaperInput from "@/src/components/atoms/paperInput";
 import Steps from "@/src/components/molecules/steps";
+import showToastError from "@/src/utils/toast";
+import { userService } from "@/src/services/userService";
+import { IUser } from "@/src/interfaces/user.interface";
+import { hospitalService } from "@/src/services/hospitalService";
+import { UserContext } from "@/src/contexts/userContext";
 
-const signUpContactDonator = () => {
+const signUpContactHospital = () => {
   const {
     values,
     touched,
@@ -18,7 +23,9 @@ const signUpContactDonator = () => {
     validateForm,
     setErrors,
     setTouched,
-  } = useFormikContext<IDonator>();
+  } = useFormikContext<IHospital>();
+  const { dispatch } = useContext(UserContext);
+
   const router = useRouter();
 
   const errorsAny = errors as any;
@@ -31,14 +38,14 @@ const signUpContactDonator = () => {
 
     if (arrayName && fieldName && !isNaN(index)) {
       return (
-        (values[arrayName as keyof IDonator] as any)?.[index]?.[fieldName] &&
-        !(errors[arrayName as keyof IDonator] as any)?.[index]?.[fieldName]
+        (values[arrayName as keyof IHospital] as any)?.[index]?.[fieldName] &&
+        !(errors[arrayName as keyof IHospital] as any)?.[index]?.[fieldName]
       );
     }
 
     const [parent, child] = fieldPath.split(".") as [
-      keyof IDonator,
-      keyof IDonator["user"],
+      keyof IHospital,
+      keyof IHospital["user"],
     ];
     if (child) {
       return (
@@ -52,30 +59,71 @@ const signUpContactDonator = () => {
   const isCurrentStepValid = (): boolean => {
     const requiredFields = ["contacts[0].contact", "user.email"];
 
-    if (values.contacts?.[0]?.emergency_contact) {
-      requiredFields.push("contacts[0].emergency_contact_name");
-      requiredFields.push("contacts[0].emergency_contact");
-    }
-
     return requiredFields.every(isFieldValid);
   };
 
-  const handleNavigate = () => {
+  const createUser = async () => {
+    try {
+      const user: IUser = {
+        ...values.user,
+        type: "pj",
+      };
+
+      delete user.confirmPassword;
+
+      return await userService.createUser(user);
+    } catch {
+      showToastError(
+        "Erro ao criar usuário. Entre em contato com a administração.",
+      );
+      return null;
+    }
+  };
+
+  const createHospital = async (user: IUser) => {
+    try {
+      return await hospitalService.createHospital({
+        ...values,
+        user: user,
+      });
+    } catch {
+      showToastError(
+        "Erro ao criar doador. Entre em contato com a administração.",
+      );
+      return null;
+    }
+  };
+
+  const onSubmitForm = async () => {
+    const user = await createUser();
+    if (!user) return;
+
+    const hospital = await createHospital(user);
+    if (!hospital) return;
+
+    dispatch({
+      type: "SET_CURRENT_USER",
+      payload: {
+        id: user.id,
+        email: user.email,
+        firstName: hospital.name,
+        lastName: "",
+      },
+    });
+
+    dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
+
+    router.push("validateEmail");
+  };
+
+  const handleFinish = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        router.push("signUpDonator/fifthStep");
+        onSubmitForm();
       } else {
         setTouched({
-          contacts: [
-            {
-              contact: true,
-              emergency_contact: true,
-              emergency_contact_name: true,
-            },
-          ],
-          user: {
-            email: true,
-          },
+          contacts: [{ contact: true }],
+          user: { email: true },
         });
         setErrors(errors);
       }
@@ -85,7 +133,7 @@ const signUpContactDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={4} totalSteps={6} />
+        <Steps currentStep={4} totalSteps={4} />
         <PaperInput
           keyboardType="phone-pad"
           mask="phone"
@@ -116,41 +164,10 @@ const signUpContactDonator = () => {
           </CustomText>
         ) : null}
 
-        <PaperInput
-          label="Nome do contato de emergência"
-          placeholder="Nome do Contato para emergência"
-          value={values.contacts?.[0]?.emergency_contact_name ?? ""}
-          onChange={handleChange("contacts[0].emergency_contact_name")}
-          mt={5}
-        />
-        {touched.contacts?.[0]?.emergency_contact_name &&
-        errorsAny.contacts?.[0]?.emergency_contact_name ? (
-          <CustomText size={10} color="primary">
-            {(errorsAny.contacts[0] as any).emergency_contact_name}
-          </CustomText>
-        ) : null}
-
-        <PaperInput
-          keyboardType="phone-pad"
-          mask="phone"
-          maxLenght={15}
-          label="Contato de emergência"
-          placeholder="(11)99999-9999"
-          value={values.contacts?.[0]?.emergency_contact ?? ""}
-          onChange={handleChange("contacts[0].emergency_contact")}
-          mt={5}
-        />
-        {touched.contacts?.[0]?.emergency_contact &&
-        errorsAny.contacts?.[0]?.emergency_contact ? (
-          <CustomText size={10} color="primary">
-            {(errorsAny.contacts[0] as any).emergency_contact}
-          </CustomText>
-        ) : null}
-
-        <Button title="Prosseguir" onPress={handleNavigate} bottomButton />
+        <Button title="Finalizar" onPress={handleFinish} bottomButton />
       </Container>
     </KeyboardAvoidingView>
   );
 };
 
-export default signUpContactDonator;
+export default signUpContactHospital;

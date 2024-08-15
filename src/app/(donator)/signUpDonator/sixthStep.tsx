@@ -104,11 +104,10 @@ const signUpHealthDonatorSecondPart = () => {
       delete user.confirmPassword;
 
       return await userService.createUser(user);
-    } catch (err: any) {
+    } catch {
       showToastError(
         "Erro ao criar usuário. Entre em contato com a administração.",
       );
-      console.log("Erro ao criar usuário", err);
       return null;
     }
   };

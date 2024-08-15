@@ -1,19 +1,16 @@
-import { IDonator } from "@/src/interfaces/donator.interface";
+import { IHospital } from "@/src/interfaces/hospital.interface";
+import { theme } from "@/src/styles";
 import { Stack } from "expo-router";
 import { Formik } from "formik";
 
-export default function DonatorFormLayout() {
-  const initialValues: IDonator = {
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    cpf: "",
-    rg: "",
+export default function HospitalFormLayout() {
+  const initialValues: IHospital = {
+    name: "",
+    cnpj: "",
+    hospitalType: "",
     contacts: [
       {
         contact: "",
-        emergency_contact: "",
-        emergency_contact_name: "",
       },
     ],
     user: {
@@ -32,16 +29,6 @@ export default function DonatorFormLayout() {
         city: "",
       },
     ],
-    donatorDetails: {
-      orientation: "",
-      gender: "",
-      bloodType: "",
-      weightKilo: 0,
-      hasAllergy: false,
-      hasActiveSexLife: false,
-      hasTattoo: false,
-      allergyDescription: null,
-    },
   };
 
   return (
@@ -50,9 +37,31 @@ export default function DonatorFormLayout() {
       onSubmit={(values) => console.log(values)}
     >
       {() => (
-        <Stack>
-          <Stack.Screen name="index" options={{ title: "Dados do Hospital" }} />
-          <Stack.Screen name="signUpAddress" options={{ title: "Endereço" }} />
+        <Stack
+          screenOptions={{
+            headerTitleStyle: {
+              fontFamily: theme.fonts.Inter_600SemiBold,
+              fontSize: theme.metrics.px(16),
+            },
+            headerTitleAlign: "center",
+          }}
+        >
+          <Stack.Screen
+            name="firstStep"
+            options={{ title: "Dados do Hospital" }}
+          />
+          <Stack.Screen
+            name="secondStep"
+            options={{ title: "Crie sua senha" }}
+          />
+          <Stack.Screen
+            name="thirdStep"
+            options={{ title: "Endereço do Hospital" }}
+          />
+          <Stack.Screen
+            name="fourthStep"
+            options={{ title: "Contato do Hospital" }}
+          />
         </Stack>
       )}
     </Formik>

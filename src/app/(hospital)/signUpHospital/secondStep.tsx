@@ -1,15 +1,14 @@
-import React from "react";
-import { Button } from "@/src/components/atoms/button";
+import Button from "@/src/components/atoms/button";
 import { Container } from "@/src/components/atoms/container";
+import PaperInput from "@/src/components/atoms/paperInput";
 import CustomText from "@/src/components/atoms/text";
-import { IDonator } from "@/src/interfaces/donator.interface";
+import Steps from "@/src/components/molecules/steps";
+import { IHospital } from "@/src/interfaces/hospital.interface";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from "react-native";
-import PaperInput from "@/src/components/atoms/paperInput";
-import Steps from "@/src/components/molecules/steps";
 
-const signUpPasswordDonator = () => {
+const signUpPasswordHospital = () => {
   const {
     values,
     touched,
@@ -18,7 +17,7 @@ const signUpPasswordDonator = () => {
     validateForm,
     setTouched,
     setErrors,
-  } = useFormikContext<IDonator>();
+  } = useFormikContext<IHospital>();
   const router = useRouter();
 
   const isFieldValid = (fieldPath: string): boolean => {
@@ -29,14 +28,14 @@ const signUpPasswordDonator = () => {
 
     if (arrayName && fieldName && !isNaN(index)) {
       return (
-        (values[arrayName as keyof IDonator] as any)?.[index]?.[fieldName] &&
-        !(errors[arrayName as keyof IDonator] as any)?.[index]?.[fieldName]
+        (values[arrayName as keyof IHospital] as any)?.[index]?.[fieldName] &&
+        !(errors[arrayName as keyof IHospital] as any)?.[index]?.[fieldName]
       );
     }
 
     const [parent, child] = fieldPath.split(".") as [
-      keyof IDonator,
-      keyof IDonator["user"],
+      keyof IHospital,
+      keyof IHospital["user"],
     ];
     if (child) {
       return (
@@ -56,7 +55,7 @@ const signUpPasswordDonator = () => {
   const handleNavigate = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        router.push("signUpDonator/thirdStep");
+        router.push("signUpHospital/thirdStep");
       } else {
         setTouched({
           user: {
@@ -72,7 +71,7 @@ const signUpPasswordDonator = () => {
   return (
     <KeyboardAvoidingView enabled={true}>
       <Container justify="flex-start" align="center" pd={0}>
-        <Steps currentStep={2} totalSteps={6} />
+        <Steps currentStep={2} totalSteps={4} />
         <PaperInput
           label="Senha *"
           placeholder="Crie uma senha"
@@ -110,4 +109,4 @@ const signUpPasswordDonator = () => {
   );
 };
 
-export default signUpPasswordDonator;
+export default signUpPasswordHospital;
