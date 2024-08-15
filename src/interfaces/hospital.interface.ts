@@ -3,7 +3,7 @@ import { IContact } from "./contact.interface";
 import { IUser } from "./user.interface";
 
 export interface IHospital {
-  id: number;
+  id?: number;
   name: string;
   cnpj: string;
   hospitalType: string;
