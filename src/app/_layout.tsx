@@ -15,6 +15,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { UserProvider } from "../contexts/userContext";
 import Toast from "react-native-toast-message";
+import { toastConfig } from "../utils/toastConfig";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,7 +56,7 @@ export default function RootLayout() {
           </Stack>
         </UserProvider>
       </ThemeProvider>
-      <Toast />
+      <Toast config={toastConfig} />
     </>
   );
 }
