@@ -8,6 +8,8 @@ import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from "react-native";
 import PaperInput from "@/src/components/atoms/paperInput";
 import Steps from "@/src/components/molecules/steps";
+import { donatorService } from "@/src/services/donatorService";
+import Toast from "react-native-toast-message";
 
 const signUpDonatorData = () => {
   const {
@@ -43,8 +45,21 @@ const signUpDonatorData = () => {
   };
 
   const handleNavigate = () => {
-    validateForm().then((errors) => {
+    validateForm().then(async (errors) => {
       if (isCurrentStepValid()) {
+        const donator = await donatorService.getDonator({ cpf: values.cpf });
+
+        if (donator.items.length > 0) {
+          router.push("/");
+          Toast.show({
+            type: "error",
+            text1: "Usuário já cadastrado",
+            text2: "Redirecionado para a tela de login",
+            visibilityTime: 4000,
+          });
+          return;
+        }
+
         router.push("signUpDonator/secondStep");
       } else {
         setTouched({

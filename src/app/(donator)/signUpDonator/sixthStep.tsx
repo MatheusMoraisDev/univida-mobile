@@ -9,11 +9,11 @@ import { IDonator } from "@/src/interfaces/donator.interface";
 import { IUser } from "@/src/interfaces/user.interface";
 import { donatorService } from "@/src/services/donatorService";
 import { userService } from "@/src/services/userService";
-import showToastError from "@/src/utils/toast";
 import { useRouter } from "expo-router";
 import { useFormikContext } from "formik";
 import { useContext } from "react";
 import { KeyboardAvoidingView } from "react-native";
+import Toast from "react-native-toast-message";
 
 const signUpHealthDonatorSecondPart = () => {
   const {
@@ -105,9 +105,11 @@ const signUpHealthDonatorSecondPart = () => {
 
       return await userService.createUser(user);
     } catch {
-      showToastError(
-        "Erro ao criar usuário. Entre em contato com a administração.",
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro ao criar usuário.",
+        text2: "Entre em contato com a administração.",
+      });
       return null;
     }
   };
@@ -123,9 +125,11 @@ const signUpHealthDonatorSecondPart = () => {
         user: user,
       });
     } catch {
-      showToastError(
-        "Erro ao criar doador. Entre em contato com a administração.",
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro ao criar doador.",
+        text2: "Entre em contato com a administração.",
+      });
       return null;
     }
   };

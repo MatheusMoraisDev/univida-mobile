@@ -8,11 +8,11 @@ import { useFormikContext } from "formik";
 import { KeyboardAvoidingView } from "react-native";
 import PaperInput from "@/src/components/atoms/paperInput";
 import Steps from "@/src/components/molecules/steps";
-import showToastError from "@/src/utils/toast";
 import { userService } from "@/src/services/userService";
 import { IUser } from "@/src/interfaces/user.interface";
 import { hospitalService } from "@/src/services/hospitalService";
 import { UserContext } from "@/src/contexts/userContext";
+import Toast from "react-native-toast-message";
 
 const signUpContactHospital = () => {
   const {
@@ -73,23 +73,24 @@ const signUpContactHospital = () => {
 
       return await userService.createUser(user);
     } catch {
-      showToastError(
-        "Erro ao criar usuário. Entre em contato com a administração.",
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro ao criar usuário.",
+        text2: "Entre em contato com a administração.",
+      });
       return null;
     }
   };
 
   const createHospital = async (user: IUser) => {
     try {
-      return await hospitalService.createHospital({
-        ...values,
-        user: user,
-      });
+      return await hospitalService.createHospital({ ...values, user: user });
     } catch {
-      showToastError(
-        "Erro ao criar doador. Entre em contato com a administração.",
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro ao criar hospital.",
+        text2: "Entre em contato com a administração.",
+      });
       return null;
     }
   };

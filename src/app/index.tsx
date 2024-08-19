@@ -10,7 +10,7 @@ import { UserContext } from "../contexts/userContext";
 import PaperInput from "../components/atoms/paperInput";
 import { donatorService } from "../services/donatorService";
 import { hospitalService } from "../services/hospitalService";
-import showToastError from "../utils/toast";
+import Toast from "react-native-toast-message";
 
 export default function Index() {
   const [email, setEmail] = useState("");
@@ -25,9 +25,11 @@ export default function Index() {
     });
 
     if (donatorResponse.items.length > 1) {
-      showToastError(
-        "Ocorreu um problema ao iniciar sessão. Por favor, entre em contato com o suporte.",
-      );
+      Toast.show({
+        type: "error",
+        text1: "Ocorreu um problema ao iniciar sessão.",
+        text2: "Por favor, entre em contato com o suporte.",
+      });
       return;
     }
 
@@ -53,9 +55,11 @@ export default function Index() {
     });
 
     if (hospitalResponse.items.length > 1) {
-      showToastError(
-        "Ocorreu um problema ao iniciar sessão. Por favor, entre em contato com o suporte.",
-      );
+      Toast.show({
+        type: "error",
+        text1: "Ocorreu um problema ao iniciar sessão.",
+        text2: "Por favor, entre em contato com o suporte.",
+      });
       return;
     }
 
@@ -121,7 +125,7 @@ export default function Index() {
   // useEffect(() => {
   //   const delay = 1000;
   //   const timeoutId = setTimeout(() => {
-  //     router.push("signUpDonator/sixthStep");
+  //     router.push("validateEmail");
   //   }, delay);
   //   return () => clearTimeout(timeoutId);
   // }, [router]);
