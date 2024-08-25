@@ -9,6 +9,8 @@ import { KeyboardAvoidingView } from "react-native";
 import PaperInput from "@/src/components/atoms/paperInput";
 import Steps from "@/src/components/molecules/steps";
 import CustomRadioButton from "@/src/components/atoms/radioButton";
+import { hospitalService } from "@/src/services/hospitalService";
+import Toast from "react-native-toast-message";
 
 const signUpHospitalData = () => {
   const {
@@ -45,8 +47,22 @@ const signUpHospitalData = () => {
   };
 
   const handleNavigate = () => {
-    validateForm().then((errors) => {
+    validateForm().then(async (errors) => {
       if (isCurrentStepValid()) {
+        const hospital = await hospitalService.getHospital({
+          cnpj: values.cnpj,
+        });
+
+        if (hospital.items.length > 0) {
+          router.push("/");
+          Toast.show({
+            type: "error",
+            text1: "Usuário já cadastrado",
+            text2: "Redirecionado para a tela de login",
+            visibilityTime: 4000,
+          });
+          return;
+        }
         router.push("signUpHospital/secondStep");
       } else {
         setTouched({
