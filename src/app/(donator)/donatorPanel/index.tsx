@@ -1,7 +1,8 @@
 import CustomText from "@/src/components/atoms/text";
 // import { UserContext } from "@/src/contexts/userContext";
 import { Container } from "@/src/components/atoms/container";
-import GridMenu from "@/src/components/molecules/gridMenu";
+import GridMenu from "@/src/components/organisms/gridMenu";
+import BellNotification from "@/src/components/organisms/bellNotification";
 
 const options = [
   {
@@ -30,12 +31,13 @@ const donatorHome = () => {
   // const { userData } = useContext(UserContext);
 
   return (
-    <Container justify="flex-start" pd={10} align="center">
-      <CustomText size={24} mt={60} font="regular">
+    <Container justify="center" pd={10} align="center">
+      <BellNotification />
+      <CustomText size={26} font="regular">
         Bem vindo, Matheus!
       </CustomText>
       <CustomText size={16} mt={5} font="regular">
-        Quero escrever algo aqui
+        Escolha um item para começar
       </CustomText>
       <GridMenu options={options} />
     </Container>
