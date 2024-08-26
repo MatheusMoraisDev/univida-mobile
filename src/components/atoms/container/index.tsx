@@ -2,8 +2,8 @@ import styled from "styled-components/native";
 
 interface IContainer {
   dir?: string;
-  justify?: string;
-  align?: string;
+  justify?: "center" | "flex-start" | "flex-end";
+  align?: "center" | "flex-start" | "flex-end";
   width?: string;
   height?: string;
   ml?: number;
