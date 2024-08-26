@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { UserContext } from "@/src/contexts/userContext";
 
 const hospitalHome = () => {
-  const { state } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   return (
     <View
@@ -15,10 +15,10 @@ const hospitalHome = () => {
       }}
     >
       <Text>Home Hospital</Text>
-      <Text>{state.isAuthenticated}</Text>
-      <Text>{state.user?.email}</Text>
-      <Text>{state.user?.firstName}</Text>
-      <Text>{state.user?.id}</Text>
+      <Text>{userData.isAuthenticated}</Text>
+      <Text>{userData.user?.email}</Text>
+      <Text>{userData.user?.firstName}</Text>
+      <Text>{userData.user?.id}</Text>
     </View>
   );
 };

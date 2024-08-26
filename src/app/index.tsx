@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Container } from "../components/atoms/container";
 import { Logo } from "../components/atoms/logo";
 import { Button } from "../components/atoms/button";
@@ -122,13 +122,13 @@ export default function Index() {
     signIn();
   };
 
-  // useEffect(() => {
-  //   const delay = 1000;
-  //   const timeoutId = setTimeout(() => {
-  //     router.push("validateEmail");
-  //   }, delay);
-  //   return () => clearTimeout(timeoutId);
-  // }, [router]);
+  useEffect(() => {
+    const delay = 1000;
+    const timeoutId = setTimeout(() => {
+      router.push("donatorPanel");
+    }, delay);
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   return (
     <Container align="center">

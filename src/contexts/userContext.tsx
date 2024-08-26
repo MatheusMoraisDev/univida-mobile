@@ -2,7 +2,7 @@ import { initialState, userReducer, IUserState } from "../reducers/userReducer";
 import { createContext, Dispatch, useReducer } from "react";
 
 interface IUserContext {
-  state: IUserState;
+  userData: IUserState;
   dispatch: Dispatch<any>;
 }
 
@@ -11,15 +11,15 @@ type UserContextProps = {
 };
 
 export const UserContext = createContext<IUserContext>({
-  state: initialState,
+  userData: initialState,
   dispatch: () => null,
 });
 
 export const UserProvider = ({ children }: UserContextProps) => {
-  const [state, dispatch] = useReducer(userReducer, initialState);
+  const [userData, dispatch] = useReducer(userReducer, initialState);
 
   return (
-    <UserContext.Provider value={{ state, dispatch }}>
+    <UserContext.Provider value={{ userData, dispatch }}>
       {children}
     </UserContext.Provider>
   );

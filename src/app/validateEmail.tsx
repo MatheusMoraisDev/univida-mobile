@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Alert } from "react-native";
 import { Container } from "../components/atoms/container";
 import { Logo } from "../components/atoms/logo";
@@ -13,7 +13,7 @@ const ValidationEmail = () => {
   const [code, setCode] = useState("");
   const [timer, setTimer] = useState(20);
   const [sendAgain, setSendAgain] = useState(false);
-  const { state } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const ValidationEmail = () => {
       setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 1 : 0));
     }, 1000);
 
-    const email = state.user.email;
+    const email = userData.user.email;
 
     notificationService.sendEmail({ email: email });
 
@@ -32,7 +32,7 @@ const ValidationEmail = () => {
     try {
       await notificationService.validateEmail({
         validationCode: code,
-        user_id: state.user?.id,
+        user_id: userData.user?.id,
       });
       router.push("donatorPanel");
     } catch (error) {
