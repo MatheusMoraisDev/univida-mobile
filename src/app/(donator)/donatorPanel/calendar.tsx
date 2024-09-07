@@ -1,9 +1,8 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
-
 export default function calendar() {
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>calendar</Text>
     </View>
   );

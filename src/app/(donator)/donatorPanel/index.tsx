@@ -33,7 +33,7 @@ const donatorHome = () => {
   return (
     <Container justify="center" pd={10} align="center">
       <BellNotification />
-      <CustomText size={26} font="regular">
+      <CustomText size={26} mt={40} font="regular">
         Bem vindo, Matheus!
       </CustomText>
       <CustomText size={16} mt={5} font="regular">
