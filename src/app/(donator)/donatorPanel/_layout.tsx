@@ -21,7 +21,7 @@ export default function DonatorPanelLayout() {
             borderRadius: 20,
           },
           tabBarActiveTintColor: theme.colors.white,
-          tabBarInactiveTintColor: theme.colors.white,
+          tabBarInactiveTintColor: theme.colors.lightGray,
         }}
       >
         <Tabs.Screen
@@ -29,12 +29,14 @@ export default function DonatorPanelLayout() {
           options={{
             headerShown: false,
             title: "Usuário",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="account"
-                size={size}
-                color={color}
-              />
+            tabBarIcon: ({ color, size, focused }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="account"
+                  size={focused ? size + 8 : size}
+                  color={color}
+                />
+              </View>
             ),
           }}
         />
@@ -43,8 +45,14 @@ export default function DonatorPanelLayout() {
           options={{
             headerShown: false,
             title: "Home",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" size={size} color={color} />
+            tabBarIcon: ({ color, size, focused }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="home"
+                  size={focused ? size + 8 : size}
+                  color={color}
+                />
+              </View>
             ),
           }}
         />
@@ -53,12 +61,14 @@ export default function DonatorPanelLayout() {
           options={{
             headerShown: false,
             title: "Calendário",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="calendar"
-                size={size}
-                color={color}
-              />
+            tabBarIcon: ({ color, size, focused }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="calendar"
+                  size={focused ? size + 8 : size}
+                  color={color}
+                />
+              </View>
             ),
           }}
         />
@@ -67,8 +77,14 @@ export default function DonatorPanelLayout() {
           options={{
             headerShown: false,
             title: "Configurações",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="cog" size={size} color={color} />
+            tabBarIcon: ({ color, size, focused }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="cog"
+                  size={focused ? size + 8 : size}
+                  color={color}
+                />
+              </View>
             ),
           }}
         />

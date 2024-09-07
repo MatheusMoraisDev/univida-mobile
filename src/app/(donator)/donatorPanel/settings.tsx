@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import React from "react";
+import { Container } from "@/src/components/atoms/container";
 
 export default function settings() {
   return (
-    <View>
+    <Container justify="center" align="center">
       <Text>settings</Text>
-    </View>
+    </Container>
   );
 }

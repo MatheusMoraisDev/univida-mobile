@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import React from "react";
+import { Container } from "@/src/components/atoms/container";
 export default function calendar() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <Container justify="center" align="center">
       <Text>calendar</Text>
-    </View>
+    </Container>
   );
 }
