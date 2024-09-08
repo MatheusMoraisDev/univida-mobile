@@ -8,22 +8,22 @@ const options = [
   {
     title: "Agendar doação",
     icon: "calendar",
-    link: "donatorPanel",
+    link: "donatorPanel/non-tabs/scheduleDonation",
   },
   {
     title: "Registro",
     icon: "file-document",
-    link: "donatorPanel",
+    link: "donatorPanel/non-tabs/record",
   },
   {
     title: "Conteúdo",
     icon: "content-save",
-    link: "donatorPanel",
+    link: "donatorPanel/non-tabs/content",
   },
   {
     title: "Encontrar doadores",
     icon: "account-search",
-    link: "donatorPanel",
+    link: "donatorPanel/non-tabs/findDonators",
   },
 ];
 

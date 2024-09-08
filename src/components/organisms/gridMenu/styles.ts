@@ -7,8 +7,8 @@ export const GridMenuContainer = styled.View`
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: ${({ theme }) => theme.metrics.px(30)}px;
+  padding: ${({ theme }) => theme.metrics.px(18)}px;
   width: 100%;
-  padding: 20px;
 `;
 
 export const GridMenuItem = styled(TouchableRipple)`
@@ -18,7 +18,7 @@ export const GridMenuItem = styled(TouchableRipple)`
   height: ${({ theme }) => theme.metrics.px(180)}px;
   border-radius: ${({ theme }) => theme.metrics.px(20)}px;
   background-color: ${({ theme }) => theme.colors?.primary};
-  margin-bottom: 10px;
+  margin-bottom: ${({ theme }) => theme.metrics.px(10)}px;
   overflow: hidden;
 
   /* iOS shadow */
