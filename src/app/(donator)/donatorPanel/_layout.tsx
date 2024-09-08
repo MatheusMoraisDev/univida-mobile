@@ -14,7 +14,7 @@ export default function DonatorPanelLayout() {
             borderBottomColor: theme.colors.white,
             paddingBottom: 5,
             height: 60,
-            paddingHorizontal: 20,
+            paddingHorizontal: 10,
             marginHorizontal: 10,
             marginVertical: 10,
             borderTopWidth: 0,
@@ -22,6 +22,10 @@ export default function DonatorPanelLayout() {
           },
           tabBarActiveTintColor: theme.colors.white,
           tabBarInactiveTintColor: theme.colors.lightGray,
+          tabBarLabelStyle: {
+            fontSize: theme.metrics.px(10),
+            fontFamily: theme.fonts.Inter_800ExtraBold,
+          },
         }}
       >
         <Tabs.Screen
@@ -33,7 +37,7 @@ export default function DonatorPanelLayout() {
               <View style={{ alignItems: "center" }}>
                 <MaterialCommunityIcons
                   name="account"
-                  size={focused ? size + 8 : size}
+                  size={focused ? size + 6 : size}
                   color={color}
                 />
               </View>
@@ -44,12 +48,12 @@ export default function DonatorPanelLayout() {
           name="index"
           options={{
             headerShown: false,
-            title: "Home",
+            title: "Início",
             tabBarIcon: ({ color, size, focused }) => (
               <View style={{ alignItems: "center" }}>
                 <MaterialCommunityIcons
                   name="home"
-                  size={focused ? size + 8 : size}
+                  size={focused ? size + 6 : size}
                   color={color}
                 />
               </View>
@@ -65,7 +69,7 @@ export default function DonatorPanelLayout() {
               <View style={{ alignItems: "center" }}>
                 <MaterialCommunityIcons
                   name="calendar"
-                  size={focused ? size + 8 : size}
+                  size={focused ? size + 6 : size}
                   color={color}
                 />
               </View>
@@ -81,11 +85,18 @@ export default function DonatorPanelLayout() {
               <View style={{ alignItems: "center" }}>
                 <MaterialCommunityIcons
                   name="cog"
-                  size={focused ? size + 8 : size}
+                  size={focused ? size + 6 : size}
                   color={color}
                 />
               </View>
             ),
+          }}
+        />
+        <Tabs.Screen
+          name="non-tabs"
+          options={{
+            headerShown: false,
+            href: null,
           }}
         />
       </Tabs>
