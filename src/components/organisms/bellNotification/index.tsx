@@ -5,7 +5,7 @@ const BellNotification = () => {
   return (
     <BellNotificationStyle
       icon="bell-outline"
-      size={theme.metrics.px(35)}
+      size={theme.metrics.px(30)}
       onPress={() => {
         /* Lógica para abrir o popup */
       }}
