@@ -46,7 +46,7 @@ export default function Index() {
     });
 
     dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-    return router.push("donatorPanel");
+    return router.replace("donatorPanel");
   };
 
   const handleHospitalSignIn = async (token: ILoginResponse) => {
@@ -76,7 +76,7 @@ export default function Index() {
     });
 
     dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
-    return router.push("hospitalPanel");
+    return router.replace("hospitalPanel");
   };
 
   const signIn = async () => {

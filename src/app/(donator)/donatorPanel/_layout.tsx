@@ -41,22 +41,6 @@ export default function DonatorPanelLayout() {
         }}
       >
         <Tabs.Screen
-          name="user"
-          options={{
-            headerShown: false,
-            title: "Usuário",
-            tabBarIcon: ({ color, size, focused }) => (
-              <View style={{ alignItems: "center" }}>
-                <MaterialCommunityIcons
-                  name="account"
-                  size={focused ? size + 6 : size}
-                  color={color}
-                />
-              </View>
-            ),
-          }}
-        />
-        <Tabs.Screen
           name="index"
           options={{
             headerShown: false,
@@ -65,6 +49,22 @@ export default function DonatorPanelLayout() {
               <View style={{ alignItems: "center" }}>
                 <MaterialCommunityIcons
                   name="home"
+                  size={focused ? size + 6 : size}
+                  color={color}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="user"
+          options={{
+            headerShown: false,
+            title: "Usuário",
+            tabBarIcon: ({ color, size, focused }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="account"
                   size={focused ? size + 6 : size}
                   color={color}
                 />

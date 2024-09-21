@@ -66,7 +66,7 @@ const signUpAddressDonator = () => {
   const handleNavigate = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        router.push("signUpDonator/fourthStep");
+        router.navigate("signUpDonator/fourthStep");
       } else {
         setTouched({
           addresses: [

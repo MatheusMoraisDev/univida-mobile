@@ -153,7 +153,7 @@ const signUpHealthDonatorSecondPart = () => {
 
     dispatch({ type: "SET_IS_AUTHENTICATED", payload: true });
 
-    router.push("validateEmail");
+    router.replace("validateEmail");
   };
 
   return (

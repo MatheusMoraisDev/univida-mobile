@@ -20,7 +20,7 @@ const GridMenu = ({ options }: IGridMenuProps) => {
       {options.map((option) => (
         <GridMenuItem
           key={option.title}
-          onPress={() => router.push(option.link)}
+          onPress={() => router.navigate(option.link)}
           rippleColor="rgba(0, 0, 0, .32)"
           borderless={true}
         >

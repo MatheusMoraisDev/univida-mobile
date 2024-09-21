@@ -56,7 +56,7 @@ const signUpPasswordDonator = () => {
   const handleNavigate = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        router.push("signUpDonator/thirdStep");
+        router.navigate("signUpDonator/thirdStep");
       } else {
         setTouched({
           user: {

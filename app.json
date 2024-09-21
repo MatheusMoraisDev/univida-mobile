@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "univida",
-    "slug": "univida",
+    "name": "Univida",
+    "slug": "univida-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
