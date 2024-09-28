@@ -63,7 +63,7 @@ const signUpContactDonator = () => {
   const handleNavigate = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        router.push("signUpDonator/fifthStep");
+        router.navigate("signUpDonator/fifthStep");
       } else {
         setTouched({
           contacts: [

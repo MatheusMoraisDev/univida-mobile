@@ -10,6 +10,8 @@ import PaperInput from "@/src/components/atoms/paperInput";
 import Steps from "@/src/components/molecules/steps";
 import SelectInput from "@/src/components/molecules/selectInput";
 import stateList from "@/src/utils/stateList";
+import { googleMapsService } from "@/src/services/googleMapsService";
+import Toast from "react-native-toast-message";
 
 const signUpAddressHospital = () => {
   const {
@@ -20,6 +22,7 @@ const signUpAddressHospital = () => {
     validateForm,
     setErrors,
     setTouched,
+    setFieldValue,
   } = useFormikContext<IHospital>();
   const router = useRouter();
 
@@ -63,25 +66,48 @@ const signUpAddressHospital = () => {
     return requiredFields.every(isFieldValid);
   };
 
-  const handleNavigate = () => {
-    validateForm().then((errors) => {
-      if (isCurrentStepValid()) {
-        router.push("signUpHospital/fourthStep");
-      } else {
-        setTouched({
-          addresses: [
-            {
-              state: true,
-              city: true,
-              neighborhood: true,
-              street: true,
-              zip: true,
-            },
-          ],
+  const handleNavigate = async () => {
+    await validateForm();
+    if (isCurrentStepValid()) {
+      const address = values.addresses[0];
+      const addressString = `${address.street}, ${address.neighborhood}, ${address.city}, ${address.state}, ${address.zip}`;
+      try {
+        await googleMapsService.getGeocode(addressString);
+      } catch {
+        Toast.show({
+          type: "error",
+          text1: "Erro ao validar endereço",
+          text2: "Por favor, tente novamente mais tarde",
         });
-        setErrors(errors);
+        return;
       }
-    });
+      const geocodeResult = await googleMapsService.getGeocode(addressString);
+      if (geocodeResult.length === 0) {
+        Toast.show({
+          type: "error",
+          text1: "Endereço inválido",
+          text2: "Por favor, verifique o endereço informado",
+        });
+        return;
+      }
+      const location = geocodeResult[0].geometry.location;
+      setFieldValue("addresses[0].longitude", location.lng);
+      setFieldValue("addresses[0].latitude", location.lat);
+      router.navigate("signUpHospital/fourthStep");
+    } else {
+      setTouched({
+        addresses: [
+          {
+            state: true,
+            city: true,
+            neighborhood: true,
+            street: true,
+            zip: true,
+          },
+        ],
+      });
+      setErrors(errors);
+    }
   };
 
   return (

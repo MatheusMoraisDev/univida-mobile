@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "univida-mobile",
+    "name": "Univida",
     "slug": "univida-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,10 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "extra": {
-      "API_BASE_URL": "http://192.168.1.5:3000/api"
+      "API_BASE_URL": "http://192.168.1.5:3000/api",
+      "eas": {
+        "projectId": "ac19db14-806d-4f36-8155-5e6dbc923d96"
+      }
     },
     "splash": {
       "image": "./assets/images/splash.png",
@@ -22,16 +25,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.matheusmoraisdev.unividamobile"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "owner": "univida-mobile"
   }
 }

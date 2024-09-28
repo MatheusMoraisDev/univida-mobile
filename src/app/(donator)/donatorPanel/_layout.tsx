@@ -1,3 +1,4 @@
+import BellNotification from "@/src/components/organisms/bellNotification";
 import { theme } from "@/src/styles";
 import MaterialCommunityIcons from "@expo/vector-icons/build/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
@@ -6,6 +7,17 @@ import { View } from "react-native";
 export default function DonatorPanelLayout() {
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
+      <View
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          zIndex: 1,
+        }}
+      >
+        <BellNotification />
+      </View>
+
       <Tabs
         screenOptions={{
           tabBarStyle: {
@@ -29,22 +41,6 @@ export default function DonatorPanelLayout() {
         }}
       >
         <Tabs.Screen
-          name="user"
-          options={{
-            headerShown: false,
-            title: "Usuário",
-            tabBarIcon: ({ color, size, focused }) => (
-              <View style={{ alignItems: "center" }}>
-                <MaterialCommunityIcons
-                  name="account"
-                  size={focused ? size + 6 : size}
-                  color={color}
-                />
-              </View>
-            ),
-          }}
-        />
-        <Tabs.Screen
           name="index"
           options={{
             headerShown: false,
@@ -53,6 +49,22 @@ export default function DonatorPanelLayout() {
               <View style={{ alignItems: "center" }}>
                 <MaterialCommunityIcons
                   name="home"
+                  size={focused ? size + 6 : size}
+                  color={color}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="user"
+          options={{
+            headerShown: false,
+            title: "Usuário",
+            tabBarIcon: ({ color, size, focused }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name="account"
                   size={focused ? size + 6 : size}
                   color={color}
                 />

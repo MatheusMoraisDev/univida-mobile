@@ -54,7 +54,7 @@ const signUpHospitalData = () => {
         });
 
         if (hospital.items.length > 0) {
-          router.push("/");
+          router.replace("/");
           Toast.show({
             type: "error",
             text1: "Usuário já cadastrado",
@@ -63,7 +63,7 @@ const signUpHospitalData = () => {
           });
           return;
         }
-        router.push("signUpHospital/secondStep");
+        router.navigate("signUpHospital/secondStep");
       } else {
         setTouched({
           name: true,

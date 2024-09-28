@@ -60,7 +60,7 @@ const signUpDonatorData = () => {
           return;
         }
 
-        router.push("signUpDonator/secondStep");
+        router.navigate("signUpDonator/secondStep");
       } else {
         setTouched({
           firstName: true,
