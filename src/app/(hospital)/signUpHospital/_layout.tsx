@@ -27,6 +27,8 @@ export default function HospitalFormLayout() {
         neighborhood: "",
         state: "",
         city: "",
+        lat: "",
+        lng: "",
       },
     ],
   };

@@ -55,7 +55,7 @@ const signUpPasswordHospital = () => {
   const handleNavigate = () => {
     validateForm().then((errors) => {
       if (isCurrentStepValid()) {
-        router.push("signUpHospital/thirdStep");
+        router.navigate("signUpHospital/thirdStep");
       } else {
         setTouched({
           user: {

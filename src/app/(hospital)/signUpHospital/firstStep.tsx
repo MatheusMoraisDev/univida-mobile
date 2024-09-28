@@ -49,21 +49,21 @@ const signUpHospitalData = () => {
   const handleNavigate = () => {
     validateForm().then(async (errors) => {
       if (isCurrentStepValid()) {
-        // const hospital = await hospitalService.getHospital({
-        //   cnpj: values.cnpj,
-        // });
+        const hospital = await hospitalService.getHospital({
+          cnpj: values.cnpj,
+        });
 
-        // if (hospital.items.length > 0) {
-        //   router.push("/");
-        //   Toast.show({
-        //     type: "error",
-        //     text1: "Usuário já cadastrado",
-        //     text2: "Redirecionado para a tela de login",
-        //     visibilityTime: 4000,
-        //   });
-        //   return;
-        // }
-        router.push("signUpHospital/secondStep");
+        if (hospital.items.length > 0) {
+          router.replace("/");
+          Toast.show({
+            type: "error",
+            text1: "Usuário já cadastrado",
+            text2: "Redirecionado para a tela de login",
+            visibilityTime: 4000,
+          });
+          return;
+        }
+        router.navigate("signUpHospital/secondStep");
       } else {
         setTouched({
           name: true,
