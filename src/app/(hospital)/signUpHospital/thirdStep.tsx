@@ -91,8 +91,8 @@ const signUpAddressHospital = () => {
         return;
       }
       const location = geocodeResult[0].geometry.location;
-      setFieldValue("addresses[0].longitude", location.lng);
-      setFieldValue("addresses[0].latitude", location.lat);
+      setFieldValue("addresses[0].lng", location.lng);
+      setFieldValue("addresses[0].lat", location.lat);
       router.navigate("signUpHospital/fourthStep");
     } else {
       setTouched({
