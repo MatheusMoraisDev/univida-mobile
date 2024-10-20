@@ -20,7 +20,7 @@ export default function FindDonatorsLayout() {
             <MaterialCommunityIcons
               name="arrow-left"
               size={theme.metrics.px(34)}
-              color={theme.colors.primary}
+              color={theme.colors.darkGray}
             />
           </TouchableOpacity>
         ),
