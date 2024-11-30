@@ -34,7 +34,7 @@ const ValidationEmail = () => {
         validationCode: code,
         user_id: userData.user?.id,
       });
-      router.push("donatorPanel");
+      router.replace("donatorPanel");
     } catch (error) {
       console.error("Error validating code", error);
       Alert.alert(

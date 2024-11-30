@@ -12,6 +12,10 @@ export interface IHospital {
   addresses: IAddress[];
 }
 
+export interface IHospitalAddresses extends IHospital {
+  distance: number;
+}
+
 export interface IHospitalParams {
   name?: string;
   cnpj?: string;

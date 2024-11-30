@@ -31,8 +31,8 @@ const toastConfig: ToastConfig = {
     <BaseToast
       {...rest}
       style={{
-        borderLeftColor: "#e90000f",
-        backgroundColor: "#e90000f",
+        borderLeftColor: theme.colors.green,
+        backgroundColor: theme.colors.green,
       }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{

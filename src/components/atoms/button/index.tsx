@@ -1,8 +1,9 @@
 import React from "react";
 import { TouchableRipple } from "react-native-paper";
 import { ButtonText } from "./styles";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { theme } from "@/src/styles";
+import { IconButton } from "react-native-paper"; // Usando IconButton do react-native-paper
 
 interface IButton {
   title: string;
@@ -10,6 +11,7 @@ interface IButton {
   onPress?: () => void;
   disabled?: boolean;
   bottomButton?: boolean;
+  icon?: string;
 }
 
 export const Button = ({
@@ -18,6 +20,7 @@ export const Button = ({
   onPress,
   disabled,
   bottomButton,
+  icon,
 }: IButton) => {
   return (
     <TouchableRipple
@@ -34,7 +37,10 @@ export const Button = ({
       borderless={true}
       disabled={disabled}
     >
-      <ButtonText disabled={disabled}>{title}</ButtonText>
+      <View style={styles.buttonContent}>
+        {icon && <IconButton icon={icon} size={20} style={styles.icon} />}
+        <ButtonText disabled={disabled}>{title}</ButtonText>
+      </View>
     </TouchableRipple>
   );
 };
@@ -63,6 +69,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: theme.metrics.px(45),
     borderRadius: 0,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    marginRight: 8,
   },
 });
 

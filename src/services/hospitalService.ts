@@ -1,4 +1,4 @@
-import { IHospital, IHospitalParams } from "../interfaces/hospital.interface";
+import { IHospital, IHospitalAddresses, IHospitalParams } from "../interfaces/hospital.interface";
 import { IPaginationProps } from "../interfaces/pagination.interface";
 import { api as apiService, ApiService } from "./api";
 
@@ -8,7 +8,7 @@ class HospitalService {
   constructor(
     private readonly api: ApiService,
     private readonly baseURL: string,
-  ) {}
+  ) { }
 
   public createHospital = async (data: IHospital): Promise<IHospital> => {
     return await this.api.post(`${this.baseURL}/v1/hospital`, data);
@@ -20,8 +20,15 @@ class HospitalService {
     return await this.api.get(`${this.baseURL}/v1/hospital`, { params });
   };
 
+  public getNerbys = async (
+    lat?: number,
+    lng?: number,
+  ): Promise<IHospitalAddresses[]> => {
+    return await this.api.get(`${this.baseURL}/v1/hospital/${lat}/${lng}`);
+  };
+
   public getHospitalById = async (id: number): Promise<IHospital> => {
-    return await this.api.get(`${this.baseURL}/v1/hospital/${id}`);
+    return await this.api.get(`${this.baseURL} / v1 / hospital / ${id}`);
   };
 }
 

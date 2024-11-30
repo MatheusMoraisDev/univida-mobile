@@ -20,7 +20,7 @@ export default function DonatorScheduleDonationLayout() {
             <MaterialCommunityIcons
               name="arrow-left"
               size={theme.metrics.px(34)}
-              color={theme.colors.primary}
+              color={theme.colors.darkGray}
             />
           </TouchableOpacity>
         ),
@@ -28,6 +28,12 @@ export default function DonatorScheduleDonationLayout() {
     >
       <Stack.Screen
         name="firstStep"
+        options={{
+          title: "Agendar doação",
+        }}
+      />
+      <Stack.Screen
+        name="secondStep"
         options={{
           title: "Agendar doação",
         }}
