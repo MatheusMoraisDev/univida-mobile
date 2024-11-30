@@ -1,121 +1,95 @@
-import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
-import { Text, ActivityIndicator } from "react-native-paper";
-import { Container } from "@/src/components/atoms/container";
-import { hospitalService } from "@/src/services/hospitalService";
-import Toast from "react-native-toast-message";
-import * as Location from "expo-location";
-import { IHospitalAddresses } from "@/src/interfaces/hospital.interface";
-import {
-  DistanceInfo,
-  HeaderTextContainer,
-  HospitalAddress,
-  HospitalCard,
-  HospitalListContainer,
-  HospitalName,
-} from "@/src/styles/screens/scheduleDonationStyles";
 import CustomText from "@/src/components/atoms/text";
+import { CalendarPicker } from "@/src/components/organisms/CalendarPicker";
+import { useState, useEffect } from "react";
+import { DateData } from "react-native-calendars";
+import { View, FlatList, Animated } from "react-native";
+import {
+  HeaderTextContainer,
+  StyledSchedulerContainer,
+  TimeButton,
+  TimeButtonText,
+} from "@/src/styles/screens/scheduleDonationStyles";
+import Button from "@/src/components/atoms/button";
 
-export default function SelectHospital() {
-  const [location, setLocation] = useState<{
-    lat: number;
-    lgt: number;
-  } | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [hospitals, setHospitals] = useState<IHospitalAddresses[]>([]);
+export default function SelectDateAndTime() {
+  const [day, setDay] = useState<DateData | null>(null);
+  const [showTimeOptions, setShowTimeOptions] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [fadeAnim] = useState(new Animated.Value(0));
+  const [showButtonAnim] = useState(new Animated.Value(0));
 
-  const getLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      Toast.show({
-        type: "error",
-        text1: "Permissão negada.",
-        text2: "Entre em contato com a administração.",
-      });
-      return;
-    }
-
-    const userLocation = await Location.getCurrentPositionAsync({});
-    setLocation({
-      lat: userLocation.coords.latitude,
-      lgt: userLocation.coords.longitude,
-    });
+  const handleDateSelect = (selectedDay: DateData) => {
+    setDay(selectedDay);
+    setShowTimeOptions(true);
   };
 
-  const fetchNearbyHospitals = async () => {
-    if (!location) return;
-    try {
-      setLoading(true);
-      const hospitalsResponse = await hospitalService.getNerbys(
-        location.lat,
-        location.lgt,
-      );
-      setHospitals(hospitalsResponse);
-    } catch {
-      Toast.show({
-        type: "error",
-        text1: "Erro ao buscar hospitais.",
-        text2: "Entre em contato com a administração.",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const timeOptions = ["08:00", "08:30", "09:00", "09:30", "10:00"];
 
   useEffect(() => {
-    getLocation();
-  }, []);
+    if (showTimeOptions) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [showTimeOptions]);
 
   useEffect(() => {
-    if (location) {
-      fetchNearbyHospitals();
+    if (selectedTime) {
+      Animated.timing(showButtonAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
     }
-  }, [location]);
+  }, [selectedTime]);
 
-  const handleHospitalSelect = (hospital: IHospitalAddresses) => {
-    Toast.show({
-      type: "success",
-      text1: "Hospital Selecionado",
-      text2: `${hospital.name} foi selecionado.`,
-    });
+  const handleConfirm = () => {
+    alert(`Data: ${day?.dateString}, Horário: ${selectedTime}`);
   };
-
-  if (loading) {
-    return (
-      <Container justify="center" align="center">
-        <ActivityIndicator animating={true} />
-        <Text>Carregando hospitais...</Text>
-      </Container>
-    );
-  }
 
   return (
-    <Container justify="center" align="center">
+    <StyledSchedulerContainer>
       <HeaderTextContainer>
         <CustomText color="white" size={14} font="semiBold">
-          Hospitais exibidos conforme sua localização
+          Agende sua doação abaixo.
         </CustomText>
         <CustomText color="white" size={12} font="regular">
-          Selecione um hospital abaixo para doar.
+          Selecione a data e o horário.
         </CustomText>
       </HeaderTextContainer>
-      <HospitalListContainer>
-        <FlatList
-          data={hospitals}
-          keyExtractor={(item) => item.cnpj}
-          renderItem={({ item }) => (
-            <HospitalCard onPress={() => handleHospitalSelect(item)}>
-              <HospitalName>{item.name}</HospitalName>
-              <DistanceInfo>{`${item.distance.toFixed(2)}Km`}</DistanceInfo>
-              <HospitalAddress>
-                {item.addresses[0].street}, {item.addresses[0].neighborhood},{" "}
-                {item.addresses[0].city} - {item.addresses[0].state},{" "}
-                {item.addresses[0].zip}
-              </HospitalAddress>
-            </HospitalCard>
-          )}
-        />
-      </HospitalListContainer>
-    </Container>
+
+      <CalendarPicker day={day} setDay={handleDateSelect} />
+
+      {showTimeOptions && (
+        <Animated.View style={{ opacity: fadeAnim }}>
+          <View style={{ marginTop: 20 }}>
+            <FlatList
+              horizontal
+              data={timeOptions}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <TimeButton
+                  onPress={() => setSelectedTime(item)}
+                  selected={item === selectedTime}
+                >
+                  <TimeButtonText selected={item === selectedTime}>
+                    {item}
+                  </TimeButtonText>
+                </TimeButton>
+              )}
+              keyExtractor={(item) => item}
+            />
+          </View>
+        </Animated.View>
+      )}
+
+      {selectedTime && (
+        <Animated.View style={{ opacity: showButtonAnim, marginTop: 100 }}>
+          <Button title="Confirmar" onPress={handleConfirm} bottomButton />
+        </Animated.View>
+      )}
+    </StyledSchedulerContainer>
   );
 }

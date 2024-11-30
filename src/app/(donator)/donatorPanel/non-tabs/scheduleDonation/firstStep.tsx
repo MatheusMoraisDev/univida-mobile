@@ -15,6 +15,7 @@ import {
   HospitalName,
 } from "@/src/styles/screens/scheduleDonationStyles";
 import CustomText from "@/src/components/atoms/text";
+import { router } from "expo-router";
 
 export default function SelectHospital() {
   const [location, setLocation] = useState<{
@@ -72,12 +73,8 @@ export default function SelectHospital() {
     }
   }, [location]);
 
-  const handleHospitalSelect = (hospital: IHospitalAddresses) => {
-    Toast.show({
-      type: "success",
-      text1: "Hospital Selecionado",
-      text2: `${hospital.name} foi selecionado.`,
-    });
+  const handleHospitalSelect = () => {
+    router.push("donatorPanel/non-tabs/scheduleDonation/secondStep");
   };
 
   if (loading) {
@@ -104,7 +101,7 @@ export default function SelectHospital() {
           data={hospitals}
           keyExtractor={(item) => item.cnpj}
           renderItem={({ item }) => (
-            <HospitalCard onPress={() => handleHospitalSelect(item)}>
+            <HospitalCard onPress={handleHospitalSelect}>
               <HospitalName>{item.name}</HospitalName>
               <DistanceInfo>{`${item.distance.toFixed(2)}Km`}</DistanceInfo>
               <HospitalAddress>

@@ -32,6 +32,12 @@ export default function DonatorScheduleDonationLayout() {
           title: "Agendar doação",
         }}
       />
+      <Stack.Screen
+        name="secondStep"
+        options={{
+          title: "Agendar doação",
+        }}
+      />
     </Stack>
   );
 }
