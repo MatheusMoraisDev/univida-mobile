@@ -18,6 +18,7 @@ export interface IDonatorDetails {
 }
 
 export interface IDonator {
+  id?: number;
   firstName: string;
   lastName: string;
   birthDate: string;

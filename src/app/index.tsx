@@ -42,6 +42,7 @@ export default function Index() {
         email: token.user.email,
         firstName: donator.firstName,
         lastName: donator.lastName,
+        referenceId: donator.id,
       },
     });
 
@@ -72,6 +73,7 @@ export default function Index() {
         email: token.user.email,
         firstName: hospital.name,
         lastName: "",
+        referenceId: hospital.id,
       },
     });
 

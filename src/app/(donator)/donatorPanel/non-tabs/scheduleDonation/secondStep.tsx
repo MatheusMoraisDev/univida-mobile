@@ -10,6 +10,8 @@ import {
   TimeButtonText,
 } from "@/src/styles/screens/scheduleDonationStyles";
 import Button from "@/src/components/atoms/button";
+import { useLocalSearchParams } from "expo-router";
+import { appointmentService } from "@/src/services/appointmentsService";
 
 export default function SelectDateAndTime() {
   const [day, setDay] = useState<DateData | null>(null);
@@ -17,6 +19,7 @@ export default function SelectDateAndTime() {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [showButtonAnim] = useState(new Animated.Value(0));
+  const { hospitalId } = useLocalSearchParams<{ hospitalId: string }>();
 
   const handleDateSelect = (selectedDay: DateData) => {
     setDay(selectedDay);
@@ -46,7 +49,16 @@ export default function SelectDateAndTime() {
   }, [selectedTime]);
 
   const handleConfirm = () => {
-    alert(`Data: ${day?.dateString}, Horário: ${selectedTime}`);
+    try {
+      appointmentService.createAppointment({
+        hospitalId,
+        donatorId: "1",
+        date: day?.dateString,
+        time: selectedTime,
+      });
+    } catch {
+      // handle error
+    }
   };
 
   return (
