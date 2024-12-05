@@ -38,6 +38,12 @@ export default function DonatorScheduleDonationLayout() {
           title: "Agendar doação",
         }}
       />
+      <Stack.Screen
+        name="thanks"
+        options={{
+          title: "Obrigado pela doação!",
+        }}
+      />
     </Stack>
   );
 }

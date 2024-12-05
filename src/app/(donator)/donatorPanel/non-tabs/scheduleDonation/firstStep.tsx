@@ -73,10 +73,11 @@ export default function SelectHospital() {
     }
   }, [location]);
 
-  const handleHospitalSelect = (hospitalId: number) => {
-    router.push(
-      `donatorPanel/non-tabs/scheduleDonation/secondStep?hospitalId=${hospitalId}`,
-    );
+  const handleHospitalSelect = (hospitalData: object) => {
+    router.push({
+      pathname: "donatorPanel/non-tabs/scheduleDonation/secondStep",
+      params: { hospital: JSON.stringify(hospitalData) },
+    });
   };
 
   if (loading) {
@@ -103,7 +104,7 @@ export default function SelectHospital() {
           data={hospitals}
           keyExtractor={(item) => item.cnpj}
           renderItem={({ item }) => (
-            <HospitalCard onPress={() => handleHospitalSelect(item.id)}>
+            <HospitalCard onPress={() => handleHospitalSelect(item)}>
               <HospitalName>{item.name}</HospitalName>
               <DistanceInfo>{`${item.distance.toFixed(2)}Km`}</DistanceInfo>
               <HospitalAddress>

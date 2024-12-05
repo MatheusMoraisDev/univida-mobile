@@ -3,8 +3,8 @@ import { api as apiService, ApiService } from "./api";
 const baseURL = process.env.EXPO_PUBLIC_BASE_URL || "http://localhost:3000/api";
 
 export interface IAppointment {
-  date: string;
-  time: string;
+  scheduledDate: string;
+  scheduledTime: string;
   hospitalId: number;
   donatorId: number;
 }
@@ -35,7 +35,7 @@ class AppointmentService {
   public createAppointment = async (
     data: IAppointment,
   ): Promise<IAppointmentResponse> => {
-    return await this.api.post(`${this.baseURL}/v1/appointment`, data);
+    return await this.api.post(`${this.baseURL}/v1/appointments`, data);
   };
 }
 

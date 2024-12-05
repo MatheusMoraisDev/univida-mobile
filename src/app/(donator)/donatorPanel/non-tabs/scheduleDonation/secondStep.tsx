@@ -1,8 +1,7 @@
+import React, { useState, useEffect, useContext } from "react";
+import { Animated, View, FlatList } from "react-native";
 import CustomText from "@/src/components/atoms/text";
 import { CalendarPicker } from "@/src/components/organisms/CalendarPicker";
-import { useState, useEffect } from "react";
-import { DateData } from "react-native-calendars";
-import { View, FlatList, Animated } from "react-native";
 import {
   HeaderTextContainer,
   StyledSchedulerContainer,
@@ -10,8 +9,13 @@ import {
   TimeButtonText,
 } from "@/src/styles/screens/scheduleDonationStyles";
 import Button from "@/src/components/atoms/button";
-import { useLocalSearchParams } from "expo-router";
 import { appointmentService } from "@/src/services/appointmentsService";
+import { useLocalSearchParams } from "expo-router";
+import { UserContext } from "@/src/contexts/userContext";
+import Modal from "@/src/components/atoms/modal";
+import Toast from "react-native-toast-message";
+import { useRouter } from "expo-router";
+import { DateData } from "react-native-calendars";
 
 export default function SelectDateAndTime() {
   const [day, setDay] = useState<DateData | null>(null);
@@ -19,7 +23,10 @@ export default function SelectDateAndTime() {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [showButtonAnim] = useState(new Animated.Value(0));
-  const { hospitalId } = useLocalSearchParams<{ hospitalId: string }>();
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const hospitalData = JSON.parse(useLocalSearchParams().hospital);
+  const { userData } = useContext(UserContext);
+  const router = useRouter();
 
   const handleDateSelect = (selectedDay: DateData) => {
     setDay(selectedDay);
@@ -48,16 +55,26 @@ export default function SelectDateAndTime() {
     }
   }, [selectedTime]);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    if (!day || !selectedTime) return;
+
+    setConfirmationVisible(false);
     try {
-      appointmentService.createAppointment({
-        hospitalId,
-        donatorId: "1",
-        date: day?.dateString,
-        time: selectedTime,
+      await appointmentService.createAppointment({
+        hospitalId: hospitalData.id,
+        donatorId: userData.user.referenceId,
+        scheduledDate: day?.dateString,
+        scheduledTime: selectedTime,
       });
-    } catch {
-      // handle error
+
+      // Redireciona para a tela de agradecimento após agendamento bem-sucedido
+      router.push("/donatorPanel/non-tabs/scheduleDonation/thanks");
+    } catch (error: any) {
+      Toast.show({
+        type: "error",
+        text1: "Erro ao agendar doação.",
+        text2: error.message,
+      });
     }
   };
 
@@ -99,9 +116,25 @@ export default function SelectDateAndTime() {
 
       {selectedTime && (
         <Animated.View style={{ opacity: showButtonAnim, marginTop: 100 }}>
-          <Button title="Confirmar" onPress={handleConfirm} bottomButton />
+          <Button
+            title="Confirmar"
+            onPress={() => setConfirmationVisible(true)}
+            bottomButton
+          />
         </Animated.View>
       )}
+
+      <Modal
+        visible={confirmationVisible}
+        onClose={() => setConfirmationVisible(false)}
+        onConfirm={handleConfirm}
+      >
+        <CustomText>Confirmar Agendamento</CustomText>
+        <CustomText>
+          Você deseja confirmar o agendamento para o dia {day?.dateString} às{" "}
+          {selectedTime} no hospital {hospitalData.name}?
+        </CustomText>
+      </Modal>
     </StyledSchedulerContainer>
   );
 }
