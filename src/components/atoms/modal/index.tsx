@@ -1,11 +1,16 @@
 import React from "react";
-import { Modal as RNModal } from "react-native";
+import {
+  Modal as RNModal,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import {
   ModalActions,
   ModalButton,
-  ModalButtonText,
   ModalContainer,
   ModalOverlay,
+  CloseButton,
+  CloseButtonText,
 } from "./styles";
 
 interface ModalProps {
@@ -20,24 +25,26 @@ const Modal = ({ visible, onClose, onConfirm, children }: ModalProps) => {
     <RNModal
       visible={visible}
       transparent
-      animationType="slide"
+      animationType="fade"
       onRequestClose={onClose}
     >
-      <ModalOverlay>
-        <ModalContainer>
-          {children}
-          <ModalActions>
-            {onConfirm && (
-              <ModalButton onPress={onConfirm}>
-                <ModalButtonText>Confirmar</ModalButtonText>
-              </ModalButton>
-            )}
-            <ModalButton onPress={onClose}>
-              <ModalButtonText>Cancelar</ModalButtonText>
-            </ModalButton>
-          </ModalActions>
-        </ModalContainer>
-      </ModalOverlay>
+      <TouchableWithoutFeedback onPress={onClose} accessible={false}>
+        <ModalOverlay>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ModalContainer>
+              <CloseButton onPress={onClose}>
+                <CloseButtonText>x</CloseButtonText>
+              </CloseButton>
+              {children}
+              <ModalActions>
+                {onConfirm && (
+                  <ModalButton onPress={onConfirm} title="Confirmar" />
+                )}
+              </ModalActions>
+            </ModalContainer>
+          </TouchableWithoutFeedback>
+        </ModalOverlay>
+      </TouchableWithoutFeedback>
     </RNModal>
   );
 };

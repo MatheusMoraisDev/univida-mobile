@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import Button from "../button";
 
 export const ModalOverlay = styled.View`
   flex: 1;
@@ -20,7 +21,7 @@ export const ModalActions = styled.View`
   margin-top: 20px;
 `;
 
-export const ModalButton = styled.TouchableOpacity<{ cancel?: boolean }>`
+export const ModalButton = styled(Button)<{ cancel?: boolean }>`
   background-color: ${(props) => (props.cancel ? "#ddd" : "#3b82f6")};
   padding: 10px 20px;
   border-radius: 5px;
@@ -34,9 +35,15 @@ export const ModalButtonText = styled.Text<{ cancel?: boolean }>`
 
 export const CloseButton = styled.TouchableOpacity`
   position: absolute;
-  top: 10px;
+  top: 3px;
   right: 10px;
-  z-index: 1;
+  padding: 10px;
+`;
+
+export const CloseButtonText = styled.Text`
+  font-size: 25px;
+  font-weight: 400;
+  color: #333;
 `;
 
 export const InfoText = styled.Text`

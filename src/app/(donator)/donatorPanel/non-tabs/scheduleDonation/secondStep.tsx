@@ -4,6 +4,11 @@ import CustomText from "@/src/components/atoms/text";
 import { CalendarPicker } from "@/src/components/organisms/CalendarPicker";
 import {
   HeaderTextContainer,
+  InfoContainer,
+  InfoLabel,
+  InfoRow,
+  InfoValue,
+  ModalHeader,
   StyledSchedulerContainer,
   TimeButton,
   TimeButtonText,
@@ -16,6 +21,7 @@ import Modal from "@/src/components/atoms/modal";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { DateData } from "react-native-calendars";
+import { IHospital } from "@/src/interfaces/hospital.interface";
 
 export default function SelectDateAndTime() {
   const [day, setDay] = useState<DateData | null>(null);
@@ -24,7 +30,7 @@ export default function SelectDateAndTime() {
   const [fadeAnim] = useState(new Animated.Value(0));
   const [showButtonAnim] = useState(new Animated.Value(0));
   const [confirmationVisible, setConfirmationVisible] = useState(false);
-  const hospitalData = JSON.parse(useLocalSearchParams().hospital);
+  const hospitalData = JSON.parse(useLocalSearchParams().hospital) as IHospital;
   const { userData } = useContext(UserContext);
   const router = useRouter();
 
@@ -61,13 +67,12 @@ export default function SelectDateAndTime() {
     setConfirmationVisible(false);
     try {
       await appointmentService.createAppointment({
-        hospitalId: hospitalData.id,
+        hospitalId: hospitalData.id || 1,
         donatorId: userData.user.referenceId,
         scheduledDate: day?.dateString,
         scheduledTime: selectedTime,
       });
 
-      // Redireciona para a tela de agradecimento após agendamento bem-sucedido
       router.push("/donatorPanel/non-tabs/scheduleDonation/thanks");
     } catch (error: any) {
       Toast.show({
@@ -129,11 +134,33 @@ export default function SelectDateAndTime() {
         onClose={() => setConfirmationVisible(false)}
         onConfirm={handleConfirm}
       >
-        <CustomText>Confirmar Agendamento</CustomText>
-        <CustomText>
-          Você deseja confirmar o agendamento para o dia {day?.dateString} às{" "}
-          {selectedTime} no hospital {hospitalData.name}?
-        </CustomText>
+        <ModalHeader>Confirmar Agendamento</ModalHeader>
+        <InfoContainer>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Dia: </InfoLabel>
+              {day ? day.dateString.split("-").reverse().join("/") : ""}
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Horário: </InfoLabel>
+              {selectedTime}h
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Hospital: </InfoLabel>
+              {hospitalData.name}
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Endereço: </InfoLabel>
+              {`${hospitalData.addresses[0].street}, ${hospitalData.addresses[0].city}, ${hospitalData.addresses[0].state}, ${hospitalData.addresses[0].zip}`}
+            </InfoValue>
+          </InfoRow>
+        </InfoContainer>
       </Modal>
     </StyledSchedulerContainer>
   );

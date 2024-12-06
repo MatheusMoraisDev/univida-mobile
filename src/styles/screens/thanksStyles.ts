@@ -33,6 +33,7 @@ export const Title = styled.Text`
 export const Subtitle = styled.Text`
   font-size: 16px;
   text-align: center;
+  margin-top: 20px;
   margin-bottom: 20px;
   color: #333;
 `;

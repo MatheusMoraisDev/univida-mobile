@@ -24,17 +24,17 @@ export default function ThankYouScreen() {
   }, []);
 
   const handleGoBack = () => {
-    router.push("/home");
+    router.push("donatorPanel");
   };
 
   return (
     <Container style={{ opacity: fadeAnim }}>
       <ModalContainer>
         <Icon icon="check-circle" size={70} iconColor={theme.colors.green} />
-        <Title>Obrigado por sua contribuição!</Title>
+        <Title>Agendamento realizado com sucesso!</Title>
         <Subtitle>
-          Seu agendamento foi realizado com sucesso. Agradecemos sua
-          contribuição!
+          Sua generosidade faz a diferença! {"\n\n"} Agradecemos profundamente
+          sua contribuição e apoio à nossa causa.
         </Subtitle>
 
         <Button title="Voltar para a página inicial" onPress={handleGoBack} />
