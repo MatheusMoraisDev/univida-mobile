@@ -124,14 +124,6 @@ export default function Index() {
     signIn();
   };
 
-  useEffect(() => {
-    const delay = 1000;
-    const timeoutId = setTimeout(() => {
-      router.push("donatorPanel");
-    }, delay);
-    return () => clearTimeout(timeoutId);
-  }, [router]);
-
   return (
     <Container align="center">
       <Logo size="medium" />

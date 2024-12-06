@@ -27,7 +27,7 @@ export default function DonatorRecordLayout() {
       }}
     >
       <Stack.Screen
-        name="firstStep"
+        name="index"
         options={{
           title: "Registros",
         }}

@@ -6,7 +6,10 @@ export default function DonatorPanelNonTabsLayout() {
       <Stack.Screen name="content" options={{ headerShown: false }} />
       <Stack.Screen name="scheduleDonation" options={{ headerShown: false }} />
       <Stack.Screen name="findDonators" options={{ headerShown: false }} />
-      <Stack.Screen name="record" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="record"
+        options={{ headerShown: false, title: "Registros" }}
+      />
     </Stack>
   );
 }
