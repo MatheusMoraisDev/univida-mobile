@@ -148,6 +148,7 @@ const signUpHealthDonatorSecondPart = () => {
         email: user.email,
         firstName: donator.firstName,
         lastName: donator.lastName,
+        referenceId: donator.id,
       },
     });
 

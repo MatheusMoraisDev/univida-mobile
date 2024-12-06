@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
 
-export default function DonatorScheduleDonationLayout() {
+export default function HospitalListDonationLayout() {
   const router = useRouter();
 
   return (
@@ -16,7 +16,7 @@ export default function DonatorScheduleDonationLayout() {
         headerTitleAlign: "center",
         headerShadowVisible: false,
         headerLeft: () => (
-          <TouchableOpacity onPress={() => router.push("donatorPanel")}>
+          <TouchableOpacity onPress={() => router.push("hospitalPanel")}>
             <MaterialCommunityIcons
               name="arrow-left"
               size={theme.metrics.px(34)}
@@ -29,19 +29,13 @@ export default function DonatorScheduleDonationLayout() {
       <Stack.Screen
         name="firstStep"
         options={{
-          title: "Agendar doação",
+          title: "Listar doadores do dia",
         }}
       />
       <Stack.Screen
         name="secondStep"
         options={{
-          title: "Agendar doação",
-        }}
-      />
-      <Stack.Screen
-        name="thanks"
-        options={{
-          title: "Obrigado pela doação!",
+          title: "Listar doadores do dia",
         }}
       />
     </Stack>

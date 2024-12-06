@@ -3,6 +3,7 @@ interface IUserInfo {
   email: string;
   firstName: string;
   lastName: string;
+  referenceId: number;
 }
 
 export interface IUserState {
@@ -20,6 +21,7 @@ export const initialState: IUserState = {
     email: "",
     firstName: "",
     lastName: "",
+    referenceId: 0,
   },
   isAuthenticated: false,
 };

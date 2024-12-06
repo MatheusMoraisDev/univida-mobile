@@ -13,7 +13,7 @@ const options = [
   {
     title: "Registro",
     icon: "file-document",
-    link: "donatorPanel/non-tabs/record/firstStep",
+    link: "donatorPanel/non-tabs/record",
   },
   {
     title: "Conteúdo",

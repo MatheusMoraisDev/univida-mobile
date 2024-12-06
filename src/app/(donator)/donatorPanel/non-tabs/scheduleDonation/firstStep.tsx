@@ -13,9 +13,10 @@ import {
   HospitalCard,
   HospitalListContainer,
   HospitalName,
-} from "@/src/styles/screens/scheduleDonationStyles";
+} from "@/src/styles/screens/donator/scheduleDonationStyles";
 import CustomText from "@/src/components/atoms/text";
 import { router } from "expo-router";
+import { theme } from "@/src/styles";
 
 export default function SelectHospital() {
   const [location, setLocation] = useState<{
@@ -73,14 +74,17 @@ export default function SelectHospital() {
     }
   }, [location]);
 
-  const handleHospitalSelect = () => {
-    router.push("donatorPanel/non-tabs/scheduleDonation/secondStep");
+  const handleHospitalSelect = (hospitalData: object) => {
+    router.push({
+      pathname: "donatorPanel/non-tabs/scheduleDonation/secondStep",
+      params: { hospital: JSON.stringify(hospitalData) },
+    });
   };
 
   if (loading) {
     return (
       <Container justify="center" align="center">
-        <ActivityIndicator animating={true} />
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
         <Text>Carregando hospitais...</Text>
       </Container>
     );
@@ -101,7 +105,7 @@ export default function SelectHospital() {
           data={hospitals}
           keyExtractor={(item) => item.cnpj}
           renderItem={({ item }) => (
-            <HospitalCard onPress={handleHospitalSelect}>
+            <HospitalCard onPress={() => handleHospitalSelect(item)}>
               <HospitalName>{item.name}</HospitalName>
               <DistanceInfo>{`${item.distance.toFixed(2)}Km`}</DistanceInfo>
               <HospitalAddress>

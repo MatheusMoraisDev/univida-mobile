@@ -109,6 +109,7 @@ const signUpContactHospital = () => {
         email: user.email,
         firstName: hospital.name,
         lastName: "",
+        referenceId: hospital.id,
       },
     });
 

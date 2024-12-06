@@ -1,15 +1,27 @@
+import React, { useState, useEffect, useContext } from "react";
+import { Animated, View, FlatList } from "react-native";
 import CustomText from "@/src/components/atoms/text";
 import { CalendarPicker } from "@/src/components/organisms/CalendarPicker";
-import { useState, useEffect } from "react";
-import { DateData } from "react-native-calendars";
-import { View, FlatList, Animated } from "react-native";
 import {
   HeaderTextContainer,
+  InfoContainer,
+  InfoLabel,
+  InfoRow,
+  InfoValue,
+  ModalHeader,
   StyledSchedulerContainer,
   TimeButton,
   TimeButtonText,
-} from "@/src/styles/screens/scheduleDonationStyles";
+} from "@/src/styles/screens/donator/scheduleDonationStyles";
 import Button from "@/src/components/atoms/button";
+import { appointmentService } from "@/src/services/appointmentsService";
+import { useLocalSearchParams } from "expo-router";
+import { UserContext } from "@/src/contexts/userContext";
+import Modal from "@/src/components/atoms/modal";
+import Toast from "react-native-toast-message";
+import { useRouter } from "expo-router";
+import { DateData } from "react-native-calendars";
+import { IHospital } from "@/src/interfaces/hospital.interface";
 
 export default function SelectDateAndTime() {
   const [day, setDay] = useState<DateData | null>(null);
@@ -17,6 +29,10 @@ export default function SelectDateAndTime() {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [fadeAnim] = useState(new Animated.Value(0));
   const [showButtonAnim] = useState(new Animated.Value(0));
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const hospitalData = JSON.parse(useLocalSearchParams().hospital) as IHospital;
+  const { userData } = useContext(UserContext);
+  const router = useRouter();
 
   const handleDateSelect = (selectedDay: DateData) => {
     setDay(selectedDay);
@@ -45,8 +61,26 @@ export default function SelectDateAndTime() {
     }
   }, [selectedTime]);
 
-  const handleConfirm = () => {
-    alert(`Data: ${day?.dateString}, Horário: ${selectedTime}`);
+  const handleConfirm = async () => {
+    if (!day || !selectedTime) return;
+
+    setConfirmationVisible(false);
+    try {
+      await appointmentService.createAppointment({
+        hospitalId: hospitalData.id || 1,
+        donatorId: userData.user.referenceId,
+        scheduledDate: day?.dateString,
+        scheduledTime: selectedTime,
+      });
+
+      router.push("/donatorPanel/non-tabs/scheduleDonation/thanks");
+    } catch (error: any) {
+      Toast.show({
+        type: "error",
+        text1: "Erro ao agendar doação.",
+        text2: error.message,
+      });
+    }
   };
 
   return (
@@ -87,9 +121,47 @@ export default function SelectDateAndTime() {
 
       {selectedTime && (
         <Animated.View style={{ opacity: showButtonAnim, marginTop: 100 }}>
-          <Button title="Confirmar" onPress={handleConfirm} bottomButton />
+          <Button
+            title="Confirmar"
+            onPress={() => setConfirmationVisible(true)}
+            bottomButton
+          />
         </Animated.View>
       )}
+
+      <Modal
+        visible={confirmationVisible}
+        onClose={() => setConfirmationVisible(false)}
+        onConfirm={handleConfirm}
+      >
+        <ModalHeader>Confirmar Agendamento</ModalHeader>
+        <InfoContainer>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Dia: </InfoLabel>
+              {day ? day.dateString.split("-").reverse().join("/") : ""}
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Horário: </InfoLabel>
+              {selectedTime}h
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Hospital: </InfoLabel>
+              {hospitalData.name}
+            </InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoValue>
+              <InfoLabel>Endereço: </InfoLabel>
+              {`${hospitalData.addresses[0].street}, ${hospitalData.addresses[0].city}, ${hospitalData.addresses[0].state}, ${hospitalData.addresses[0].zip}`}
+            </InfoValue>
+          </InfoRow>
+        </InfoContainer>
+      </Modal>
     </StyledSchedulerContainer>
   );
 }

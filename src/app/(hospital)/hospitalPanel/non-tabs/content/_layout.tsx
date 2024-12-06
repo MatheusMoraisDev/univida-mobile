@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
 
-export default function DonatorScheduleDonationLayout() {
+export default function DonatorContentLayout() {
   const router = useRouter();
 
   return (
@@ -29,19 +29,7 @@ export default function DonatorScheduleDonationLayout() {
       <Stack.Screen
         name="firstStep"
         options={{
-          title: "Agendar doação",
-        }}
-      />
-      <Stack.Screen
-        name="secondStep"
-        options={{
-          title: "Agendar doação",
-        }}
-      />
-      <Stack.Screen
-        name="thanks"
-        options={{
-          title: "Obrigado pela doação!",
+          title: "Conteúdo",
         }}
       />
     </Stack>

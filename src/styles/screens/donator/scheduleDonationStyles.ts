@@ -1,4 +1,3 @@
-import CustomText from "@/src/components/atoms/text";
 import { Text } from "react-native";
 import styled from "styled-components/native";
 
@@ -67,4 +66,40 @@ export const TimeButton = styled.TouchableOpacity<{ selected: boolean }>`
 
 export const TimeButtonText = styled(Text)<{ selected: boolean }>`
   color: ${({ selected, theme }) => (selected ? theme.colors.white : "black")};
+`;
+
+export const ModalHeader = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+`;
+
+export const InfoContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+`;
+
+export const InfoRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+export const InfoLabel = styled(Text)`
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+  width: 70px;
+  flex-wrap: wrap;
+`;
+
+export const InfoValue = styled(Text)`
+  font-size: 16px;
+  color: #555;
+  text-align: left;
+  flex-wrap: wrap;
 `;
