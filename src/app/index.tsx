@@ -124,6 +124,11 @@ export default function Index() {
     signIn();
   };
 
+  // useEffect(() => {
+  //   // Redireciona assim que o componente for renderizado
+  //   router.replace("signUpDonator/blockedRegister");
+  // }, [router]); // Dependência para garantir que o router esteja disponível
+
   return (
     <Container align="center">
       <Logo size="medium" />

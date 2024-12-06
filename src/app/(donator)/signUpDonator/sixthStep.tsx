@@ -141,6 +141,11 @@ const signUpHealthDonatorSecondPart = () => {
     const donator = await createDonator(user);
     if (!donator) return;
 
+    if (donator.donatorDetails.weightKilo < 50) {
+      router.replace("signUpDonator/blockedRegister");
+      return;
+    }
+
     dispatch({
       type: "SET_CURRENT_USER",
       payload: {

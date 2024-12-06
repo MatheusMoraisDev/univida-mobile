@@ -82,6 +82,10 @@ export default function DonatorFormLayout() {
           <Stack.Screen name="fourthStep" options={{ title: "Contato" }} />
           <Stack.Screen name="fifthStep" options={{ title: "Saúde" }} />
           <Stack.Screen name="sixthStep" options={{ title: "Saúde" }} />
+          <Stack.Screen
+            name="blockedRegister"
+            options={{ headerShown: false }}
+          />
         </Stack>
       )}
     </Formik>
