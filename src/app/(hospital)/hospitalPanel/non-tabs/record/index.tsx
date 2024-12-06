@@ -26,6 +26,7 @@ import Toast from "react-native-toast-message";
 import { Container } from "@/src/components/atoms/container";
 import { ActivityIndicator } from "react-native-paper";
 import CustomText from "@/src/components/atoms/text";
+import { theme } from "@/src/styles";
 
 export default function RecordAppointments() {
   const donatorId = useContext(UserContext).userData?.user?.referenceId;
@@ -44,10 +45,9 @@ export default function RecordAppointments() {
   const fetchDonates = async () => {
     try {
       setLoading(true);
-      const response = await appointmentService.getAppointments({ donatorId });
+      const response = await appointmentService.getAppointments(donatorId);
       setAppointments(response);
 
-      // Separando agendamentos em aberto e fechados
       const today = new Date();
       const open: IAppointment[] = [];
       const closed: IAppointment[] = [];
@@ -80,11 +80,13 @@ export default function RecordAppointments() {
   if (loading) {
     return (
       <Container justify="center" align="center">
-        <ActivityIndicator animating={true} />
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
         <CustomText>Carregando hospitais...</CustomText>
       </Container>
     );
   }
+
+  console.log(openAppointments, closedAppointments);
 
   return (
     <Container>

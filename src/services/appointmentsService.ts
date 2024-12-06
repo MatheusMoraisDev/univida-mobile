@@ -48,6 +48,12 @@ export interface Appointment {
   status: IAppointmentStatus;
 }
 
+export interface IAppointmentParams {
+  scheduledDate?: string;
+  donatorId?: number;
+  hospitalId?: number;
+}
+
 export interface IAppointmentPaginatedResponse {
   items: Appointment[];
   meta: {
@@ -62,7 +68,7 @@ class AppointmentService {
   constructor(
     private readonly api: ApiService,
     private readonly baseURL: string,
-  ) { }
+  ) {}
 
   public createAppointment = async (
     data: IAppointment,
@@ -71,10 +77,10 @@ class AppointmentService {
   };
 
   public getAppointments = async (
-    donatorId: number,
+    params: IAppointmentParams,
   ): Promise<IAppointmentPaginatedResponse> => {
     return await this.api.get(`${this.baseURL}/v1/appointments`, {
-      params: { donatorId },
+      params,
     });
   };
 }

@@ -12,7 +12,7 @@ import {
   StyledSchedulerContainer,
   TimeButton,
   TimeButtonText,
-} from "@/src/styles/screens/scheduleDonationStyles";
+} from "@/src/styles/screens/donator/scheduleDonationStyles";
 import Button from "@/src/components/atoms/button";
 import { appointmentService } from "@/src/services/appointmentsService";
 import { useLocalSearchParams } from "expo-router";

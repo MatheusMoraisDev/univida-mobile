@@ -13,9 +13,10 @@ import {
   HospitalCard,
   HospitalListContainer,
   HospitalName,
-} from "@/src/styles/screens/scheduleDonationStyles";
+} from "@/src/styles/screens/donator/scheduleDonationStyles";
 import CustomText from "@/src/components/atoms/text";
 import { router } from "expo-router";
+import { theme } from "@/src/styles";
 
 export default function SelectHospital() {
   const [location, setLocation] = useState<{
@@ -83,7 +84,7 @@ export default function SelectHospital() {
   if (loading) {
     return (
       <Container justify="center" align="center">
-        <ActivityIndicator animating={true} />
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
         <Text>Carregando hospitais...</Text>
       </Container>
     );

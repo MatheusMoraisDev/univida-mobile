@@ -9,7 +9,7 @@ import {
   ModalContainer,
   Subtitle,
   Title,
-} from "@/src/styles/screens/thanksStyles";
+} from "@/src/styles/screens/donator/thanksStyles";
 
 export default function ThankYouScreen() {
   const [fadeAnim] = useState(new Animated.Value(0));

@@ -64,7 +64,7 @@ export const TimeButton = styled.TouchableOpacity<{ selected: boolean }>`
   height: ${({ theme }) => theme.metrics.px(35)}px;
 `;
 
-export const TimeButtonText = styled(Text) <{ selected: boolean }>`
+export const TimeButtonText = styled(Text)<{ selected: boolean }>`
   color: ${({ selected, theme }) => (selected ? theme.colors.white : "black")};
 `;
 
